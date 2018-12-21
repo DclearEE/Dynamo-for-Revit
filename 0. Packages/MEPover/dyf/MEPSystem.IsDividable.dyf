@@ -1,0 +1,58 @@
+<Workspace Version="1.2.2.373" X="0" Y="0" zoom="1" Name="MEPSystem.IsDividable" Description="Returns a boolean indicating if the system can be divided into multiple systems" ID="239443de-7fb4-42c6-8353-541dce217ef3" Category="MEPover.Revit.Systems">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="c7c1e6b2-a8ee-441b-8a69-482b14200502" type="PythonNodeModels.PythonNode" nickname="Python: is Dividable" x="563" y="301" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+if isinstance(IN[0], list):
+	systems = UnwrapElement(IN[0])
+	toggle = 0
+else:
+	systems = [UnwrapElement(IN[0])]
+	toggle = 1
+	
+listout = []
+
+for sys in systems:
+	listout.append(sys.IsMultipleNetwork)
+
+if toggle:
+	OUT = listout[0]
+else:
+	OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c565d2c4-a592-463b-9dc3-cdbfdb3647f2" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="325" y="319" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="System" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="95998beb-8f8b-4a4b-8ad2-903f6734e322" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="907" y="303" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Bool" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="c7c1e6b2-a8ee-441b-8a69-482b14200502" start_index="0" end="95998beb-8f8b-4a4b-8ad2-903f6734e322" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c565d2c4-a592-463b-9dc3-cdbfdb3647f2" start_index="0" end="c7c1e6b2-a8ee-441b-8a69-482b14200502" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

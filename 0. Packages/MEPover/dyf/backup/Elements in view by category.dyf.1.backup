@@ -1,0 +1,70 @@
+<Workspace Version="1.2.0.2831" X="0" Y="0" zoom="1" Name="Elements in view by category" Description="Returns all the elements in the selected view(s) by the selected categor(y)(ies)" ID="5f3d26ae-3989-4618-acfb-33c338ec9882" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="2c994910-0b6a-49ed-b0d9-a914ae6eb149" type="PythonNodeModels.PythonNode" nickname="Python Script" x="304" y="243" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+toggle = 0
+if isinstance(IN[0], list):
+	view = UnwrapElement(IN[0])
+else:
+	toggle = 1
+	view = [UnwrapElement(IN[0])]
+
+if isinstance(IN[1], list):
+	category = UnwrapElement(IN[1])
+else:
+	category = [UnwrapElement(IN[1])]
+	
+listout = []
+
+for x in view:
+	viewlist = []
+	for c in category:
+		collector = FilteredElementCollector(doc,x.Id)
+		elements = collector.OfCategoryId(c.Id).ToElements()
+		viewlist.append(elements)
+	listout.append(viewlist)
+
+if toggle:
+	OUT = viewlist
+else:
+	OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="eb4e67d9-eab9-47b7-9cec-fdfdc9288edb" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="93" y="208" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="View" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d150e2f1-a961-4dbe-a7d9-eac3754656a0" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="98" y="314" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Category" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="b83b8e24-d62b-4d98-9e7a-393304697f42" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="510" y="250" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="2c994910-0b6a-49ed-b0d9-a914ae6eb149" start_index="0" end="b83b8e24-d62b-4d98-9e7a-393304697f42" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="eb4e67d9-eab9-47b7-9cec-fdfdc9288edb" start_index="0" end="2c994910-0b6a-49ed-b0d9-a914ae6eb149" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d150e2f1-a961-4dbe-a7d9-eac3754656a0" start_index="0" end="2c994910-0b6a-49ed-b0d9-a914ae6eb149" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

@@ -1,0 +1,270 @@
+<Workspace Version="1.3.2.2480" X="-62.1180621600888" Y="-84.9398587676648" zoom="1.07925372895184" ScaleFactor="1" Name="MEPFitting.ByPointsAndCurve" Description="Places accessories or fittings in a pipe or duct" ID="6a1eda01-ac5d-44cd-ab6d-c4a9bfcf9e7b" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="FamilyType" resolvedName="Revit.Elements.FamilyType" assemblyName="RevitNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <PythonNodeModels.PythonNode guid="683a4d19-fffc-47f5-a810-4abb0ac2d38d" type="PythonNodeModels.PythonNode" nickname="Python Script" x="345" y="246" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+import math
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+from System.Collections.Generic import List
+
+if isinstance(IN[0], list):
+	ducts = UnwrapElement(IN[0])
+else:
+	ducts = [UnwrapElement(IN[0])]
+	
+if isinstance(IN[1], list):
+	points = IN[1]
+else:
+	points = [IN[1]]
+
+if isinstance(IN[2], list):
+	famtype = UnwrapElement(IN[2])
+else:
+	famtype = [UnwrapElement(IN[2])]
+ftl = len(famtype)
+
+
+def measure(startpoint, point):
+	return startpoint.DistanceTo(point)
+	
+def copyElement(element, oldloc, loc):
+	
+	elementlist = List[ElementId]()
+	elementlist.Add(element.Id)
+	OffsetZ = (oldloc.Z - loc.Z)*-1
+	OffsetX = (oldloc.X - loc.X)*-1
+	OffsetY = (oldloc.Y - loc.Y)*-1
+	direction = XYZ(OffsetX,OffsetY,OffsetZ)
+	newelementId = ElementTransformUtils.CopyElements(doc,elementlist,direction)
+	newelement = doc.GetElement(newelementId[0])
+	return newelement
+
+def GetDirection(faminstance):
+	for c in faminstance.MEPModel.ConnectorManager.Connectors:
+		conn = c
+		break
+	return conn.CoordinateSystem.BasisZ
+
+
+#global variables for rotating new families
+tempfamtype = None
+xAxis = XYZ(1,0,0)
+def placeFitting(duct,point,familytype,lineDirection):
+	
+	toggle = False
+	global tempfamtype
+	if tempfamtype == None:
+		tempfamtype = familytype
+		toggle = True
+	elif tempfamtype != familytype:
+		toggle = True
+		tempfamtype = familytype
+	level = doc.GetElement(duct.LevelId)
+	
+	width = 4
+	height = 4
+	radius = 2
+	connectors = duct.ConnectorManager.Connectors
+	for c in connectors:
+		if c.ConnectorType != ConnectorType.End:
+			continue
+		if c.Shape == ConnectorProfileType.Rectangular:
+			width = c.Width
+			height = c.Height
+			break
+		elif c.Shape == ConnectorProfileType.Round:
+			radius = c.Radius
+			break
+			
+	
+	newfam = doc.Create.NewFamilyInstance(point,familytype,level,Structure.StructuralType.NonStructural)
+	doc.Regenerate()
+	transform = newfam.GetTransform()
+	axis = Line.CreateUnbound(transform.Origin, transform.BasisZ)
+	global xAxis
+	if toggle:
+		xAxis = GetDirection(newfam)
+	zAxis = XYZ(0,0,1)
+	angle = xAxis.AngleOnPlaneTo(lineDirection,zAxis)
+	ElementTransformUtils.RotateElement(doc,newfam.Id,axis,angle)
+	doc.Regenerate()
+	
+	if lineDirection.Z != 0:
+		newAxis = GetDirection(newfam)
+		yAxis = newAxis.CrossProduct(zAxis)
+		angle2 = newAxis.AngleOnPlaneTo(lineDirection,yAxis)
+		axis2 = Line.CreateUnbound(transform.Origin, yAxis)
+		ElementTransformUtils.RotateElement(doc,newfam.Id,axis2,angle2)
+	
+	result = {}
+	connpoints = []
+	famconns = newfam.MEPModel.ConnectorManager.Connectors
+	
+	try:
+		for conn in famconns:
+			conn.Radius = radius
+			connpoints.append(conn.Origin)
+	except:
+		for conn in famconns:
+			conn.Width = width
+			conn.Height = height
+			connpoints.append(conn.Origin)
+	
+	result[newfam] = connpoints
+	return result
+	
+	
+def ConnectElements(duct, fitting):
+	ductconns = duct.ConnectorManager.Connectors
+	fittingconns = fitting.MEPModel.ConnectorManager.Connectors
+	for conn in fittingconns:
+		for ductconn in ductconns:
+			result = ductconn.Origin.IsAlmostEqualTo(conn.Origin)
+			if result:
+				ductconn.ConnectTo(conn)
+				break
+	return result
+
+def SortedPoints(fittingspoints,ductStartPoint):
+	sortedpoints = sorted(fittingspoints, key=lambda x: measure(ductStartPoint, x))
+	return sortedpoints
+	
+
+ductsout = []
+fittingsout = []
+combilist = []
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+for i,duct in enumerate(ducts):
+	ListOfPoints = [x.ToXyz() for x in points[i]]
+	familytype = famtype[i%ftl]
+	#create duct location line
+	ductline = duct.Location.Curve
+	ductStartPoint = ductline.GetEndPoint(0)
+	ductEndPoint = ductline.GetEndPoint(1)
+	#get end connector to reconnect later
+	endIsConnected = False
+	endrefconn = None
+	for ductconn in duct.ConnectorManager.Connectors:
+		if ductconn.Origin.DistanceTo(ductEndPoint) &lt; 5/304.8:
+			if ductconn.IsConnected:
+				endIsConnected = True
+				for refconn in ductconn.AllRefs:
+					if refconn.ConnectorType != ConnectorType.Logical and refconn.Owner.Id.IntegerValue != duct.Id.IntegerValue:
+						endrefconn = refconn
+			
+	#sort the points from start of duct to end of duct
+	pointlist = SortedPoints(ListOfPoints,ductStartPoint)
+	
+	ductlist = []
+	newFittings = []
+	ductlist.append(duct)
+	
+	tempStartPoint = None
+	tempEndPoint = None
+	
+	lineDirection = ductline.Direction
+	
+	for i,p in enumerate(pointlist):		
+		output = placeFitting(duct,p,familytype,lineDirection)
+		newfitting = output.keys()[0]
+		newFittings.append(newfitting)
+		fittingpoints = output.values()[0]
+		
+		tempPoints = SortedPoints(fittingpoints,ductStartPoint)
+		if i == 0:
+			tempEndPoint = tempPoints[0]
+			tempStartPoint = tempPoints[1]			
+			newduct = copyElement(duct,ductStartPoint,tempStartPoint)	
+			duct.Location.Curve = Line.CreateBound(ductStartPoint,tempEndPoint)
+			ductlist.append(newduct)
+			combilist.append([duct,newfitting])
+			combilist.append([newduct,newfitting])
+		else:
+			combilist.append([newduct,newfitting])
+			tempEndPoint = tempPoints[0]
+			newduct = copyElement(duct,ductStartPoint,tempStartPoint)
+			ductlist[-1].Location.Curve = Line.CreateBound(tempStartPoint,tempEndPoint)
+			tempStartPoint = tempPoints[1]
+			ductlist.append(newduct)
+			combilist.append([newduct,newfitting])
+	
+	newline = Line.CreateBound(tempStartPoint,ductEndPoint)
+	ductlist[-1].Location.Curve = newline
+	
+	ductsout.append(ductlist)
+	fittingsout.append(newFittings)
+	doc.Regenerate()
+
+	if endIsConnected:
+		for conn in ductlist[-1].ConnectorManager.Connectors:
+			if conn.Origin.DistanceTo(ductEndPoint) &lt; 5/304.8:
+				endrefconn.ConnectTo(conn)
+			
+TransactionManager.Instance.TransactionTaskDone()
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+for combi in combilist:
+	ConnectElements(combi[0],combi[1])
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = ductsout, fittingsout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="7fb99408-d8cb-44e9-8186-0e5fb192968c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="89.2138015414088" y="167.440602947161" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="MEPCurve" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d1f40118-f111-4369-94e1-b92de147d2be" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="108" y="261" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="ListOfPoints" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="7e2b9546-7c58-4f4c-af40-d7c98fab7b13" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="100.395242666011" y="383.192227930204" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="MEPFitting: FamilyType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="bc63ab2a-568d-415c-b065-aae78a4563b9" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="634" y="223" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="MEPCurves" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="e33237f2-28d2-4ce3-8984-30682bcff095" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="514" y="202" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="b30667f7-680c-46c4-9c0d-d662ae4ec5d2" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="528.5" y="323" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="32eee060-5274-4b3a-917d-e3f64efc6fb9" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="652.5" y="326" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Fittings" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="683a4d19-fffc-47f5-a810-4abb0ac2d38d" start_index="0" end="e33237f2-28d2-4ce3-8984-30682bcff095" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="683a4d19-fffc-47f5-a810-4abb0ac2d38d" start_index="0" end="b30667f7-680c-46c4-9c0d-d662ae4ec5d2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7fb99408-d8cb-44e9-8186-0e5fb192968c" start_index="0" end="683a4d19-fffc-47f5-a810-4abb0ac2d38d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d1f40118-f111-4369-94e1-b92de147d2be" start_index="0" end="683a4d19-fffc-47f5-a810-4abb0ac2d38d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7e2b9546-7c58-4f4c-af40-d7c98fab7b13" start_index="0" end="683a4d19-fffc-47f5-a810-4abb0ac2d38d" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e33237f2-28d2-4ce3-8984-30682bcff095" start_index="0" end="bc63ab2a-568d-415c-b065-aae78a4563b9" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b30667f7-680c-46c4-9c0d-d662ae4ec5d2" start_index="0" end="32eee060-5274-4b3a-917d-e3f64efc6fb9" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

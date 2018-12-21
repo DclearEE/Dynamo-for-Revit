@@ -1,0 +1,80 @@
+<Workspace Version="1.3.2.2480" X="0" Y="0" zoom="1" ScaleFactor="1" Name="RIE.LinkedElementCategory" Description="Returns Category of Linked Element" ID="a7f3ebc9-93d7-4d15-8e5d-5edc26a92b07" Category="RIE.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="985f262d-f862-4f14-a162-f75c6787df70" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="1.5811306067842" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>#Copyright(c) 2014, Jason Andersen, andersen.ja@gmail.com
+import clr
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Import ToDSType(bool) extension method
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+doc =  DocumentManager.Instance.CurrentDBDocument
+app =  DocumentManager.Instance.CurrentUIApplication.Application
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return UnwrapElement(obj)
+	else:
+		return [UnwrapElement(obj)]
+
+
+#The input to this node will be stored in the IN[0] variable.
+elements = tolist(IN[0])
+
+#variables
+output = []
+catName = []
+
+for item in elements:
+	category1 = item.Category
+	catName.append(category1.Name)  	    	
+
+output.append(catName)
+
+if len(catName) &gt; 1:
+	OUT = output
+else:
+	OUT = output[0]</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="f2d44ff5-7db1-4dbb-8fe0-5977e80be86c" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Category.ByName" x="396.380984579857" y="0" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="RevitNodes.dll" function="Revit.Elements.Category.ByName@string">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="15604c26-f62b-4f4f-8f1c-10ee8c28894f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="LinkElement" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="79e092e6-c4b5-4b0b-9629-d0c379d5a47d" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="678.580984579856" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Category" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="985f262d-f862-4f14-a162-f75c6787df70" start_index="0" end="f2d44ff5-7db1-4dbb-8fe0-5977e80be86c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f2d44ff5-7db1-4dbb-8fe0-5977e80be86c" start_index="0" end="79e092e6-c4b5-4b0b-9629-d0c379d5a47d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="15604c26-f62b-4f4f-8f1c-10ee8c28894f" start_index="0" end="985f262d-f862-4f14-a162-f75c6787df70" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="33006.3671875" eyeY="83508.6953125" eyeZ="-138116.765625" lookX="38115.24609375" lookY="-81768.9296875" lookZ="115178.1640625" upX="0.115653187036514" upY="0.929776430130005" upZ="0.349485397338867" />
+  </Cameras>
+</Workspace>

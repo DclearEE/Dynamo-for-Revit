@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LunchBoxML</name>
+    </assembly>
+    <members>
+        <member name="T:ProvingGround.MachineLearning.Classes.clsML">
+            <summary>
+            Machine Learning Functions
+            </summary>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.LinearRegression(System.Double,System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.Int32)">
+            <summary>
+            Linear Regression
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <param name="seed">Random seed value.</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.SequentialMinimalOptimizationRegressionModel(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Double},System.Double,System.Double,System.Int32)">
+            <summary>
+            Non Linear Regression
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="inputList">Learing inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <param name="degree">Degree</param>
+            <param name="complex">Complexity</param>
+            <param name="seed">Random seed value</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.LogisticRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Boolean},System.Double,System.Int32,System.Double,System.Int32)">
+            <summary>
+            Logistic Regression
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learnout outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.MultivariateLinearRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32)">
+            <summary>
+            Multivariate Linear Regression
+            </summary>
+            <param name="testList">List to test</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.NaiveBayesClassifier(System.Collections.Generic.List{System.String},System.Data.DataTable,System.Collections.Generic.List{System.String},System.String,System.Int32)">
+            <summary>
+            Naive Bayes Classifier
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="data">All data</param>
+            <param name="inputColumns">Input columns for data</param>
+            <param name="outputColumn">Ouput column</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.GaussianMixture(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32,System.Int32)">
+            <summary>
+            Gaussian Mixture Classifier
+            </summary>
+            <param name="inputList">Learning samples</param>
+            <param name="components">Components</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.NeuralNetwork(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Int32},System.Int32,System.Double,System.Int32,System.Int32)">
+            <summary>
+            Neural Network
+            </summary>
+            <param name="test">Test</param>
+            <param name="inputList">Input list</param>
+            <param name="labelList">Label list</param>
+            <param name="hiddenNeurons">Hidden neurons</param>
+            <param name="teach">teach</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.RestrictedBoltzmann(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Double,System.Double,System.Double,System.Double,System.Int32,System.Int32)">
+            <summary>
+            Restricted Boltzmann Soliver
+            </summary>
+            <param name="testList">Test list</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.HiddenMarkovModel(System.Collections.Generic.List{System.Collections.Generic.List{System.String}},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Hidden Markov Model
+            </summary>
+            <param name="inputList">Input list</param>
+            <param name="num">Number</param>
+            <returns>Result</returns>
+        </member>
+        <member name="T:MachineLearning.Regression">
+            <summary>
+            Regression Solvers
+            </summary>
+        </member>
+        <member name="M:MachineLearning.Regression.LinearRegression(System.Double,System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.Int32)">
+            <summary>
+            Linear Regression Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingInputs">Training Inputs</param>
+            <param name="TrainingOutputs">Training Outputs</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <search>regression,machine learning</search>
+        </member>
+        <member name="M:MachineLearning.Regression.NonLinearRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Double},System.Double,System.Double,System.Int32)">
+            <summary>
+            Non Linear Regression Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingInputs">Training Inputs</param>
+            <param name="TrainingOutputs">Training Outputs</param>
+            <param name="sigma">Sigma of prediction curve</param>
+            <param name="complex">Complexity oarameter for the prediction</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <returns name="Score">Predicted scores</returns>
+            <returns name="error">Error between expected and predicted</returns>
+            <search>regression,machine learning</search>
+        </member>
+        <member name="M:MachineLearning.Regression.LogisticRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Boolean},System.Double,System.Int32,System.Double,System.Int32)">
+            <summary>
+            Logistic Regression Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingInputs">Training Inputs</param>
+            <param name="TrainingOutputs">Training Outputs</param>
+            <param name="tolerance">Tolerance value to use to determine of the algorithm has converged.</param>
+            <param name="maxIter">Maximum number of iterations performed by the algorithm</param>
+            <param name="regular">Regularization value to be added to the objective function.</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <returns name="Score">Predicted scores</returns>
+            <returns name="error">Error between expected and predicted</returns>
+            <search>regression,machine learning</search>
+        </member>
+        <member name="M:MachineLearning.Regression.MultivariateLinearRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32)">
+            <summary>
+            Multivariate Linear Regression Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingInputs">Training Inputs</param>
+            <param name="TrainingOutputs">Training Outputs</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <search>regression,machine learning</search>
+        </member>
+        <member name="T:MachineLearning.Classification">
+            <summary>
+            Classification Solvers
+            </summary>
+        </member>
+        <member name="M:MachineLearning.Classification.NaiveBayesClassifier(System.Collections.Generic.List{System.String},System.Data.DataTable,System.Collections.Generic.List{System.String},System.String,System.Int32)">
+            <summary>
+            Naive Bayes Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingData">Training Data Table (use LunchBox Dataset tools)</param>
+            <param name="InputColumnNames">Names of input columns</param>
+            <param name="OutputColumnName">Name of the output column</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <returns name="Numeric">The numeric output that represents the answer</returns>
+            <returns name="Probabilities">Probabilities for each possible answer</returns>
+            <search>classification,machine learning</search>
+        </member>
+        <member name="M:MachineLearning.Classification.GaussianMixture(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32,System.Int32)">
+            <summary>
+            Naive Bayes Solver
+            </summary>
+            <param name="InputList">The list of training inputs.</param>
+            <param name="Components">Number of clusters</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <returns name="Likelihood">Log-likelyhood that an input belongs to a cluster.</returns>
+            <returns name="Probabilities">Probabilities for each possible answer</returns>
+            <search>classification,machine learning</search>
+        </member>
+        <member name="T:MachineLearning.Networks">
+            <summary>
+            Network Solvers
+            </summary>
+        </member>
+        <member name="M:MachineLearning.Networks.NeuralNetwork(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Int32},System.Int32,System.Double,System.Int32,System.Int32)">
+            <summary>
+            Neural Network Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingData">Training Data Table (use LunchBox Dataset tools)</param>
+            <param name="LabelList">The list of Labels.</param>
+            <param name="HiddenNeurons">Number of Hidden Neurons.</param>
+            <param name="alpha">Sigmoid's alpha value.</param>
+            <param name="iterations">Number of iterations to teach the network.</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted result</returns>
+            <search>networks,machine learning</search>
+        </member>
+        <member name="M:MachineLearning.Networks.RestrictedBoltzmann(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Double,System.Double,System.Double,System.Double,System.Int32,System.Int32)">
+            <summary>
+            Restricted Boltzmann Solver
+            </summary>
+            <param name="TestData">Value to test</param>
+            <param name="TrainingInputs">Training input data</param>
+            <param name="TrainingOutputs">Training output data</param>
+            <param name="momentum">Momentum term of the learning algorithm.</param>
+            <param name="decay">Weight decay constant of the learning algorithm.</param>
+            <param name="learningrate">Learning rate of the learning algorithm.</param>
+            <param name="iterations">Number of iterations to learn</param>
+            <param name="seed">Random seed for the solver</param>
+            <returns name="Result">Predicted result</returns>
+            <search>networks,machine learning</search>
+        </member>
+        <member name="T:MachineLearning.Models">
+            <summary>
+            Model solvers
+            </summary>
+        </member>
+        <member name="M:MachineLearning.Models.HiddenMarkovModel(System.Collections.Generic.List{System.Collections.Generic.List{System.String}},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Hidden Markov solver
+            </summary>
+            <param name="TrainingInputs">The training data to use.</param>
+            <param name="Generations">Number of generations to produce.</param>
+            <param name="seed">Random seed for solver</param>
+            <returns name="Result">Predicted results</returns>
+            <search>networks,machine learning</search>
+        </member>
+    </members>
+</doc>

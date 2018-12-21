@@ -1,0 +1,63 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="FEM-design.SetStiffnessValue|DanEDU" Description="Set stiffness value globally in FEM-design" ID="577bdae1-5fd0-4fbe-a087-963443fd81a8" Category="DanEDU.Applications.FEM-design.Actions">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Input.StringInput guid="917f936a-6d38-4256-ad96-b96d3ed9db5d" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="811.000000000001" y="245.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>FEM-design_SetStiffnessValue</System.String>
+      <System.String value="FEM-design_SetStiffnessValue" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="3229c21f-0dee-467f-8571-c38b8ff01a4f" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="1089" y="219.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="137d3dbf-9417-4b18-a3a2-8602325fc93c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="801.000000000001" y="394.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Path and Filename to the FEM-design&#xD;&#xA;//xml file including extension!&#xD;&#xA;file : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="4030b2b2-535e-4be3-8049-cfba10f4ff65" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1400" y="390.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="91b22491-b6ca-4f28-a01e-c49fa9132d97" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="801.000000000001" y="505.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Stiffness to set&#xD;&#xA;stiffness : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="c851234d-a02b-4523-8156-d64aa7c7760a" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1629" y="390.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//Path and Filename to the FEM-design&#xD;&#xA;//xml file including extension!&#xD;&#xA;file" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d3e60fcd-18d2-416c-a706-660a08ed4474" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="801.000000000001" y="598.106666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Value to set&#xD;&#xA;value" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="917f936a-6d38-4256-ad96-b96d3ed9db5d" start_index="0" end="3229c21f-0dee-467f-8571-c38b8ff01a4f" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3229c21f-0dee-467f-8571-c38b8ff01a4f" start_index="0" end="4030b2b2-535e-4be3-8049-cfba10f4ff65" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="137d3dbf-9417-4b18-a3a2-8602325fc93c" start_index="0" end="4030b2b2-535e-4be3-8049-cfba10f4ff65" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4030b2b2-535e-4be3-8049-cfba10f4ff65" start_index="0" end="c851234d-a02b-4523-8156-d64aa7c7760a" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="91b22491-b6ca-4f28-a01e-c49fa9132d97" start_index="0" end="4030b2b2-535e-4be3-8049-cfba10f4ff65" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d3e60fcd-18d2-416c-a706-660a08ed4474" start_index="0" end="4030b2b2-535e-4be3-8049-cfba10f4ff65" end_index="3" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="1e599faf-2630-49c5-8b2e-c94658011cf1" annotationText="read source code from the package" left="801.000000000001" top="180.106666666667" width="499" height="184" fontSize="24" InitialTop="219.106666666667" InitialHeight="175" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="917f936a-6d38-4256-ad96-b96d3ed9db5d" />
+      <Models ModelGuid="3229c21f-0dee-467f-8571-c38b8ff01a4f" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

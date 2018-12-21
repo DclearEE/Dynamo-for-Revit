@@ -1,0 +1,150 @@
+<Workspace Version="1.2.1.3083" X="0" Y="0" zoom="1" Name="FlexCurve.ByElements" Description="Creates a flex duct or flex pipe between 2 elements. Input IN[2] expects a FlexDuctType or FlexPipeType" ID="f1ac6ca4-ba83-46c2-afa6-eabb3873d1bc" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3205ebf7-3104-418c-ae97-a53ef4cd3832" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="64" y="200" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="ee6f9e82-77a8-4bef-a7fa-b4add907125f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="71" y="279" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e5d4749b-0302-4c69-8fbb-80375a6e5477" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="62" y="418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="FlexMEPType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="9c53f782-e13e-4c5b-8927-350fc6000b1c" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="505" y="263" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="FlexMEP" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <PythonNodeModels.PythonNode guid="d66fe6c3-c860-42c3-8008-e14529ba1a89" type="PythonNodeModels.PythonNode" nickname="Python Script" x="290" y="234" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+clr.AddReference('System')		
+from System.Collections.Generic import List
+
+if isinstance(IN[0], list):
+	pipe1 = UnwrapElement(IN[0])
+else:
+	pipe1 = [UnwrapElement(IN[0])]
+if isinstance(IN[1], list):
+	pipe2 = UnwrapElement(IN[1])
+else:
+	pipe2 = [UnwrapElement(IN[1])]
+flextype = UnwrapElement(IN[2])
+
+
+def closest_connectors(pipe1, pipe2):
+	try:
+		conn1 = pipe1.ConnectorManager.UnusedConnectors
+	except:
+		conn1 = pipe1.MEPModel.ConnectorManager.UnusedConnectors
+	try:
+		conn2 = pipe2.ConnectorManager.UnusedConnectors
+	except:
+		conn2 = pipe2.MEPModel.ConnectorManager.UnusedConnectors
+	
+	dist = 100000000
+	connset = None
+	for c in conn1:
+		for d in conn2:
+			conndist = c.Origin.DistanceTo(d.Origin)
+			if conndist &lt; dist:
+				dist = conndist
+				connset = [c,d]
+	return connset
+	
+def createFlexPipe(conn1,conn2,starttan,endtan,levelid,systype):
+	points = List[XYZ]([conn1.CoordinateSystem.Origin,conn2.CoordinateSystem.Origin])
+	flex = Plumbing.FlexPipe.Create(doc,systype,flextype.Id,levelid,starttan,endtan,points)
+	param = flex.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM)
+	param.Set(conn1.Radius*2)
+	return flex
+	
+def createFlexDuct(conn1,conn2,starttan,endtan,levelid,systype):
+	points = List[XYZ]([conn1.CoordinateSystem.Origin,conn2.CoordinateSystem.Origin])
+	flex = Mechanical.FlexDuct.Create(doc,systype,flextype.Id,levelid,starttan,endtan,points)
+	param = flex.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM)
+	param.Set(conn1.Radius*2)
+	return flex
+
+	
+fittings = []
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+for p1,p2 in zip(pipe1,pipe2):
+	if p1.GetType() == Plumbing.Pipe or p1.GetType() == Mechanical.Duct:
+		ptemp = p1
+		p1 = p2
+		p2 = ptemp
+	
+	connectors = closest_connectors(p1,p2)
+	starttang = connectors[0].CoordinateSystem.BasisZ
+	endtang = connectors[1].CoordinateSystem.BasisZ.Negate()
+	levelid = p1.LevelId
+	
+	line = Line.CreateUnbound(connectors[0].Origin,connectors[0].CoordinateSystem.BasisZ)
+	point = line.Evaluate(10/304.8,False)
+
+	points = List[XYZ]([point,connectors[1].Origin])
+	
+	radius = connectors[0].Radius
+	
+	if p2.GetType() == Mechanical.Duct:
+		systypeId = p2.get_Parameter(BuiltInParameter.RBS_DUCT_SYSTEM_TYPE_PARAM).AsElementId()
+		flex = createFlexDuct(connectors[0],connectors[1],starttang,endtang,levelid,systypeId)
+	else:
+		systypeId = p2.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId()
+		flex = createFlexPipe(connectors[0],connectors[1],starttang,endtang,levelid,systypeId)
+
+	doc.Regenerate()
+
+	
+	conns = closest_connectors(flex,p1)
+	if conns[0].Radius == conns[1].Radius:
+		conns[0].ConnectTo(conns[1])
+	else:
+		doc.Create.NewUnionFitting(conns[0],conns[1])
+		
+	doc.Regenerate()
+	conns = closest_connectors(flex,p2)
+	if conns[0].Radius == conns[1].Radius:
+		conns[0].ConnectTo(conns[1])
+	else:
+		doc.Create.NewUnionFitting(conns[0],conns[1])
+	
+	fittings.append(flex.ToDSType(False))
+TransactionManager.Instance.TransactionTaskDone()
+
+			
+
+OUT = fittings</Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="3205ebf7-3104-418c-ae97-a53ef4cd3832" start_index="0" end="d66fe6c3-c860-42c3-8008-e14529ba1a89" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ee6f9e82-77a8-4bef-a7fa-b4add907125f" start_index="0" end="d66fe6c3-c860-42c3-8008-e14529ba1a89" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e5d4749b-0302-4c69-8fbb-80375a6e5477" start_index="0" end="d66fe6c3-c860-42c3-8008-e14529ba1a89" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d66fe6c3-c860-42c3-8008-e14529ba1a89" start_index="0" end="9c53f782-e13e-4c5b-8927-350fc6000b1c" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

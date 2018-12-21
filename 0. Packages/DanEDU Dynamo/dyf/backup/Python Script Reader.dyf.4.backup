@@ -1,0 +1,81 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Python Script Reader|DanEDU" Description="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" ID="da7e0192-3411-4c55-8ab1-22b56660e897" Category="DanEDU.Core.Scripting.Actions">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="File" resolvedName="DSCore.IO.File" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4f3ba16e-5c69-4009-9c31-35c8a562f5ea" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="349.398848257104" y="299.484184913212" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Path to file&#xD;&#xA;path : string = &quot;.&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="036e9f55-9cdb-4baa-9c05-b95c6605576e" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="349.398848257104" y="391.484184913212" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Python file&#xD;&#xA;file : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="ad2ee41c-e855-45ec-aa41-66f4783c1ae0" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="983.398848257104" y="365.484184913212" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="script" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="ac28fe4d-df64-42bb-b32a-0df5ae8ded99" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="349.398848257104" y="483.484184913212" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Toggle true/false for refreshing&#xD;&#xA;refresh : bool = true" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonNode guid="8e47c473-c734-4979-b59d-68eae06ad708" type="PythonNodeModels.PythonNode" nickname="Python Script" x="759.398848257104" y="365.484184913212" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>
+# coding=utf-8
+# This file is covered by the LICENSE in this dynamo package 'extra' folder
+'''
+Input reader to a 'Python Script From String' node. Return strings.
+'''
+
+# Set sys.path
+import sys
+import System
+sys.path.insert(0, 'C:\Program files (x86)\IronPython 2.7\Lib')
+for app in System.AppDomain.CurrentDomain.GetAssemblies():
+    if 'DanEDUicon' in app.FullName:
+        loc = app.Location
+app_path = System.IO.Path.GetDirectoryName(loc).rsplit('\\', 1)[0]
+
+# Python and DanEDU modules
+import os
+import codecs
+
+# input assigned the IN variable
+path = IN[0]
+source_file = IN[1]
+
+# add path if not is default
+if path != '.':
+    sys.path.insert(1, path)
+    sys.path.insert(2, app_path + '\extra\lib')
+else:
+    sys.path.insert(1, app_path + '\extra\lib')
+
+# get path to the source file
+def sfile():
+    for _path in sys.path:
+        fname = _path + '\\' + source_file + '.py'      
+        if os.path.exists(fname):
+            return fname
+
+with codecs.open(sfile(), 'rb', 'utf-8') as src:
+    source = ''.join(src.readlines())
+
+# output assigned the OUT variable
+OUT = source
+      </Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="4f3ba16e-5c69-4009-9c31-35c8a562f5ea" start_index="0" end="8e47c473-c734-4979-b59d-68eae06ad708" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="036e9f55-9cdb-4baa-9c05-b95c6605576e" start_index="0" end="8e47c473-c734-4979-b59d-68eae06ad708" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ac28fe4d-df64-42bb-b32a-0df5ae8ded99" start_index="0" end="8e47c473-c734-4979-b59d-68eae06ad708" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8e47c473-c734-4979-b59d-68eae06ad708" start_index="0" end="ad2ee41c-e855-45ec-aa41-66f4783c1ae0" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

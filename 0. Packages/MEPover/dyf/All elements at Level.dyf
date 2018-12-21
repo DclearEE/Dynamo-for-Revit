@@ -1,0 +1,88 @@
+<Workspace Version="1.3.3.4111" X="0" Y="0" zoom="1" ScaleFactor="1" Name="All elements at Level" Description="The same as the out of the box node, but this one also returns more type of families (e.g. System families)" ID="e8df53a1-692c-4518-b94a-a1673cba3763" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="5289e0c0-e20b-472f-8d32-b5900b784678" type="PythonNodeModels.PythonNode" nickname="Python Script" x="317" y="329" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+import System
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+from System.Collections.Generic import List
+
+level = UnwrapElement(IN[0])
+spatials = IN[1]
+levelId = level.Id
+
+
+evaluator = FilterNumericEquals()
+filterlist = List[ElementFilter]()
+
+levelnames = ["Base Level","Reference Level", "Level"]
+grouplevel = BuiltInParameter.GROUP_LEVEL
+zonelevel = BuiltInParameter.ZONE_LEVEL_ID
+roomlevel = BuiltInParameter.ROOM_LEVEL_ID
+exclusions1 = [zonelevel,roomlevel]
+exclusion2 = grouplevel
+bips = System.Enum.GetValues(BuiltInParameter)
+
+test = []
+for bip in bips:
+	if spatials == False and bip in exclusions1:
+		continue
+	if bip == exclusion2:
+		continue
+	try:
+		paramname = LabelUtils.GetLabelFor(bip)
+	except:
+		continue
+	if paramname in levelnames:
+		provider = ParameterValueProvider(ElementId(bip))
+		rule = FilterElementIdRule(provider,evaluator,levelId)
+		filterlist.Add(ElementParameterFilter(rule))
+
+
+OrFilter = LogicalOrFilter(filterlist)
+collector2 = FilteredElementCollector(doc)
+collector2.WherePasses(OrFilter)
+
+elements = collector2.ToElements()
+OUT = elements</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4c241680-1974-428c-8bd1-a326760fe677" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="112" y="318" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Level" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="37f9d26d-9245-409e-b7a9-4ac23545f6a8" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-22" y="433" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="IncludeSpatialElements:bool=false" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="41812e37-9d6b-4885-bdc9-e91882e015bf" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="528" y="284" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="5289e0c0-e20b-472f-8d32-b5900b784678" start_index="0" end="41812e37-9d6b-4885-bdc9-e91882e015bf" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4c241680-1974-428c-8bd1-a326760fe677" start_index="0" end="5289e0c0-e20b-472f-8d32-b5900b784678" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="37f9d26d-9245-409e-b7a9-4ac23545f6a8" start_index="0" end="5289e0c0-e20b-472f-8d32-b5900b784678" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

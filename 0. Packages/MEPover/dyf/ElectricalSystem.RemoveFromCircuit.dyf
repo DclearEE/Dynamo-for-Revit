@@ -1,0 +1,92 @@
+<Workspace Version="1.2.2.373" X="-393.610050178015" Y="24.4818486473604" zoom="1.53905115379904" Name="ElectricalSystem.RemoveFromCircuit" Description="Removes the elements from the circuit" ID="786eda69-1371-40be-947b-1b87bd5b45e9" Category="MEPover.Revit.Systems">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="83994e02-139a-4f53-a9e1-50cf5622fa3d" type="PythonNodeModels.PythonNode" nickname="Python Script" x="454" y="216" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+succes = []
+failed = []
+
+def RemoveFromCircuit(sys,elements):
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	if hasattr(elements, "__iter__"):
+		for element in elements:
+			elemset = ElementSet()
+			elemset.Insert(element)
+			try:
+				sys.RemoveFromCircuit(elemset)
+				succes.append(element.ToDSType(True))
+			except:
+				failed.append(element.ToDSType(True))
+	else:
+		elemset = ElementSet()
+		elemset.Insert(elements)
+		try:
+			sys.RemoveFromCircuit(elemset)
+			succes.append(elements.ToDSType(True))
+		except:
+			failed.append(elements.ToDSType(True))
+	TransactionManager.Instance.TransactionTaskDone()
+	
+
+if isinstance(IN[0], list):
+	for i,sys in enumerate(UnwrapElement(IN[0])):
+		RemoveFromCircuit(sys,UnwrapElement(IN[1])[i])
+else:
+	RemoveFromCircuit(UnwrapElement(IN[0]),UnwrapElement(IN[1]))
+
+OUT = succes, failed</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="0182d3e5-2d9f-4255-b4db-24515f1bc76b" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="110" y="229" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Circuit" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="53ca0abe-6c1f-48dd-b000-045e6a4e3357" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="252" y="397" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="8d54d7b2-9064-48f1-bb7b-d4b29d27f2b8" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="637" y="233" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="c5cbfd53-6a26-4423-b57c-3155fd46d46f" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="568" y="343" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="ea021fe5-af0e-4b43-9840-347112a81cc4" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="830.778136920179" y="216.053995691984" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Success" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e140bfdf-a17a-43fc-be4a-c97c14eca055" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="829.909513067763" y="351.709670658095" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Failed" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="83994e02-139a-4f53-a9e1-50cf5622fa3d" start_index="0" end="8d54d7b2-9064-48f1-bb7b-d4b29d27f2b8" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="83994e02-139a-4f53-a9e1-50cf5622fa3d" start_index="0" end="c5cbfd53-6a26-4423-b57c-3155fd46d46f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0182d3e5-2d9f-4255-b4db-24515f1bc76b" start_index="0" end="83994e02-139a-4f53-a9e1-50cf5622fa3d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="53ca0abe-6c1f-48dd-b000-045e6a4e3357" start_index="0" end="83994e02-139a-4f53-a9e1-50cf5622fa3d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8d54d7b2-9064-48f1-bb7b-d4b29d27f2b8" start_index="0" end="ea021fe5-af0e-4b43-9840-347112a81cc4" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c5cbfd53-6a26-4423-b57c-3155fd46d46f" start_index="0" end="e140bfdf-a17a-43fc-be4a-c97c14eca055" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

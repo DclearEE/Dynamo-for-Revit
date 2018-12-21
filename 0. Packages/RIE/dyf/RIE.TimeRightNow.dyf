@@ -1,0 +1,22 @@
+<Workspace Version="1.3.2.2480" X="380" Y="345" zoom="1" ScaleFactor="1" Name="RIE.TimeRightNow" Description="Uses time module from python to get current time." ID="e9f61e81-046e-435c-9a3e-b1451eeaaa0f" Category="RIE.List">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="d7f13686-3565-4348-9f0f-70ada9d2e520" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" inputcount="0">
+      <Script>from time import gmtime, strftime
+OUT = strftime("%Y-%m-%d %H:%M:%S", gmtime())</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="1b784da0-efc6-460d-a750-504c210625d8" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="377" y="-2" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="RightNow" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="d7f13686-3565-4348-9f0f-70ada9d2e520" start_index="0" end="1b784da0-efc6-460d-a750-504c210625d8" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

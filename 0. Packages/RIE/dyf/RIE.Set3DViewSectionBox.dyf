@@ -1,0 +1,87 @@
+<Workspace Version="1.3.2.2480" X="239" Y="192" zoom="1" ScaleFactor="1" Name="RIE.Set3DViewSectionBox" Description="Sets sectionbox of 3D view and if the view is open, also zooms to its extents." ID="1915b495-3772-4f23-947a-c9fbb74b7028" Category="RIE.Views">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="39a7e899-5e89-4749-ba63-d239e40e8e2a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="125" y="10" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Views" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e3163d3c-913d-401f-b785-90bbcce23748" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="118" y="65" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="BBoxes" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="076686dd-8951-4937-9eea-2b768c65a105" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="333" y="14" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Views" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <PythonNodeModels.PythonNode guid="fffeb158-4f9e-4b4d-ba1b-3873af78cffa" type="PythonNodeModels.PythonNode" nickname="Python Script" x="203" y="16" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+clr.AddReference('RevitAPIUI')
+from  Autodesk.Revit.UI import UIView
+
+clr.AddReference("RevitNodes")
+import Revit
+# Import ToProtoType, ToRevitType geometry conversion extension methods
+clr.ImportExtensions(Revit.GeometryConversion)
+clr.ImportExtensions(Revit.Elements)
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc=DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
+if isinstance(IN[0], list):
+	view = IN[0]
+else:
+	view = [IN[0]]
+
+if isinstance(IN[1], list):
+	bbox = IN[1]
+else:
+	bbox = [IN[1]]
+
+OUT = []
+	
+for _ in range(0, len(view)):
+	curview = UnwrapElement(view[_])
+	curbbox = UnwrapElement(bbox[_])
+	try:
+		TransactionManager.Instance.EnsureInTransaction(doc)
+		curview.SetSectionBox(curbbox.ToRevitType())
+		TransactionManager.Instance.TransactionTaskDone()
+		OUT.append(curview)
+	except:
+		OUT.append("Failed")
+		
+	for uv in uidoc.GetOpenUIViews():
+		if uv.ViewId.Equals( curview.Id ):
+			uiview = uv
+		break
+	try:
+		uiview.ZoomToFit()
+	except:
+		error = 1</Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="39a7e899-5e89-4749-ba63-d239e40e8e2a" start_index="0" end="fffeb158-4f9e-4b4d-ba1b-3873af78cffa" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e3163d3c-913d-401f-b785-90bbcce23748" start_index="0" end="fffeb158-4f9e-4b4d-ba1b-3873af78cffa" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="fffeb158-4f9e-4b4d-ba1b-3873af78cffa" start_index="0" end="076686dd-8951-4937-9eea-2b768c65a105" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

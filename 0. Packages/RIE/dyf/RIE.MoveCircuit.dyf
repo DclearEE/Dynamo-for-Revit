@@ -1,0 +1,70 @@
+<Workspace Version="1.3.2.2480" X="85.0294" Y="215.079762696587" zoom="0.70823125" ScaleFactor="1" Name="RIE.MoveCircuit" Description="Moves Circuitnumber To input circuit number row. New Circuit number row has to be unoccupied." ID="a4852b73-fbab-4518-ac3e-8aa73df539a6" Category="RIE.Power">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="a6061ab7-0530-4df0-8234-ff7adee62c34" type="PythonNodeModels.PythonNode" nickname="Python Script" x="289.111968195416" y="182" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <Script>import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+#The inputs to this node will be stored as a list in the IN variables.
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return obj
+	else:
+		return [obj]
+
+PS = UnwrapElement(IN[0])
+nMovingRow = tolist(IN[1])
+nToRow = tolist(IN[2])
+Col = IN[3]
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+
+for n in range(0, len(nMovingRow)):
+	PS.MoveSlotTo(nMovingRow[n]+1,Col,nToRow[n]+1,Col)
+
+TransactionManager.Instance.TransactionTaskDone()
+		
+OUT = PS</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="bea0d795-e346-4472-aed8-e8a2c2cb75e6" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="16.4999999999999" y="96" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="PanelScheduleView" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="2d0857e7-5e8d-459a-b59b-6a9654d7cce9" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="16.4999999999999" y="179" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="FromRow" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4f13cee4-f07d-4169-b1df-48183182fb50" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="16.4999999999999" y="263" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="ToRow" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="6f2c77a6-9cb8-4f8b-ac4e-838e90cbf0aa" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="421.3" y="181.586666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="PanelScheduleView" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="6ad01ed7-d6d0-4757-8f3e-8edb8c25ec6e" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="95" y="319" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="1;" ShouldFocus="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="a6061ab7-0530-4df0-8234-ff7adee62c34" start_index="0" end="6f2c77a6-9cb8-4f8b-ac4e-838e90cbf0aa" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="bea0d795-e346-4472-aed8-e8a2c2cb75e6" start_index="0" end="a6061ab7-0530-4df0-8234-ff7adee62c34" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2d0857e7-5e8d-459a-b59b-6a9654d7cce9" start_index="0" end="a6061ab7-0530-4df0-8234-ff7adee62c34" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4f13cee4-f07d-4169-b1df-48183182fb50" start_index="0" end="a6061ab7-0530-4df0-8234-ff7adee62c34" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6ad01ed7-d6d0-4757-8f3e-8edb8c25ec6e" start_index="0" end="a6061ab7-0530-4df0-8234-ff7adee62c34" end_index="3" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

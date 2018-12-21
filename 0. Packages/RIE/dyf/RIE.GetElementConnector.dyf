@@ -1,0 +1,87 @@
+<Workspace Version="1.3.2.2480" X="473" Y="371" zoom="1" ScaleFactor="1" Name="RIE.GetElementConnector" Description="" ID="26d90a2d-4d8d-4c36-bc36-648e225905e8" Category="RIE.Power">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="58fc9f4a-dc4c-408c-85f6-00711c90ac07" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="1" isVisible="false" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>
+import clr
+import math
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0], list):
+	fittings = UnwrapElement(IN[0])
+	toggle = 0
+else:
+	toggle = 1
+	fittings = [UnwrapElement(IN[0])]
+
+OUT = []
+p = []
+rep = []
+ref = []
+
+for fitting in fittings:
+	
+	points = []
+	report = []
+	refs = []
+	connelem = []
+	info = []
+	
+	try:
+		connectors = fitting.MEPModel.ConnectorManager.Connectors
+	except:
+		connectors = fitting.ConnectorManager.Connectors
+	for conn in connectors:
+		info.append([conn.Owner, conn, conn.Origin.ToPoint()])
+		connelem.append(conn.Owner)
+		points.append(conn.Origin.ToPoint())
+		result = ""
+		try:
+			result += "Direction: " + conn.Direction.ToString()
+		except:
+			result += "Direction: N/A"
+		result += ", AllRefs Size: " + conn.AllRefs.Size.ToString()
+		result += ", Domain: " + conn.Domain.ToString()
+		result += ", Type: " + conn.ConnectorType.ToString()
+		report.append(result)
+		for c in conn.AllRefs:
+			refs.append(c.Owner)
+	OUT.append(info)
+	p.append(points)
+	rep.append(report)
+	ref.append(refs)</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e4421ecd-1f6c-42af-82a3-95c2596ed075" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="d0871a92-a7aa-414b-9e13-886c9fe20985" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="449" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="OUT" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="58fc9f4a-dc4c-408c-85f6-00711c90ac07" start_index="0" end="d0871a92-a7aa-414b-9e13-886c9fe20985" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e4421ecd-1f6c-42af-82a3-95c2596ed075" start_index="0" end="58fc9f4a-dc4c-408c-85f6-00711c90ac07" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="26936.349609375" eyeY="21452.630859375" eyeZ="31863.796875" lookX="-48.1729164123535" lookY="-16819.29296875" lookZ="-473.3798828125" upX="-0.0982336029410362" upY="0.241921901702881" upZ="-0.965310275554657" />
+  </Cameras>
+</Workspace>

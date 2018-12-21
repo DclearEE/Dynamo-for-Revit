@@ -1,0 +1,66 @@
+<Workspace Version="1.2.0.2831" X="61.1074964690132" Y="220.269531458982" zoom="0.888789228297156" Name="Element.Domain" Description="Returns the domain of connectors on the element i.e. (domainHvac, domainPiping etc.)" ID="2bb08bb5-35ea-43ad-8ae8-10f3513597ae" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="7608486d-af97-49de-811f-a3575d2d91d6" type="PythonNodeModels.PythonNode" nickname="Python Script" x="653" y="427" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0],list):
+	toggle = 0
+	element = UnwrapElement(IN[0])
+else:
+	toggle = 1
+	element = [UnwrapElement(IN[0])]
+
+def getDomain(elem):
+	try:
+		connectors = elem.ConnectorManager.Connectors
+	except:
+		connectors = elem.MEPModel.ConnectorManager.Connectors
+	
+	if connectors.Size &lt; 2:	
+		for conn in connectors:
+			connector = conn
+			break
+		return connector.Domain
+	else:
+		domain = []
+		for conn in connectors:
+			domain.append(conn.Domain)
+		return domain
+
+listout = []	
+for x in element:
+	try:
+		domains = getDomain(x)
+		listout.append(domains)
+	except:
+		listout.append(None)
+#Assign your output to the OUT variable.
+if toggle:
+	OUT = domains
+else:
+	OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3c85f72e-de43-4892-b315-6eb4c63f875b" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="411" y="387" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e6f6b45b-8f5a-4832-9cba-b8a021658c30" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="959" y="339" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Domain" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="7608486d-af97-49de-811f-a3575d2d91d6" start_index="0" end="e6f6b45b-8f5a-4832-9cba-b8a021658c30" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3c85f72e-de43-4892-b315-6eb4c63f875b" start_index="0" end="7608486d-af97-49de-811f-a3575d2d91d6" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

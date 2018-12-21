@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Assembly>FTASetup2017.dll</Assembly>
+    <ClientId>be9a4585-8553-4583-a623-adaf93cfd763</ClientId>
+    <FullClassName>FTASetup.VB.NET.FtaDependantsetup</FullClassName>
+    <Text>FtaDependantsetup</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Assembly>FTASetup2017.dll</Assembly>
+    <ClientId>c30b17cd-c6d7-4fee-99db-89f84e3924a2</ClientId>
+    <FullClassName>FTASetup.VB.NET.FTAsetup</FullClassName>
+    <Text>FTAsetup</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Assembly>FTASetup2017.dll</Assembly>
+    <ClientId>8e151ed7-dab0-4036-bf0f-9e81c7affad4</ClientId>
+    <FullClassName>FTASetup.VB.NET.FtaSheetSetup</FullClassName>
+    <Text>FtaSheetSetup</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Assembly>FTASetup2017.dll</Assembly>
+    <ClientId>0606f020-df20-470d-9201-e4f4331ee246</ClientId>
+    <FullClassName>FTASetup.VB.NET.FTASpaceNamingUtil</FullClassName>
+    <Text>FTASpaceNamingUtil</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

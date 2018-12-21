@@ -1,0 +1,86 @@
+<Workspace Version="1.3.2.2480" X="189.8125" Y="90.6525" zoom="0.8425" ScaleFactor="1" Name="RIE.DrawLinesToNearbyPoints" Description="Input Two lists of points and from each point in list 1 there will be drawn a line to each point in list 2 which is closer than the input value in list 3" ID="85eac820-f631-405b-89ae-75dee7465ad0" Category="RIE.Geometry">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="c2ab90be-d55e-4b28-9fd0-da86dc507050" type="PythonNodeModels.PythonNode" nickname="Python Script" x="208.163204747774" y="112.724035608309" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+import math
+from operator import itemgetter
+
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+#Points inputs
+From = IN[0]
+To = IN[1]
+
+#Define OUT as an array
+OUT = []
+
+#Define lists for each output
+Result = []
+MinDist = []
+Indexes = []
+closepts = []
+ClosePt = []
+Dists = []
+
+#Define function to deconstruct points into X Y and Z values.
+def pt_deconstr(pt):
+	return [pt.X,pt.Y,pt.Z]
+	
+#Define function to mathematically calculate vector distance in 3D space between two points.	
+def dist_constr(ptFrom, ptTo):
+	return math.sqrt(math.pow(ptFrom[0]-ptTo[0],2)+math.pow(ptFrom[1]-ptTo[1],2)+math.pow(ptFrom[2]-ptTo[2],2))
+
+#Loop through points. For each point in input 1, check distance to all points in input 2, and append information about the nearest point to the outputs (Point, Distance and index in input 2 list).
+if type(From) == list and type(To) == list:
+	for i in From:
+		Dist = []
+		ptFrom = pt_deconstr(i)
+		for n in To:
+			ptTo = pt_deconstr(n)
+			if dist_constr(ptFrom, ptTo) &gt;= 1 and dist_constr(ptFrom, ptTo) &lt; IN[2]:
+				Dist.append(dist_constr(ptFrom, ptTo))
+				closepts.append(n)
+		ClosePt.append(closepts)
+		closepts = []
+		Dists.append(Dist)
+		Dist = []
+	#Outputs
+	for i in range(0, len(IN[0])):
+		for j in ClosePt[i]:
+			OUT.append(Line.ByStartPointEndPoint(IN[0][i],j))
+else:
+	#Outputs if any empty list on input
+	OUT = ["Insufficient","inputs","detected"]</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="f0d8a0ab-e37f-465b-8ba5-d49b7a0a5c5e" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-12.8367952522256" y="55.7240356083086" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="PointsFrom" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="086c20de-beef-40ae-8dd8-1ff9099caba4" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-12.8367952522256" y="138.724035608309" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="PointsTo" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="8ac883b2-5e3d-4251-a717-11706cdd4130" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-12.8367952522256" y="221.724035608309" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="MaxDistance" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="d9c379c6-0202-4d0e-b90a-724035eb3e47" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="432.163204747774" y="112.724035608309" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Lines" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="c2ab90be-d55e-4b28-9fd0-da86dc507050" start_index="0" end="d9c379c6-0202-4d0e-b90a-724035eb3e47" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f0d8a0ab-e37f-465b-8ba5-d49b7a0a5c5e" start_index="0" end="c2ab90be-d55e-4b28-9fd0-da86dc507050" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="086c20de-beef-40ae-8dd8-1ff9099caba4" start_index="0" end="c2ab90be-d55e-4b28-9fd0-da86dc507050" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8ac883b2-5e3d-4251-a717-11706cdd4130" start_index="0" end="c2ab90be-d55e-4b28-9fd0-da86dc507050" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="23964.9855921443" eyeY="2855.19074361643" eyeZ="15069.234343653" lookX="-2166.73650459428" lookY="-3232.83048184112" lookZ="-5854.11151107564" upX="-0.0898385918404651" upY="0.965925826289071" upZ="-0.242726853734611" />
+  </Cameras>
+</Workspace>

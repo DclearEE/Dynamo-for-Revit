@@ -1,0 +1,70 @@
+<Workspace Version="1.3.2.2480" X="391" Y="436" zoom="1" ScaleFactor="1" Name="RIE.IntersectionsFromListOfLines" Description="Outputs points on which lines in a list intersect" ID="42e2c8c4-1dba-4a24-aaae-5f5a52f94a1f" Category="RIE.Geometry">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="6f44be24-bd0a-4500-927f-4bd242d0e8c4" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+clr.AddReference('DSCoreNodes') 
+import DSCore
+from DSCore import *
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+OUT = []
+pershape = []
+
+def line_intersects(p1sp,p1ep,p2sp,p2ep):
+	xdiff = (p1sp.X - p1ep.X, p2sp.X - p2ep.X)
+	ydiff = (p1sp.Y - p1ep.Y, p2sp.Y - p2ep.Y)
+	
+	def det(a1,a2,b1,b2):
+		return a1 * b2 - a2 * b1
+	
+	div = det(xdiff[0],xdiff[1],ydiff[0],ydiff[1])
+	if div &lt;&gt; 0:
+		d = (det(p1sp.X,p1sp.Y,p1ep.X,p1ep.Y), det(p2sp.X,p2sp.Y,p2ep.X,p2ep.Y))
+		x = det(d[0],d[1], xdiff[0],xdiff[1]) / div
+		y = det(d[0],d[1], ydiff[0],ydiff[1]) / div
+		if x &gt; p1sp.X and x &lt; p1ep.X and y &gt; p2sp.Y and y &lt; p2ep.Y:
+			return Point.ByCoordinates(x,y)
+for f in range(0, IN[0].Count):			
+	for l1 in IN[0][f]:
+		p1sp = l1.StartPoint 
+		p1ep = l1.EndPoint
+		data = []
+		for l2 in IN[0][f]:
+			if l1 &lt;&gt; l2:
+				p2sp = l2.StartPoint
+				p2ep = l2.EndPoint
+				if  p1sp.X &lt; p2sp.X and p1ep.X &gt; p2ep.X  or p1sp.Y &gt; p2sp.Y and p1ep.Y &lt; p2ep.Y:
+					if not (line_intersects(p1sp,p1ep,p2sp,p2ep) is None):
+						data.append(line_intersects(p1sp,p1ep,p2sp,p2ep))
+		if data.Count &gt; 0:
+			pershape.append(data)
+	if pershape.Count &gt; 0:
+		OUT.append(pershape)
+		pershape = []
+	else:
+		OUT.append('No intersections found')
+		pershape = []</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="deeedd58-efb5-42b0-bae4-d7dea6f2fdfc" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Lines" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e9ec6a45-0805-40ab-9970-3255b4f56e3f" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="449" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Points" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="6f44be24-bd0a-4500-927f-4bd242d0e8c4" start_index="0" end="e9ec6a45-0805-40ab-9970-3255b4f56e3f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="deeedd58-efb5-42b0-bae4-d7dea6f2fdfc" start_index="0" end="6f44be24-bd0a-4500-927f-4bd242d0e8c4" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="39915.66796875" eyeY="49922.6484375" eyeZ="-42309.5078125" lookX="-1690.03295898438" lookY="-56914.49609375" lookZ="23072.478515625" upX="-0.060205016285181" upY="0.56640625" upZ="0.821924149990082" />
+  </Cameras>
+</Workspace>

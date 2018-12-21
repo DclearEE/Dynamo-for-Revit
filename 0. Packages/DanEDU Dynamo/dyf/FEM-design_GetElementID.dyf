@@ -1,0 +1,66 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="FEM-design.GetElementID|DanEDU" Description="Get element id from FEM-design" ID="1cf55576-49bf-44e7-83bf-55ed8a85c515" Category="DanEDU.Applications.FEM-design.Query">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="String" resolvedName="DSCore.String" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="6e0546fb-d685-4a25-8f7b-664d1b6d39a2" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="96.728916228258" y="771.998463525853" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="t1 = Flatten({elements});&#xA;t1.GetParameterValueByName(&quot;StruXML Guid&quot;);" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e82bc57d-c607-4af0-aa22-9c3cad5bf065" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-130.271083771742" y="661.571796859187" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Path and Filename to the FEM-design&#xD;&#xA;//xml file including extension!&#xD;&#xA;file : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="727831f4-727a-4046-9af0-99212334e91a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-132.271083771742" y="767.78513019252" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Element(s)&#xD;&#xA;element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <CoreNodeModels.Input.StringInput guid="204e2596-3a58-4f9c-9271-63497e5251ae" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="-116.271083771742" y="519.571796859186" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>FEM-design_GetElementID</System.String>
+      <System.String value="FEM-design_GetElementID" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="5fc67ccf-6bc1-444c-93fc-1dcb3874449c" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="161.728916228258" y="493.571796859186" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <PythonNodeModels.PythonStringNode guid="ee7b31bf-c860-4e39-a143-4c505527ae65" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="649.728916228258" y="638.071796859186" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e19680a2-48ca-4858-8303-e91546cbddcc" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="880.4395378515" y="638.095814628118" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//FEM element id&#xD;&#xA;FEMid" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="6e0546fb-d685-4a25-8f7b-664d1b6d39a2" start_index="0" end="ee7b31bf-c860-4e39-a143-4c505527ae65" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6e0546fb-d685-4a25-8f7b-664d1b6d39a2" start_index="1" end="ee7b31bf-c860-4e39-a143-4c505527ae65" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e82bc57d-c607-4af0-aa22-9c3cad5bf065" start_index="0" end="ee7b31bf-c860-4e39-a143-4c505527ae65" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="727831f4-727a-4046-9af0-99212334e91a" start_index="0" end="6e0546fb-d685-4a25-8f7b-664d1b6d39a2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="204e2596-3a58-4f9c-9271-63497e5251ae" start_index="0" end="5fc67ccf-6bc1-444c-93fc-1dcb3874449c" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5fc67ccf-6bc1-444c-93fc-1dcb3874449c" start_index="0" end="ee7b31bf-c860-4e39-a143-4c505527ae65" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ee7b31bf-c860-4e39-a143-4c505527ae65" start_index="0" end="e19680a2-48ca-4858-8303-e91546cbddcc" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="607e787f-6c6d-4810-8f47-b4731e6a0e4a" annotationText="read source code from the package" left="-126.271083771742" top="454.571796859186" width="499" height="184" fontSize="24" InitialTop="493.571796859186" InitialHeight="212" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="204e2596-3a58-4f9c-9271-63497e5251ae" />
+      <Models ModelGuid="5fc67ccf-6bc1-444c-93fc-1dcb3874449c" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

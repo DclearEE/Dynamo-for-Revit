@@ -1,0 +1,87 @@
+<Workspace Version="1.3.2.2480" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Connector.SizeRectangular" Description="Returns the Height and the Width of the connector (in feet)" ID="5fbe44a6-9234-4c71-bb3f-1cd0a3bc03a0" Category="MEPover.Revit.Connectors">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d29197da-3ba8-4b7e-a78a-78a593a318ed" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="355" y="265" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Connector" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="851ab14f-6644-49f1-b886-1f3fb1615d14" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="793" y="116" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Height" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="685b71d1-615c-419e-9d28-ef407ca6bf2a" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="804" y="344" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Width" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="6dba0698-492f-42a3-8595-961f7fd17551" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="585" y="110" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="8cc18a77-8339-4edb-94a8-d4b2d964a85e" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="666" y="431" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <PythonNodeModels.PythonNode guid="9f1ddf3c-0da6-43e2-981d-e545f0b3a769" type="PythonNodeModels.PythonNode" nickname="Python" x="518" y="277" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+#Many thanks to Konrad K Sobon for his awesome ProcessList function!
+def Unwrap(item):
+	return UnwrapElement(item)
+
+def ProcessList(_func, _list):
+    return map( lambda x: ProcessList(_func, x) if type(x)==list else _func(x), _list )
+
+if isinstance(IN[0], list):
+	connectors = ProcessList(Unwrap, IN[0])
+else:
+	connectors = [Unwrap(IN[0])]
+	
+	
+def getConnSizeHeight(connector):
+	h = None
+	try:
+		h = connector.Height
+	except:
+		pass
+	return h
+
+def getConnSizeWidth(connector):
+	w = None
+	try:
+		w = connector.Width
+	except:
+		pass
+	return w
+			
+#Assign your output to the OUT variable.
+
+OUT = [ProcessList(getConnSizeHeight, connectors),ProcessList(getConnSizeWidth, connectors)]</Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="d29197da-3ba8-4b7e-a78a-78a593a318ed" start_index="0" end="9f1ddf3c-0da6-43e2-981d-e545f0b3a769" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6dba0698-492f-42a3-8595-961f7fd17551" start_index="0" end="851ab14f-6644-49f1-b886-1f3fb1615d14" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8cc18a77-8339-4edb-94a8-d4b2d964a85e" start_index="0" end="685b71d1-615c-419e-9d28-ef407ca6bf2a" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9f1ddf3c-0da6-43e2-981d-e545f0b3a769" start_index="0" end="6dba0698-492f-42a3-8595-961f7fd17551" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9f1ddf3c-0da6-43e2-981d-e545f0b3a769" start_index="0" end="8cc18a77-8339-4edb-94a8-d4b2d964a85e" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

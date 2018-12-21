@@ -1,0 +1,58 @@
+<Workspace Version="1.3.1.1736" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Element.GetInsulation" Description="Will return the insulation of a pipe or duct" ID="80f07ca6-bede-47f4-910c-c158b865efc3" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="afad662b-0561-4e68-801d-f2ab2855e211" type="PythonNodeModels.PythonNode" nickname="Python Script" x="416.725744829349" y="240.855792350492" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+if isinstance(IN[0], list):
+	pipes = UnwrapElement(IN[0])
+else:
+	pipes = [UnwrapElement(IN[0])]
+
+listout = []
+
+for pipe in pipes:
+	try:
+		insulation = InsulationLiningBase.GetInsulationIds(doc,pipe.Id)
+		listout.append(doc.GetElement(insulation[0]))
+	except:
+		listout.append(None)
+
+
+OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c8296b5b-b8c3-4c28-adc6-c4679a2707d8" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="195" y="229" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="77ab4451-0db7-4fe5-87d3-36a4b594f4ae" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="644" y="246" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Insulation" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="afad662b-0561-4e68-801d-f2ab2855e211" start_index="0" end="77ab4451-0db7-4fe5-87d3-36a4b594f4ae" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c8296b5b-b8c3-4c28-adc6-c4679a2707d8" start_index="0" end="afad662b-0561-4e68-801d-f2ab2855e211" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

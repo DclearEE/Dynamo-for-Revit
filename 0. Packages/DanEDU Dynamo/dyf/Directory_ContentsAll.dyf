@@ -1,0 +1,65 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Directory.ContentsAll|DanEDU" Description="Get the files in a directory or a directory and its subdirectories (use bool value for deepsearch). Does not include hidden or readonly files (and thereby system files). Use string for extension type or * for all filetypes!" ID="ce281c12-a5b0-48f8-a3f9-76eddc41d0c6" Category="DanEDU.Core.Directory.Actions">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="String" resolvedName="DSCore.String" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="ddae779b-436a-4601-9d67-26afd7e44164" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-223.254529221108" y="23.96196149854" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Directory to get contents of&#xD;&#xA;directory : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="cf9112e3-8272-4faf-bfd1-fb9e61b2788d" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-223.254529221108" y="115.96196149854" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Search string used to filter results &#xD;&#xA;searchString : string = &quot;*&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d896f446-8ee7-47e0-b8fc-a8581945ad94" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-223.254529221108" y="207.96196149854" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Search option used to search in all subfolders&#xD;&#xA;deepSearch : bool = true" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="04e131b4-8ee6-4e62-92c1-de8ee346377c" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="573.745470778892" y="9.96196149854001" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="file" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <PythonNodeModels.PythonStringNode guid="b013f6eb-ac5f-47c4-a81e-21c48f982992" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="344.745470778892" y="9.96196149854001" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="709b9f68-2198-4068-a34b-e63a83276ee0" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="-213.254529221108" y="-126.03803850146" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Directory_ContentsAll</System.String>
+      <System.String value="Directory_ContentsAll" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="8422baac-be51-4f1d-8335-bc55d0641c0e" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="33.745470778892" y="-152.03803850146" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="ddae779b-436a-4601-9d67-26afd7e44164" start_index="0" end="b013f6eb-ac5f-47c4-a81e-21c48f982992" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="cf9112e3-8272-4faf-bfd1-fb9e61b2788d" start_index="0" end="b013f6eb-ac5f-47c4-a81e-21c48f982992" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d896f446-8ee7-47e0-b8fc-a8581945ad94" start_index="0" end="b013f6eb-ac5f-47c4-a81e-21c48f982992" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b013f6eb-ac5f-47c4-a81e-21c48f982992" start_index="0" end="04e131b4-8ee6-4e62-92c1-de8ee346377c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="709b9f68-2198-4068-a34b-e63a83276ee0" start_index="0" end="8422baac-be51-4f1d-8335-bc55d0641c0e" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8422baac-be51-4f1d-8335-bc55d0641c0e" start_index="0" end="b013f6eb-ac5f-47c4-a81e-21c48f982992" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="01c638d5-03a4-4e48-bb9f-a2a5a5c48854" annotationText="read source code from the package" left="-223.254529221108" top="-191.03803850146" width="468" height="184" fontSize="24" InitialTop="-152.03803850146" InitialHeight="221" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="709b9f68-2198-4068-a34b-e63a83276ee0" />
+      <Models ModelGuid="8422baac-be51-4f1d-8335-bc55d0641c0e" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="14.049280166626" eyeY="19.049280166626" eyeZ="14.049280166626" lookX="-14.049280166626" lookY="-14.049280166626" lookZ="-14.049280166626" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

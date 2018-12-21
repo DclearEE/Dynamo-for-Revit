@@ -1,0 +1,95 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Sigma.ComponentByQuantity|DanEDU" Description="Creates list containing a Sigma Component by Quantity" ID="c2962be0-0a03-4bc4-8e06-c78cb9f4904c" Category="DanEDU.Applications.Sigma.Actions">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="DSCore.List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
+    <ClassMap partialName="DSCore" resolvedName="DSCore.String" assemblyName="DSCoreNodes.dll" />
+    <ClassMap partialName="String.ToNumber" resolvedName="DSCore.String" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="5fdd26a9-0700-4e38-a0c0-9860c7f84add" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="sigmaUnit" x="1042.26570136724" y="274.74329506006" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="t1 = Flatten(elements);&#xA;t2 = t1.GetParameterValueByName(&quot;Type&quot;);&#xA;t3 = t2.GetParameterValueByName(sigTypeCode);&#xA;t4 = DSCore.List.Cycle(rvtUnit,Count(t1));&#xA;t5 = DSCore.List.Cycle(sigUnit,Count(t1));&#xA;t6 = DSCore.List.Cycle(sigRegulation,Count(t1));&#xA;&#xA;//code, rUnit, sUnit, qty, regul, id&#xA;DSCore.List.Transpose({t3[], t5, t4, t6[], t1[].Id});" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="1c1d075a-5be2-49a5-b3a2-a77d8100ab57" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1700.03598961412" y="173.943540833688" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="{tree,comp};" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="7d337334-2065-43dc-a121-fb3a05959945" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="2128.00636370583" y="44.6056519460082" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="component" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="ba4ba095-4717-4176-9d0e-d80238bc16fb" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="168.813869191033" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//List containing the structure as strings {&quot;number&quot;,&quot;text&quot;}&#xD;&#xA;//At least one 'level' is needed!&#xD;&#xA;componentTree" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d0ae20cc-e615-4655-a7d5-8104892a2d3c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="269.97829959043" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Element(s)&#xD;&#xA;element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e20e86cb-b397-4959-a059-7f9a3138dfa3" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="353.142729989826" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Property identity field for Sigma&#xD;&#xA;parameterName : string = &quot;Type Code&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e310891a-0a62-4b2c-bfaa-6baf24f7dd05" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="436.307160389222" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Quantity (int or double)&#xD;&#xA;revitUnit : double = 1.00;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="b54c9d95-97a5-438f-a90f-759dbb873edb" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="519.471590788618" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Unit identifier for Sigma&#xD;&#xA;sigmaUnit : string = &quot;m2&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="530872f7-1081-4cf7-b051-3f74171dde37" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="602.636021188014" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Regulation for the Sigma Component&#xD;&#xA;sigmaRegulation : double = 1.00;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4550e7db-868e-417b-9e39-88a037e28016" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="359.681052339033" y="67.6494387916372" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Component as instances or summarized&#xD;&#xA;//True select Data to be Instances, False select Data to be summarized&#xD;&#xA;instances : bool = false" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="e81843b8-61ff-4b4f-b9e7-631714f53373" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1942.12118372935" y="44.4630762800095" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="8959fae3-0ae7-45e5-8f6a-03c40a80be5d" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="1400.7148986854" y="-29.194936496992" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Sigma_Component</System.String>
+      <System.String value="Sigma_Component" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="80117b29-0a9e-4287-b7b4-1e8feca36a4d" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="1631.7148986854" y="-55.194936496992" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="5fdd26a9-0700-4e38-a0c0-9860c7f84add" start_index="6" end="1c1d075a-5be2-49a5-b3a2-a77d8100ab57" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1c1d075a-5be2-49a5-b3a2-a77d8100ab57" start_index="0" end="e81843b8-61ff-4b4f-b9e7-631714f53373" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ba4ba095-4717-4176-9d0e-d80238bc16fb" start_index="0" end="1c1d075a-5be2-49a5-b3a2-a77d8100ab57" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d0ae20cc-e615-4655-a7d5-8104892a2d3c" start_index="0" end="5fdd26a9-0700-4e38-a0c0-9860c7f84add" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e20e86cb-b397-4959-a059-7f9a3138dfa3" start_index="0" end="5fdd26a9-0700-4e38-a0c0-9860c7f84add" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e310891a-0a62-4b2c-bfaa-6baf24f7dd05" start_index="0" end="5fdd26a9-0700-4e38-a0c0-9860c7f84add" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b54c9d95-97a5-438f-a90f-759dbb873edb" start_index="0" end="5fdd26a9-0700-4e38-a0c0-9860c7f84add" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="530872f7-1081-4cf7-b051-3f74171dde37" start_index="0" end="5fdd26a9-0700-4e38-a0c0-9860c7f84add" end_index="4" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4550e7db-868e-417b-9e39-88a037e28016" start_index="0" end="e81843b8-61ff-4b4f-b9e7-631714f53373" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e81843b8-61ff-4b4f-b9e7-631714f53373" start_index="0" end="7d337334-2065-43dc-a121-fb3a05959945" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8959fae3-0ae7-45e5-8f6a-03c40a80be5d" start_index="0" end="80117b29-0a9e-4287-b7b4-1e8feca36a4d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="80117b29-0a9e-4287-b7b4-1e8feca36a4d" start_index="0" end="e81843b8-61ff-4b4f-b9e7-631714f53373" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="f3427a77-31f8-4f5c-9c36-d7950799f8f4" annotationText="read source code from the package" left="1390.7148986854" top="-94.194936496992" width="452" height="184" fontSize="24" InitialTop="-55.194936496992" InitialHeight="206" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="8959fae3-0ae7-45e5-8f6a-03c40a80be5d" />
+      <Models ModelGuid="80117b29-0a9e-4287-b7b4-1e8feca36a4d" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

@@ -1,0 +1,66 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Dynamo Settings Path|DanEDU" Description="Get paths set in the DynamoSettings.xml" ID="d986f9fa-706d-4acf-ae54-82bbdc367479" Category="DanEDU.Core.Scripting.Query">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="697ec703-c787-456b-877f-60a50ea51bde" type="PythonNodeModels.PythonNode" nickname="Python Script" x="508.5" y="226.75" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="0">
+      <Script>
+# coding=utf-8
+# This file is covered by the LICENSE in this dynamo package 'extra' folder
+'''
+Get paths set in the DynamoSettings.xml
+'''
+
+from System import AppDomain, Environment
+
+import sys
+sys.path.append('C:\Program Files (x86)\IronPython 2.7\Lib')
+import xml.etree.ElementTree as ET
+import os
+
+# get Dynamo Settings path(s)
+def dynamo_settings(sandbox=False):
+    # get path to application source folder.
+    for app in AppDomain.CurrentDomain.GetAssemblies():
+        if 'ProtoGeometry' in app.FullName:
+            loc = app.Location
+        if 'DynamoSandbox' in app.FullName:
+            sandbox = True
+
+    dynamo_path = ('\\').join(loc.split('\\')[-4:-1])
+    if not sandbox:
+        dynamo_path = dynamo_path.replace('Dynamo Core', 'Dynamo Revit')
+
+    appdata = (
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))
+
+    # read the DynamoSettings file
+    settings = appdata + '\\' + dynamo_path + '\\' + 'DynamoSettings.xml'
+    with open(settings, 'r') as i:
+        root = ET.parse(i).getroot()
+    i.close()
+    custom_package_folders = root.find('CustomPackageFolders')
+    paths = []
+    for custom_package in custom_package_folders.iter():
+        if custom_package.tag == 'string':
+            paths.append(custom_package.text)
+
+    return paths
+
+# output assigned the OUT variable
+OUT = dynamo_settings()
+      </Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="3868b89a-d060-4160-ad9d-ff46be6b0aa6" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="702.5" y="226.75" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="path" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="697ec703-c787-456b-877f-60a50ea51bde" start_index="0" end="3868b89a-d060-4160-ad9d-ff46be6b0aa6" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

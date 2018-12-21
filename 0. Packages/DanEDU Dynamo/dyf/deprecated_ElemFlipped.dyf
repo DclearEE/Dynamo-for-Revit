@@ -1,0 +1,27 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="deprecated.ElemFlipped|DanEDU" Description="This node is deprecated, please use&#xD;&#xA;Element.FaceFlipped and&#xD;&#xA;Element.HandFlipped" ID="0bb05627-83a2-588a-b547-74cc0b3f1ff8" Category="DanEDU.Deprecated">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="5f4022c5-ee37-44c6-b01a-d9cf0fc72b40" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-208.146282066123" y="266.890567224503" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="ef5493b4-3a14-44a2-90be-e4ce0f5b7093" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="199.853717933877" y="267.250567224503" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="out" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <CoreNodeModels.Input.StringInput guid="39bd6ee5-f60e-491c-9dbb-b0a8080c8985" type="CoreNodeModels.Input.StringInput" nickname="String" x="-73" y="267" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>This node is deprecated, please use
+Element.FaceFlipped and
+Element.HandFlipped</System.String>
+      <System.String value="This node is deprecated, please use&#xD;&#xA;Element.FaceFlipped and&#xD;&#xA;Element.HandFlipped" />
+    </CoreNodeModels.Input.StringInput>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="39bd6ee5-f60e-491c-9dbb-b0a8080c8985" start_index="0" end="ef5493b4-3a14-44a2-90be-e4ce0f5b7093" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

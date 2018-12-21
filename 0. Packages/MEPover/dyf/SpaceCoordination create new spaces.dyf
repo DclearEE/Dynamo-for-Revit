@@ -1,0 +1,134 @@
+<Workspace Version="1.2.1.3083" X="-48.449775" Y="47.07178125" zoom="0.70823125" Name="SpaceCoordination create new spaces" Description="Creates a new space for every room with a new room number from the linked document" ID="4b28a359-feb6-408f-8fce-55665cabbfbf" Category="MEPover.Revit.RoomsAndSpaces">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="92e4c976-84d8-4fb4-bd69-e642fa052af2" type="PythonNodeModels.PythonNode" nickname="Python Script" x="367" y="374" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+import math
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+from System.Collections.Generic import List
+
+linkdoc = IN[0]
+phase = UnwrapElement(IN[1])
+
+collector = FilteredElementCollector(doc)
+levels = collector.OfClass(Level).ToElements()
+	
+leveldict2 = {}
+for level in levels:
+	leveldict2[math.ceil((level.Elevation+0.5)*100)/100] = level
+	
+collector2 = FilteredElementCollector(doc)
+spaces = collector2.OfCategory(BuiltInCategory.OST_MEPSpaces).ToElements()
+
+collector3 = FilteredElementCollector(linkdoc)
+rooms = collector3.OfCategory(BuiltInCategory.OST_Rooms).ToElements()
+
+spacedict = {}
+for x in spaces:
+	spacedict[x.Number] = x
+
+roomdict = {}
+for x in rooms:
+	if x.Location != None:
+		roomdict[x.Number] = x
+
+
+spacenumbers = [x.Number for x in spaces]
+roomnumbers = [x.Number for x in rooms if x.Location != None]
+spaceset = set(spacenumbers)
+roomset = set(roomnumbers)
+
+newrooms = roomset.difference(spaceset)
+
+newspaces = []
+newrooms2 = []
+failed = []
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+for x in newrooms:
+	room = roomdict[x]
+	roomelev = math.ceil((room.Level.Elevation+0.5)*100)/100
+	level = leveldict2[roomelev]
+	
+	try:
+		newrooms2.append(room)
+		loc = room.Location.Point
+		newspace = doc.Create.NewSpace(level,phase,UV(loc.X,loc.Y))
+		newspaces.append(newspace)
+	except:
+		failed.append("failed new space creation for room: "+ x)
+TransactionManager.Instance.TransactionTaskDone()
+
+
+newspaces2 = []
+TransactionManager.Instance.EnsureInTransaction(doc)
+for space,room in zip(newspaces,newrooms2):
+	try:
+		space.Number = room.Number
+	except:
+		failed.append("failed to set space number for space: " + space.Number)
+	
+	try:
+		space.LimitOffset = room.LimitOffset
+	except:
+		failed.append("failed to set LimitOffset for space: " + space.Number)
+
+	newspaces2.append(space.ToDSType(False))
+TransactionManager.Instance.TransactionTaskDone()
+
+#Assign your output to the OUT variable.
+OUT = newspaces2,failed</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="38ecfa97-be16-4923-a76f-41e6ec6af268" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="97" y="321" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="LinkDoc" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="2c8b10ca-cc6f-4c7f-ae47-e580331931ea" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="99" y="459" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Phase" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="2d1deeb0-1a14-464b-a697-03ccee229513" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="584" y="339" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="0500bc18-faf8-40b5-a390-a8a6bbe3597c" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="593" y="452" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="aae83d59-f0f9-48b8-b942-6341b7c3d019" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="771" y="331" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="New Spaces" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="c267efa6-4886-4628-9011-9435121f7ee0" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="771" y="446" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Failures" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="92e4c976-84d8-4fb4-bd69-e642fa052af2" start_index="0" end="2d1deeb0-1a14-464b-a697-03ccee229513" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="92e4c976-84d8-4fb4-bd69-e642fa052af2" start_index="0" end="0500bc18-faf8-40b5-a390-a8a6bbe3597c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="38ecfa97-be16-4923-a76f-41e6ec6af268" start_index="0" end="92e4c976-84d8-4fb4-bd69-e642fa052af2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2c8b10ca-cc6f-4c7f-ae47-e580331931ea" start_index="0" end="92e4c976-84d8-4fb4-bd69-e642fa052af2" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2d1deeb0-1a14-464b-a697-03ccee229513" start_index="0" end="aae83d59-f0f9-48b8-b942-6341b7c3d019" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0500bc18-faf8-40b5-a390-a8a6bbe3597c" start_index="0" end="c267efa6-4886-4628-9011-9435121f7ee0" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

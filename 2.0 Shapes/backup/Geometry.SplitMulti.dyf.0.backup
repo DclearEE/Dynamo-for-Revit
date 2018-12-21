@@ -1,0 +1,44 @@
+<Workspace Version="0.7.5.3566" X="0" Y="0" zoom="1" Description="Split geometry by mutiple tools at once" Category="EnjoyRevit" Name="Geometry.SplitMulti" ID="9b5f552e-5f14-4819-a2bf-b4fc5a09a187">
+  <Elements>
+    <Dynamo.Nodes.Output type="Dynamo.Nodes.Output" guid="9766ad70-a404-4d12-bbbb-806a4f14b1d0" nickname="Output" x="542.178947661094" y="38.690362932291" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <Symbol value="Geometry[]" />
+    </Dynamo.Nodes.Output>
+    <DSIronPythonNode.PythonNode type="DSIronPythonNode.PythonNode" guid="3074904d-2fd3-430f-b659-7d8c4d125418" nickname="Python Script" x="382.447430101671" y="32.5020143179861" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="2">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+clr.AddReference('DSCoreNodes')
+import DSCore
+from DSCore import *
+#The inputs to this node will be stored as a list in the IN variable.
+surfin=IN[0]
+lines=IN[1]
+outlist=[]
+outlist.append(surfin)
+
+ind1=0
+while ind1&lt;len(lines):
+	templist=[]
+	for surf in outlist:
+		cuts=surf.Split(lines[ind1])
+		templist.append(cuts)
+	outlist=List.Flatten(templist,1)
+	ind1=ind1+1
+		
+#Assign your output to the OUT variable
+OUT = outlist</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.Symbol type="Dynamo.Nodes.Symbol" guid="ca55ff3b-19ec-4538-b422-ff7a267889e3" nickname="Input" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <Symbol value="geometry" />
+    </Dynamo.Nodes.Symbol>
+    <Dynamo.Nodes.Symbol type="Dynamo.Nodes.Symbol" guid="da1d2c61-2208-41a6-b1a8-e0a270aba4d7" nickname="Input" x="250" y="92.7234559929047" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <Symbol value="tools" />
+    </Dynamo.Nodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="3074904d-2fd3-430f-b659-7d8c4d125418" start_index="0" end="9766ad70-a404-4d12-bbbb-806a4f14b1d0" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="ca55ff3b-19ec-4538-b422-ff7a267889e3" start_index="0" end="3074904d-2fd3-430f-b659-7d8c4d125418" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="da1d2c61-2208-41a6-b1a8-e0a270aba4d7" start_index="0" end="3074904d-2fd3-430f-b659-7d8c4d125418" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>

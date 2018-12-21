@@ -1,0 +1,74 @@
+<Workspace Version="1.2.1.3083" X="0" Y="0" zoom="1" Name="View.SetCategoryVisibility" Description="Will set the category visibility for the view. Does not work if a view template dictates the category visibility" ID="8d77c321-b45b-492c-ad64-575b377a730f" Category="MEPover.Revit.View">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="cd74bdd0-c3ad-4d6b-b60c-e8af51a72016" type="PythonNodeModels.PythonNode" nickname="Python Script" x="353" y="230" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0],list):
+	category = UnwrapElement(IN[0])
+else:
+	category = [UnwrapElement(IN[0])]
+if isinstance(IN[1], list):	
+	views = UnwrapElement(IN[1])
+else:
+	views = [UnwrapElement(IN[1])]
+if isinstance(IN[2],list):
+	bools = IN[2]
+else:
+	bools = [IN[2]]
+
+report = []
+TransactionManager.Instance.EnsureInTransaction(doc)
+for view,bool in zip(views,bools):
+	for cat in category:
+		try:
+			view.SetVisibility(cat,bool)
+			error = "Succes"
+		except:
+			error = "Could not set visibility"
+	report.append(error)
+TransactionManager.Instance.TransactionTaskDone()
+
+#Assign your output to the OUT variable.
+OUT = report</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="1d32b119-ceec-43fd-9a0e-37e877541497" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="109" y="149" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Category" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="9696c5c0-1d19-4dd4-b7a0-804a71867d12" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="108" y="259" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="View" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="b3ec360c-6000-4a50-b973-7d4d35e16f01" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="106" y="350" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Bool" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="1d32b119-ceec-43fd-9a0e-37e877541497" start_index="0" end="cd74bdd0-c3ad-4d6b-b60c-e8af51a72016" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9696c5c0-1d19-4dd4-b7a0-804a71867d12" start_index="0" end="cd74bdd0-c3ad-4d6b-b60c-e8af51a72016" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b3ec360c-6000-4a50-b973-7d4d35e16f01" start_index="0" end="cd74bdd0-c3ad-4d6b-b60c-e8af51a72016" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

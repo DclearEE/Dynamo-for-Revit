@@ -1,0 +1,54 @@
+<Workspace Version="1.3.2.2480" X="647.208511449849" Y="318.206916518913" zoom="1.78359936238281" ScaleFactor="1" Name="RIE.IndexOf" Description="Returns a sublistlist with all indexes for each item." ID="66815482-85d5-4ff9-b1b0-c13fcbb0f5dd" Category="RIE.List">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="f1758426-a91e-472b-a267-91d7aebaafa1" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+
+OUT = []
+
+def tolist(obj):
+	if hasattr(obj, "__iter__"):
+		return obj
+	else:
+		return [obj]
+		
+items = tolist(IN[0])
+		
+for i in tolist(IN[1]):
+	item1 = i
+	indices = []
+	for j in range(0, len(items)):
+		item2 = items[j]
+		if item1 == item2:
+			indices.append(j)
+			
+	OUT.append(indices)</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c2e60600-02f7-4a72-a0dc-98b15500ed00" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="179.412488448355" y="-0.560664026401099" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="List" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="5c9a05ba-a1f1-4965-8ad9-a9efae40958a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="177.169832342751" y="50.7624673270035" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Item" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="616242a2-7771-4c15-b7e6-f591379ab28f" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="381.159652805466" y="-0.560664026401128" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Indices" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="f1758426-a91e-472b-a267-91d7aebaafa1" start_index="0" end="616242a2-7771-4c15-b7e6-f591379ab28f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c2e60600-02f7-4a72-a0dc-98b15500ed00" start_index="0" end="f1758426-a91e-472b-a267-91d7aebaafa1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5c9a05ba-a1f1-4965-8ad9-a9efae40958a" start_index="0" end="f1758426-a91e-472b-a267-91d7aebaafa1" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

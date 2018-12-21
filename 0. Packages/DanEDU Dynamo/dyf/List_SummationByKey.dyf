@@ -1,0 +1,70 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="List.SummationByKey|DanEDU" Description="Summation of values and group items into sub-lists based on their like key values" ID="92bc4b8f-4ab1-4e58-800f-66a61c28d475" Category="DanEDU.Core.List.Actions">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="67a88070-f2de-44ce-9b80-ece6399270eb" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-472.83217103789" y="351.109903597886" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//List of items as int and double to group and summarize as sublists&#xD;&#xA;list" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="5fb3bab0-ef8c-4a6c-b514-64dcde26b9ca" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-472.83217103789" y="443.109903597886" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Key values, one per item in the input list, used for grouping the items&#xD;&#xA;keys" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="a713c89d-88f9-43d0-b092-13ddfc7f2838" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="711.16782896211" y="244.396570264553" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="summarized groups" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="b4f5b3ba-e8e6-49d4-a2ca-c71f695fbe2c" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="711.16782896211" y="367.396570264553" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="unique keys" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="80d1c9b1-fa62-41bc-ad3e-d95ddfd0b35c" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="488.16782896211" y="301.323236931219" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="Out[1];&#xA;Out[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <PythonNodeModels.PythonStringNode guid="0f906915-a5f6-4721-b395-cb2076d4ec5a" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="259.16782896211" y="297.109903597886" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="39e6b75c-d903-412a-8fab-a4e7aac261e1" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="-462.83217103789" y="201.109903597886" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>List_SummationByKey</System.String>
+      <System.String value="List_SummationByKey" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="a0587758-0852-4211-8882-883a3ca66700" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="-213.83217103789" y="175.109903597886" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="67a88070-f2de-44ce-9b80-ece6399270eb" start_index="0" end="0f906915-a5f6-4721-b395-cb2076d4ec5a" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5fb3bab0-ef8c-4a6c-b514-64dcde26b9ca" start_index="0" end="0f906915-a5f6-4721-b395-cb2076d4ec5a" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="80d1c9b1-fa62-41bc-ad3e-d95ddfd0b35c" start_index="0" end="a713c89d-88f9-43d0-b092-13ddfc7f2838" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="80d1c9b1-fa62-41bc-ad3e-d95ddfd0b35c" start_index="1" end="b4f5b3ba-e8e6-49d4-a2ca-c71f695fbe2c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0f906915-a5f6-4721-b395-cb2076d4ec5a" start_index="0" end="80d1c9b1-fa62-41bc-ad3e-d95ddfd0b35c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="39e6b75c-d903-412a-8fab-a4e7aac261e1" start_index="0" end="a0587758-0852-4211-8882-883a3ca66700" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a0587758-0852-4211-8882-883a3ca66700" start_index="0" end="0f906915-a5f6-4721-b395-cb2076d4ec5a" end_index="0" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="417679a6-a618-4215-90f3-41f1800c51e1" text="key value corresponding to each group" x="711.16782896211" y="328.396570264553" />
+    <Dynamo.Graph.Notes.NoteModel guid="f8393ca7-53fa-45b0-87c8-f88f8d4c31f1" text="list of sublist, with items grouped and summarized by like key values" x="711.16782896211" y="190.396570264553" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="8627b6cc-c902-4fdd-8916-11a2431b1b35" annotationText="read source code from the package" left="-472.83217103789" top="136.109903597886" width="470" height="184" fontSize="24" InitialTop="175.109903597886" InitialHeight="206.000000000001" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="39e6b75c-d903-412a-8fab-a4e7aac261e1" />
+      <Models ModelGuid="a0587758-0852-4211-8882-883a3ca66700" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

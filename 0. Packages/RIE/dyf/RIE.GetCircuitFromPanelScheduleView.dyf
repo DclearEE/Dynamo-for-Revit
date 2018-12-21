@@ -1,0 +1,64 @@
+<Workspace Version="1.3.2.2480" X="561.6" Y="217.6" zoom="1" ScaleFactor="1" Name="RIE.GetCircuitFromPanelScheduleView" Description="Input PanelScheduleView Element, and input integervalue of circuit." ID="2938ea99-9a6a-4f4f-b9e9-9ee260a348c0" Category="RIE.Power">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="077441c2-4acc-438e-8007-6dee7351721f" type="PythonNodeModels.PythonNode" nickname="Python Script" x="227.7" y="124" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+#The inputs to this node will be stored as a list in the IN variables.
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return obj
+	else:
+		return [obj]
+
+PS = UnwrapElement(IN[0])
+nFromRow = tolist(IN[1])
+Col = IN[2]
+
+circuits = []
+for n in nFromRow:
+	circuits.append(PS.GetCircuitByCell(n + 1, Col))
+
+		
+OUT = circuits</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="5d2cd17c-f299-4541-b139-b74d3b12711f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-43.4999999999999" y="67" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="PanelScheduleView" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3a787f1d-fab7-4318-8766-691345a74456" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-43.4999999999999" y="150" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Rows" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="086ba8c3-2464-4b45-86b3-756387630eae" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-43.4999999999999" y="233" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Col : int = 1" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="18cd3475-44e9-4165-80e4-47be3203e0ec" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="452.5" y="124" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Circuits" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="077441c2-4acc-438e-8007-6dee7351721f" start_index="0" end="18cd3475-44e9-4165-80e4-47be3203e0ec" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5d2cd17c-f299-4541-b139-b74d3b12711f" start_index="0" end="077441c2-4acc-438e-8007-6dee7351721f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3a787f1d-fab7-4318-8766-691345a74456" start_index="0" end="077441c2-4acc-438e-8007-6dee7351721f" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="086ba8c3-2464-4b45-86b3-756387630eae" start_index="0" end="077441c2-4acc-438e-8007-6dee7351721f" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

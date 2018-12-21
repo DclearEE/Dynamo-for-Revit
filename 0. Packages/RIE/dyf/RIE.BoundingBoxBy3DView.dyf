@@ -1,0 +1,91 @@
+<Workspace Version="1.3.2.2480" X="177" Y="310" zoom="1" ScaleFactor="1" Name="RIE.BoundingBoxBy3DView" Description="Outputs the boundingbox of input 3D view" ID="485b15ca-548a-4783-ad8b-6da7b7d9cc23" Category="RIE.Geometry">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="017eb882-2a17-4938-b54b-2b29e11dfbb7" type="PythonNodeModels.PythonNode" nickname="Python Script" x="170.368226196937" y="-13.7866666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# Import ToDSType(bool) extension method
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+from System.Collections.Generic import *
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import ReferencePointArray
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return UnwrapElement(obj)
+	else:
+		return [UnwrapElement(obj)]
+
+#unwrap all elements to use with API
+secbox = tolist(IN[0])
+
+#TransactionManager.Instance.EnsureInTransaction(doc)
+#apply lineweight override to elements in an input list
+
+OUT = []
+max = []
+min = []
+
+for box in secbox:
+	output = box.GetSectionBox()
+
+	ftTomm = 304.8
+	
+	# "End" the transaction
+	#TransactionManager.Instance.TransactionTaskDone()
+	
+	
+	#Assign your output to the OUT variable
+	max.append(Point.ByCoordinates(output.Max[0]*ftTomm, output.Max[1]*ftTomm, output.Max[2]*ftTomm))
+	min.append(Point.ByCoordinates(output.Min[0]*ftTomm,output.Min[1]*ftTomm, output.Min[2]*ftTomm))
+	
+OUT = min, max</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e5ea1149-8d24-419c-85a1-5ef5e9eaec75" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-26.6317738030625" y="-2.78666666666666" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="3D View" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="3dfc65b7-a0c6-42cc-9061-4629bff1a976" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="933.368226196937" y="-7" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="BoundingBox" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="fca785ee-2a0d-44f5-8a36-47ec6b8a0a0c" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="BoundingBox.ByCorners" x="606.368226196937" y="-7" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.BoundingBox.ByCorners@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="843cd37b-2bb8-4377-be6a-236cd59e3ac0" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="385.368226196937" y="1.42666666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="seq[0];&#xA;seq[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="017eb882-2a17-4938-b54b-2b29e11dfbb7" start_index="0" end="843cd37b-2bb8-4377-be6a-236cd59e3ac0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e5ea1149-8d24-419c-85a1-5ef5e9eaec75" start_index="0" end="017eb882-2a17-4938-b54b-2b29e11dfbb7" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="fca785ee-2a0d-44f5-8a36-47ec6b8a0a0c" start_index="0" end="3dfc65b7-a0c6-42cc-9061-4629bff1a976" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="843cd37b-2bb8-4377-be6a-236cd59e3ac0" start_index="0" end="fca785ee-2a0d-44f5-8a36-47ec6b8a0a0c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="843cd37b-2bb8-4377-be6a-236cd59e3ac0" start_index="1" end="fca785ee-2a0d-44f5-8a36-47ec6b8a0a0c" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

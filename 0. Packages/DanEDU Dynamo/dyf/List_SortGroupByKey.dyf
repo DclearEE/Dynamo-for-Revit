@@ -1,0 +1,72 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="List.Sort&amp;GroupByKey|DanEDU" Description="Sort items by reference level" ID="dea17d03-fa46-4d5d-80e1-3d5fcc64929d" Category="DanEDU.Core.List.Actions">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c9f5d037-5e90-4158-b76d-9d29267921fb" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="331.75" y="364.32593377874" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//List of items to group as sublists&#xD;&#xA;list" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3270c83e-3f90-4eb0-8c11-0b84ff53d94d" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="331.75" y="456.32593377874" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Key values, one per item in the input list, used for grouping the items&#xD;&#xA;keys" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e7ef950f-17d9-40f1-81e0-5daa3d9f346b" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="331.75" y="548.325933778739" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//List of sorted keys&#xD;&#xA;sortedKeys" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="6bf5c733-a172-4d3d-9238-83bcb1e3afca" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1519.75" y="317.112600445406" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="groups" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="8cee0f19-87d0-4a01-9f84-672d375743a8" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1519.75" y="401.112600445406" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="keys" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="74be1cea-a09f-4346-947e-d3cd2da9d0cf" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1292.75" y="354.539267112073" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="OUT[0];&#xA;OUT[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <PythonNodeModels.PythonStringNode guid="e368bd1d-88be-45d8-9fef-445938e8f8ca" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1063.75" y="350.32593377874" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="c20b51cd-09b5-4add-877f-61a6ca321335" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="341.75" y="214.32593377874" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>List_SortGroupByKey</System.String>
+      <System.String value="List_SortGroupByKey" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="af86335f-b952-4305-b89a-e6800a30ea98" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="584.75" y="188.32593377874" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="c9f5d037-5e90-4158-b76d-9d29267921fb" start_index="0" end="e368bd1d-88be-45d8-9fef-445938e8f8ca" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3270c83e-3f90-4eb0-8c11-0b84ff53d94d" start_index="0" end="e368bd1d-88be-45d8-9fef-445938e8f8ca" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e7ef950f-17d9-40f1-81e0-5daa3d9f346b" start_index="0" end="e368bd1d-88be-45d8-9fef-445938e8f8ca" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="74be1cea-a09f-4346-947e-d3cd2da9d0cf" start_index="0" end="6bf5c733-a172-4d3d-9238-83bcb1e3afca" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="74be1cea-a09f-4346-947e-d3cd2da9d0cf" start_index="1" end="8cee0f19-87d0-4a01-9f84-672d375743a8" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e368bd1d-88be-45d8-9fef-445938e8f8ca" start_index="0" end="74be1cea-a09f-4346-947e-d3cd2da9d0cf" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c20b51cd-09b5-4add-877f-61a6ca321335" start_index="0" end="af86335f-b952-4305-b89a-e6800a30ea98" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="af86335f-b952-4305-b89a-e6800a30ea98" start_index="0" end="e368bd1d-88be-45d8-9fef-445938e8f8ca" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="2f6aadad-d39c-481d-8ff4-e8af75e8375b" annotationText="read source code from the package" left="331.75" top="149.32593377874" width="464" height="184" fontSize="24" InitialTop="188.32593377874" InitialHeight="206" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="c20b51cd-09b5-4add-877f-61a6ca321335" />
+      <Models ModelGuid="af86335f-b952-4305-b89a-e6800a30ea98" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

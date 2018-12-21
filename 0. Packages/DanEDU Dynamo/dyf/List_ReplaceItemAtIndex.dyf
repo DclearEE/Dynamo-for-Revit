@@ -1,0 +1,63 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="List.ReplaceItemAtIndex|DanEDU" Description="Replace an item from the given list that's located at the specified index (the full path)" ID="164f07f0-e36e-48d3-a5dc-dd2cb547d694" Category="DanEDU.Core.List.Actions">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Input.StringInput guid="be3b65d8-06c1-41f8-b6fe-ec7a9d8ebd5c" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="577" y="446" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>List_ReplaceItemAtIndex</System.String>
+      <System.String value="List_ReplaceItemAtIndex" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e1c55455-c47b-4d14-bcaf-fac711303ee5" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="567" y="596" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//list to replace an item in&#xD;&#xA;list" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="1fcbd588-3538-4b49-a726-164d5869bc7b" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="839" y="420" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="89c42250-712d-4fbc-a53c-580655089602" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="567" y="688" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//index of the item to be replaced&#xD;&#xA;index" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="970fd633-8726-4392-b20b-cd2ff7299b49" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1150" y="582" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="991825d7-c34d-4b46-8f39-30600a08f5be" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1379" y="582" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//a new list with the item replaced&#xD;&#xA;list" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="1d0ff2a5-376e-4045-82bd-3d0132be5484" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="567" y="780" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//the item to insert&#xD;&#xA;item" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="be3b65d8-06c1-41f8-b6fe-ec7a9d8ebd5c" start_index="0" end="1fcbd588-3538-4b49-a726-164d5869bc7b" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e1c55455-c47b-4d14-bcaf-fac711303ee5" start_index="0" end="970fd633-8726-4392-b20b-cd2ff7299b49" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1fcbd588-3538-4b49-a726-164d5869bc7b" start_index="0" end="970fd633-8726-4392-b20b-cd2ff7299b49" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="89c42250-712d-4fbc-a53c-580655089602" start_index="0" end="970fd633-8726-4392-b20b-cd2ff7299b49" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="970fd633-8726-4392-b20b-cd2ff7299b49" start_index="0" end="991825d7-c34d-4b46-8f39-30600a08f5be" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1d0ff2a5-376e-4045-82bd-3d0132be5484" start_index="0" end="970fd633-8726-4392-b20b-cd2ff7299b49" end_index="3" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="46fbeb65-b2cd-4432-8d79-bdd22fa6abe7" annotationText="read source code from the package" left="567" top="381" width="483" height="184" fontSize="24" InitialTop="420" InitialHeight="208" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="be3b65d8-06c1-41f8-b6fe-ec7a9d8ebd5c" />
+      <Models ModelGuid="1fcbd588-3538-4b49-a726-164d5869bc7b" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

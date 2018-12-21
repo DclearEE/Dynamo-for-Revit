@@ -1,0 +1,54 @@
+<Workspace Version="1.3.2.2480" X="401" Y="255" zoom="1" ScaleFactor="1" Name="RIE.If" Description="An If node that keeps list structure, empty lists and so forth." ID="29f5ea31-bd99-4111-b94a-772d553695f2" Category="RIE.List">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="38b766df-94e8-4fdd-a9f8-2cf90d6439fa" type="PythonNodeModels.PythonNode" nickname="RIE.If" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+
+OUT = []
+
+def tolist(obj):
+	if hasattr(obj,"__iter__"):
+		return obj
+	else:
+		return [obj]
+
+if IN[0] == True:
+	for x in tolist(IN[1]):
+		OUT.append(x)
+else:
+	for x in tolist(IN[2]):
+		OUT.append(x)</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="a173d0ae-1fbd-45b6-aa7c-d89dcdd88b5a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Test" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="caa98114-646e-43f6-b52e-511c29f892ea" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="150" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="True" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="69c8f195-4e0e-4e44-830b-bcaec0c1c6ed" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="300" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="False" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="6d49c93b-ea88-4799-80e8-f778eae43e06" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="449" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Result" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="38b766df-94e8-4fdd-a9f8-2cf90d6439fa" start_index="0" end="6d49c93b-ea88-4799-80e8-f778eae43e06" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a173d0ae-1fbd-45b6-aa7c-d89dcdd88b5a" start_index="0" end="38b766df-94e8-4fdd-a9f8-2cf90d6439fa" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="caa98114-646e-43f6-b52e-511c29f892ea" start_index="0" end="38b766df-94e8-4fdd-a9f8-2cf90d6439fa" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="69c8f195-4e0e-4e44-830b-bcaec0c1c6ed" start_index="0" end="38b766df-94e8-4fdd-a9f8-2cf90d6439fa" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="45728.7890625" eyeY="6593.32373046875" eyeZ="-22954.26171875" lookX="5015.50048828125" lookY="-2803.32373046875" lookZ="5911.85107421875" upX="0.0844415053725243" upY="0.991444826126099" upZ="0.0995325371623039" />
+  </Cameras>
+</Workspace>

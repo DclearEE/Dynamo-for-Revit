@@ -1,0 +1,95 @@
+<Workspace Version="1.3.2.2480" X="523.408540132289" Y="286.7649" zoom="1.33823125" ScaleFactor="1" Name="RIE.ChamferedWire" Description="Input from and to element, with connection points and vertices in order. Input wire type as well." ID="1a4ae500-4354-43d1-bec8-bdd130b2c520" Category="RIE.Power">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="3b7c8059-cad2-4b86-819b-e80211460deb" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+from System.Collections.Generic import *
+
+clr.AddReference('RevitNodes')
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+clr.AddReference('RevitAPI')
+import Autodesk
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB.Electrical import *
+
+clr.AddReference('DSCoreNodes')
+import DSCore
+from DSCore.List import *
+
+import sys
+pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
+sys.path.append(pyt_path)
+
+from System.Collections.Generic import List
+
+conns = []
+
+points = [x.ToXyz() for x in IN[1]]
+vertexpoints = List[XYZ](points)
+
+for fitting in UnwrapElement(IN[0]):
+	try:
+		connectors = fitting.MEPModel.ConnectorManager.Connectors
+	except:
+		connectors = fitting.ConnectorManager.Connectors
+	for conn in connectors:
+		conns.append(conn)
+wiretyp = UnwrapElement(IN[2])
+uiapp = DocumentManager.Instance.CurrentUIApplication
+uidoc = uiapp.ActiveUIDocument
+curview = uidoc.ActiveView
+
+doc = DocumentManager.Instance.CurrentDBDocument
+wireTypeId = wiretyp[0].Id
+view = curview.Id
+wiringType = WiringType.Chamfer
+sConnector = conns[0]
+eConnector = conns[1]
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+creation = Wire.Create(doc,wireTypeId,view,wiringType,vertexpoints,sConnector,eConnector)
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = creation
+</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="2e109e52-ff6a-4700-9a8c-3b3ceeb535af" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="63d9448c-e9c8-4ab4-bde9-0230c66de9a1" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-8.96706006529143" y="150.747255005441" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Vertices" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4a9d47bd-e79a-483d-8348-90dae151ce27" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="300" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="WireType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="3c786517-0a4e-41a0-a766-514cbdcbf266" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="449" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Wire" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="3b7c8059-cad2-4b86-819b-e80211460deb" start_index="0" end="3c786517-0a4e-41a0-a766-514cbdcbf266" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2e109e52-ff6a-4700-9a8c-3b3ceeb535af" start_index="0" end="3b7c8059-cad2-4b86-819b-e80211460deb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="63d9448c-e9c8-4ab4-bde9-0230c66de9a1" start_index="0" end="3b7c8059-cad2-4b86-819b-e80211460deb" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4a9d47bd-e79a-483d-8348-90dae151ce27" start_index="0" end="3b7c8059-cad2-4b86-819b-e80211460deb" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="19710.01953125" eyeY="28595.65625" eyeZ="13508.9853515625" lookX="-1000.31024169922" lookY="-30166.265625" lookZ="6545.17724609375" upX="0.151077434420586" upY="1.48310093095461E-08" upZ="-0.988521873950958" />
+  </Cameras>
+</Workspace>

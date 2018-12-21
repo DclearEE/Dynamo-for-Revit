@@ -1,0 +1,80 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="FEM-design.GetReinforcement|DanEDU" Description="Get reinforcement from FEM-design" ID="1bc53d02-3a51-42da-91a5-b5bd527ff3fb" Category="DanEDU.Applications.FEM-design.Query">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Input.StringInput guid="a0ebb154-8acf-4c01-b6f0-2d63363b5251" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="432.100300383988" y="557.224233058999" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>FEM-design_GetReinforcement</System.String>
+      <System.String value="FEM-design_GetReinforcement" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="f32b0815-0323-45cc-95c9-29b0d9f0b010" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="735.100300383988" y="531.224233058999" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="768dc0d2-70b8-48df-9c9f-62a35c053f29" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="422.735641462852" y="700.224233058999" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Path and Filename to the FEM-design&#xD;&#xA;//xml file including extension!&#xD;&#xA;file : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="7a7098a2-3728-44b0-8ca9-093656762887" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="651.018794023875" y="813.784387132778" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="t1 = Flatten({elements});&#xA;t1.GetParameterValueByName(&quot;StruXML Guid&quot;);" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="7833dad1-358e-4f1d-89c0-f84578f4dd2b" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="422.018794023875" y="809.571053799445" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Element(s)&#xD;&#xA;element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="dac7f81e-1458-4a64-915c-41b6fef1e05c" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1258.01879402387" y="678.040976762555" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="edb3fe7b-7395-4f8c-bb69-8f46a0e80828" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1487.01879402387" y="682.254310095889" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="OUT[0];&#xA;OUT[1];&#xA;OUT[2];&#xA;OUT[3];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e80e3f00-491b-4238-913d-6ed12e46f057" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1714.01879402387" y="566.400976762555" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//Element(s)&#xD;&#xA;element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="aa7ec4a5-cc63-43c0-aa5e-78d29e6317f8" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1714.01879402387" y="658.400976762555" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//Reinforcement wire&#xD;&#xA;wire" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="764cb601-fb62-4306-820a-cdcc8ed65444" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1714.01879402387" y="750.400976762555" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//Reinforcement mesh size&#xD;&#xA;mesh" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="b4cb209f-7448-4567-a4dd-d9ace7ba7798" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1714.01879402387" y="842.400976762555" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//Reinforcement location&#xD;&#xA;location" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="a0ebb154-8acf-4c01-b6f0-2d63363b5251" start_index="0" end="f32b0815-0323-45cc-95c9-29b0d9f0b010" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f32b0815-0323-45cc-95c9-29b0d9f0b010" start_index="0" end="dac7f81e-1458-4a64-915c-41b6fef1e05c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="768dc0d2-70b8-48df-9c9f-62a35c053f29" start_index="0" end="dac7f81e-1458-4a64-915c-41b6fef1e05c" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7a7098a2-3728-44b0-8ca9-093656762887" start_index="0" end="dac7f81e-1458-4a64-915c-41b6fef1e05c" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7a7098a2-3728-44b0-8ca9-093656762887" start_index="1" end="dac7f81e-1458-4a64-915c-41b6fef1e05c" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7833dad1-358e-4f1d-89c0-f84578f4dd2b" start_index="0" end="7a7098a2-3728-44b0-8ca9-093656762887" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="dac7f81e-1458-4a64-915c-41b6fef1e05c" start_index="0" end="edb3fe7b-7395-4f8c-bb69-8f46a0e80828" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="edb3fe7b-7395-4f8c-bb69-8f46a0e80828" start_index="0" end="e80e3f00-491b-4238-913d-6ed12e46f057" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="edb3fe7b-7395-4f8c-bb69-8f46a0e80828" start_index="1" end="aa7ec4a5-cc63-43c0-aa5e-78d29e6317f8" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="edb3fe7b-7395-4f8c-bb69-8f46a0e80828" start_index="2" end="764cb601-fb62-4306-820a-cdcc8ed65444" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="edb3fe7b-7395-4f8c-bb69-8f46a0e80828" start_index="3" end="b4cb209f-7448-4567-a4dd-d9ace7ba7798" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="7d52f7fe-dc04-4dec-b7d8-056fe593c4d1" annotationText="read source code from the package" left="422.100300383988" top="492.224233058999" width="524" height="184" fontSize="24" InitialTop="531.224233058999" InitialHeight="212" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="a0ebb154-8acf-4c01-b6f0-2d63363b5251" />
+      <Models ModelGuid="f32b0815-0323-45cc-95c9-29b0d9f0b010" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+</Workspace>

@@ -1,0 +1,65 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Floor.SetAreaLoad|DanEDU" Description="Set (structural) floor area load" ID="1ab2da7a-b218-441c-9a5c-d640dfa56790" Category="DanEDU.Elements.Floor.Actions">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Point" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="0af0a528-c189-4ddd-be39-404c1cd3e9e6" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1241.6911249431" y="523.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="//Load value&#xD;&#xA;value" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <PythonNodeModels.PythonStringNode guid="7d5f0cf4-3aa8-4a9e-b9cc-059320ca09ad" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1012.6911249431" y="523.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="13e4ac01-af37-4859-86a9-5224a6311067" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="701.691124943098" y="361.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="1ca3bf4d-6b4d-46e6-a2e2-271afb53d963" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="455.691124943098" y="537.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Element(s)&#xD;&#xA;element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <CoreNodeModels.Input.StringInput guid="79c27d7c-cd6f-4af7-809d-abcd3a52e87b" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="465.691124943098" y="387.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Floor_SetAreaLoad</System.String>
+      <System.String value="Floor_SetAreaLoad" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="8015091c-b01e-4dbf-8684-e854212440e0" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="455.691124943098" y="629.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Load value&#xD;&#xA;value" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c5c3e401-d03c-4c0c-a9ef-57123a425e4b" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="455.691124943098" y="721.044923695918" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//AreaLoadType&#xD;&#xA;AreaLoadType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="7d5f0cf4-3aa8-4a9e-b9cc-059320ca09ad" start_index="0" end="0af0a528-c189-4ddd-be39-404c1cd3e9e6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="13e4ac01-af37-4859-86a9-5224a6311067" start_index="0" end="7d5f0cf4-3aa8-4a9e-b9cc-059320ca09ad" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1ca3bf4d-6b4d-46e6-a2e2-271afb53d963" start_index="0" end="7d5f0cf4-3aa8-4a9e-b9cc-059320ca09ad" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="79c27d7c-cd6f-4af7-809d-abcd3a52e87b" start_index="0" end="13e4ac01-af37-4859-86a9-5224a6311067" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8015091c-b01e-4dbf-8684-e854212440e0" start_index="0" end="7d5f0cf4-3aa8-4a9e-b9cc-059320ca09ad" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c5c3e401-d03c-4c0c-a9ef-57123a425e4b" start_index="0" end="7d5f0cf4-3aa8-4a9e-b9cc-059320ca09ad" end_index="3" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="5ce9c07e-f3a8-4513-aaf3-b2060e29ae94" annotationText="read source code from the package" left="455.691124943098" top="322.044923695918" width="457" height="184" fontSize="24" InitialTop="361.044923695918" InitialHeight="212" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="79c27d7c-cd6f-4af7-809d-abcd3a52e87b" />
+      <Models ModelGuid="13e4ac01-af37-4859-86a9-5224a6311067" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-10244.3369140625" eyeY="9855.3447265625" eyeZ="-195.925994873047" lookX="12179.2333984375" lookY="-8976.6279296875" lookZ="-9281.6611328125" upX="0.245780065655708" upY="0.95105654001236" upZ="-0.187306314706802" />
+  </Cameras>
+</Workspace>

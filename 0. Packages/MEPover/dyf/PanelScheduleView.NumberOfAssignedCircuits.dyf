@@ -1,0 +1,84 @@
+<Workspace Version="1.3.2.2480" X="-147" Y="-11" zoom="1" ScaleFactor="1" Name="PanelScheduleView.NumberOfAssignedCircuits" Description="This will return the number of assigned circuits on a panelschedule. Spares and spaces also count as an assigned circuit." ID="4267cdc7-f586-493e-a592-c4442c6a886c" Category="MEPover.Revit.PanelSchedule">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="cd6d66fd-0016-4a0d-bac0-e9e9e6e2302a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="254" y="235" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="PanelScheduleView" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonNode guid="ea9b1821-9b14-413e-9cd6-d4e3b4c3a2f6" type="PythonNodeModels.PythonNode" nickname="Python Script" x="513" y="234" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+#Many thanks to Konrad K Sobon for his awesome ProcessList function!
+def Unwrap(item):
+	return UnwrapElement(item)
+
+def ProcessList(_func, _list):
+    return map( lambda x: ProcessList(_func, x) if type(x)==list else _func(x), _list )
+
+if isinstance(IN[0], list):
+	panelschedule = ProcessList(Unwrap, IN[0])
+else:
+	panelschedule = [Unwrap(IN[0])]
+	
+	
+def GetNumber(panelschedule):
+	i = 0
+	number = 0
+	foundcircuit = False
+	while True:
+		if panelschedule.GetTableData().GetNumberOfCircuitRows() &lt; i:
+			break
+		circuit = panelschedule.GetCircuitByCell(i,0)
+		if circuit == None and foundcircuit == True:
+			break
+		if circuit == None and foundcircuit == False:
+			i += 1
+			continue
+		if circuit.GetType() == Electrical.ElectricalSystem and foundcircuit == False:
+			foundcircuit = True
+			number += 1
+			i += 1
+			continue
+		if circuit.GetType() != Electrical.ElectricalSystem:
+			break
+		number += 1
+		i += 1
+		if number &gt; 1000:
+			break
+	return number
+
+
+
+OUT = ProcessList(GetNumber, panelschedule)</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e7ffde10-80f8-4ddd-b279-ed527f43bbfc" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="721" y="237" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Number" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="cd6d66fd-0016-4a0d-bac0-e9e9e6e2302a" start_index="0" end="ea9b1821-9b14-413e-9cd6-d4e3b4c3a2f6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ea9b1821-9b14-413e-9cd6-d4e3b4c3a2f6" start_index="0" end="e7ffde10-80f8-4ddd-b279-ed527f43bbfc" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

@@ -1,0 +1,217 @@
+<Workspace Version="1.2.0.2831" X="6" Y="-33" zoom="1" Name="Duct upstream components by category" Description="This node will try to return the connected elements in the upstream network. It will stop once it encounters an element twice or encounters a different system classification or cannot find a connector with an opposing direction. The output can be filtered by input Categories" ID="5114bfc6-1e30-4ff1-a90d-48f077b5bb10" Category="MEPover.Revit.Systems">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="329a726f-9d0f-43ad-b770-8966d98235e6" type="PythonNodeModels.PythonNode" nickname="Python Script" x="405" y="233" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+import math
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0], list):
+	elements = UnwrapElement(IN[0])
+else:
+	elements = [UnwrapElement(IN[0])]
+	
+def getSize(x):
+	try:
+		conns = x.ConnectorManager.Connectors
+	except:
+		conns = x.MEPModel.ConnectorManager.Connectors
+	maxsize = 0
+	for c in conns:
+		if c.Shape == ConnectorProfileType.Round:
+			startsize = c.Radius * 2
+		else:
+			area = c.Width * c.Height
+			startsize = (math.sqrt(area/math.pi) * 2)
+		if startsize &gt; maxsize:
+			maxsize = startsize
+	return maxsize
+	
+factor = IN[2]
+if isinstance(IN[1], list):
+	category = UnwrapElement(IN[1])
+else:
+	category = [UnwrapElement(IN[1])]
+
+catIds = []
+for c in category:
+	catIds.append(c.Id)
+
+def nextElement(elem,sys):
+	sysname = next.get_Parameter(BuiltInParameter.RBS_SYSTEM_CLASSIFICATION_PARAM).AsString()
+	for s in sysname.split(","):
+		if s in sys.split(","):
+			break
+	else:
+		return 4
+	if "Return Air" in sysname:
+		direction = FlowDirectionType.In
+	else:
+		direction = FlowDirectionType.Out
+	try:
+		connectors = elem.ConnectorManager.Connectors
+		for conn in connectors:
+			if conn.Domain != Domain.DomainHvac:
+				continue
+			elif conn.Direction == direction:
+				continue
+			else:
+				endconn = conn
+		for c in endconn.AllRefs:
+			if c.Owner.Id.Equals(elem.Id):
+				continue
+			elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+				return 0
+			else:
+				newelem = c.Owner
+		return newelem
+	except AttributeError:
+		connectors = elem.MEPModel.ConnectorManager.Connectors
+		if connectors.Size == 1:
+			for conn in connectors:
+				if conn.Domain != Domain.DomainHvac:
+					continue
+				endconn = conn
+			if endconn.AllRefs.Size == 1:
+				for c in endconn.AllRefs:
+					if c.Owner.GetType() == Mechanical.MechanicalSystem:
+						return 1
+			for c in endconn.AllRefs:
+				if c.Owner.Id.Equals(elem.Id):
+					continue
+				elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+					continue
+				else:
+					newelem = c.Owner
+			return newelem
+		elif connectors.Size == 2:
+			for conn in connectors:
+				if conn.Domain != Domain.DomainHvac:
+					continue
+				if conn.Direction == direction:
+					continue
+				else:
+					endconn = conn
+			if endconn.AllRefs.Size == 1:
+				for c in endconn.AllRefs:
+					if c.Owner.GetType() == Mechanical.MechanicalSystem:
+						return 2
+			for c in endconn.AllRefs:
+				if c.Owner.Id.Equals(elem.Id):
+					continue
+				elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+					continue
+				else:
+					newelem = c.Owner
+			return newelem
+		else:
+			for conn in connectors:
+				if conn.Domain != Domain.DomainHvac:
+					continue
+				if conn.Direction != direction:
+					endconn = conn
+			if endconn.AllRefs.Size == 1:
+				for c in endconn.AllRefs:
+					if c.Owner.GetType() == Mechanical.MechanicalSystem:
+						return 3
+			for c in endconn.AllRefs:
+				if c.Owner.Id.Equals(elem.Id):
+					continue
+				elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+					continue
+				else:
+					newelem = c.Owner
+			return newelem
+
+result = []
+endlist = []
+for j,x in enumerate(elements):
+	listout = []
+	ids = []
+	sysclass = x.get_Parameter(BuiltInParameter.RBS_SYSTEM_CLASSIFICATION_PARAM).AsString()
+	startsize = getSize(x)
+	next = x
+	i = 0
+	while True:
+		if i &gt; 1000:
+			result.append(next.Id.ToString() + ": end of loop")
+			break
+		try:
+			next = nextElement(next,sysclass)
+			i += 1
+		except Exception as e:
+			result.append(next.Id.ToString() + ": probably a direction error")
+			break		
+		if isinstance(next, int):
+			result.append(next.ToString() + ": open end or different system classification")
+			break
+		if next.Id in ids:
+			result.append(next.Id.ToString() + ": double element")
+			break
+		i += 1
+		nextsize = getSize(next)
+		if nextsize &gt; startsize * factor:
+			result.append(next.Id.ToString() + ": size end")
+			break
+		if next.Category.Id not in catIds:
+			i += 1
+			continue
+		ids.append(next.Id)
+		listout.append(next)
+	endlist.append(listout)
+
+
+#Assign your output to the OUT variable.
+if len(endlist) == 1:
+	OUT = listout, result
+else:
+	OUT = endlist, result</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="3a7dc1fe-3d8a-4b2c-a650-88f1220f9a9f" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="577" y="239" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="47ddbd51-c700-4247-a96e-7d654f91c7c0" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="722" y="238" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3f91bed6-8177-474c-bfbe-efa792aad135" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="156" y="224" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="DuctElement" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e13b4c47-642a-4053-8afc-822fb15c5ec6" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="156" y="302" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Category" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="9e850e7e-7bd6-4396-b19b-f6ba0c3eb862" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="82" y="398" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="SizeLimitFactor: int = 20" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="329a726f-9d0f-43ad-b770-8966d98235e6" start_index="0" end="3a7dc1fe-3d8a-4b2c-a650-88f1220f9a9f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3a7dc1fe-3d8a-4b2c-a650-88f1220f9a9f" start_index="0" end="47ddbd51-c700-4247-a96e-7d654f91c7c0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3f91bed6-8177-474c-bfbe-efa792aad135" start_index="0" end="329a726f-9d0f-43ad-b770-8966d98235e6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e13b4c47-642a-4053-8afc-822fb15c5ec6" start_index="0" end="329a726f-9d0f-43ad-b770-8966d98235e6" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9e850e7e-7bd6-4396-b19b-f6ba0c3eb862" start_index="0" end="329a726f-9d0f-43ad-b770-8966d98235e6" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="81964.5" eyeY="27139.974609375" eyeZ="-10505.1201171875" lookX="6.3628044128418" lookY="-1519.97412109375" lookZ="129.604125976563" upX="-0.0486155897378922" upY="0.130526185035706" upZ="-0.990252196788788" />
+  </Cameras>
+</Workspace>

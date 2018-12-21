@@ -1,0 +1,70 @@
+<Workspace Version="1.3.2.2480" X="-129.385419404669" Y="149.569645322868" zoom="1.05429821501133" ScaleFactor="1" Name="RIE.GetCategoriesContainingString" Description="Gets all categories in project that contains input string" ID="22dfaf37-c827-4c1e-b65b-09452f53f6ae" Category="RIE.Elements">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Elements.Category" resolvedName="Revit.Elements.Category" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Revit.Elements.Category" resolvedName="Revit.Elements.Category" assemblyName="RevitNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="d0edab45-f84d-432b-8139-56571963f393" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1068.70326409496" y="1.03857566765575" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Categories" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="85d41c67-d898-4230-b7e0-8a41ca5de89f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="437.774395964564" y="3.03595460233367" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="String" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="987aaabb-38b0-4780-a33b-33478de779d5" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Category.ByName" x="821.133560358576" y="7.62597346228227" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="RevitNodes.dll" function="Revit.Elements.Category.ByName@string">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.FromObject guid="637eebc6-4d83-4073-93c6-89eea2c9fd43" type="CoreNodeModels.FromObject" nickname="String from Object" x="686.196723681195" y="7.0995431790621" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </CoreNodeModels.FromObject>
+    <PythonNodeModels.PythonNode guid="0e26943e-3f2b-45da-9022-557e0664824c" type="PythonNodeModels.PythonNode" nickname="Python Script" x="544.803558638765" y="5.15068184676221" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+import System
+
+clr.AddReference('RevitAPI')
+clr.AddReference('RevitAPIUI')
+
+from Autodesk.Revit.DB import *
+
+import Autodesk
+clr.AddReference("RevitNodes")
+
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+bics = System.Enum.GetValues(BuiltInCategory)
+
+OUT = []
+cats = []
+categories = doc.Settings.Categories
+
+for bic in bics:
+	if IN[0] in str(bic):
+		cats.append(bic)
+		
+for cat in cats:
+	tempcat = categories.get_Item(cat)
+	if tempcat &lt;&gt; None:
+		OUT.append(cat)</Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="85d41c67-d898-4230-b7e0-8a41ca5de89f" start_index="0" end="0e26943e-3f2b-45da-9022-557e0664824c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="987aaabb-38b0-4780-a33b-33478de779d5" start_index="0" end="d0edab45-f84d-432b-8139-56571963f393" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="637eebc6-4d83-4073-93c6-89eea2c9fd43" start_index="0" end="987aaabb-38b0-4780-a33b-33478de779d5" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0e26943e-3f2b-45da-9022-557e0664824c" start_index="0" end="637eebc6-4d83-4073-93c6-89eea2c9fd43" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

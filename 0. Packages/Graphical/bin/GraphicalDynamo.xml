@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GraphicalDynamo</name>
+    </assembly>
+    <members>
+        <member name="T:GraphicalDynamo.Geometry.Curves">
+            <summary>
+            Static class extending Point functionality
+            </summary>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Curves.BuildPolygons(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Line})">
+            <summary>
+            Creates polygons from a list of lines. Lines are returned as ungrouped if not connected or
+            not forming a closed polygon.
+            </summary>
+            <param name="lines">List of connected lines</param>
+            <returns name="polygons">Polygons created from connected lines</returns>
+            <returns name="ungrouped">Lines not forming a closed polygon</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Curves.GroupCurves(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Curve})">
+            <summary>
+            Groups connected curves into polycurves. Curves are returned as ungrouped if not connected to any other curve.
+            </summary>
+            <param name="curves">Curves to group</param>
+            <returns name="polycurves">Polycurves grouped</returns>
+            <returns name="ungrouped">Lines not grouped</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Curves.Polygonize(Autodesk.DesignScript.Geometry.Curve,System.Double,System.Boolean)">
+            <summary>
+            Creates a simplified version of the curve by creating lines with a maximum length defined.
+            </summary>
+            <param name="curve">Curve to polygonize</param>
+            <param name="maxLength">Maximum length of subdivisions</param>
+            <param name="asPolycurve">If true returns a Polycurve or a list of lines otherwise.</param>
+            <returns></returns>
+        </member>
+        <member name="T:GraphicalDynamo.Geometry.Points">
+            <summary>
+            Static class extending Point functionality
+            </summary>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Points.MidPoint(Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point)">
+            <summary>
+            Returns the mid point between two points.
+            </summary>
+            <param name="point1"></param>
+            <param name="point2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Points.MinimumPoint(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Point})">
+            <summary>
+            Returns the minimum point from a list of points. Minimum is 
+            evaulated by the point with minimum Y, then X and finally Z coordinate.
+            </summary>
+            <param name="points">List of points</param>
+            <returns name="minPoint">Minimum Point</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Points.OrderByRadianAndDistance(Autodesk.DesignScript.Geometry.Point,System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Point})">
+            <summary>
+            Order the list of points by the radian angle from a centre point. If angle is equal, closer to centre will be first.
+            </summary>
+            <param name="centre">Centre point</param>
+            <param name="points">Points to order</param>
+            <returns name="points">Ordered points</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Points.StartEndRadiansFromCentre(Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point)">
+            <summary>
+            Radian angle between two points from a centre.
+            </summary>
+            <param name="centre"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GraphicalDynamo.Geometry.Points.RadAngle(Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point)">
+            <summary>
+            Radian angle from a centre to another point
+            </summary>
+            <param name="centre"></param>
+            <param name="point"></param>
+            <returns name="rad">Radians</returns>
+        </member>
+        <member name="T:GraphicalDynamo.Graphs.VisibilityGraph">
+            <summary>
+            Representation of a Graph.
+            </summary>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.VisibilityGraph.ByBaseGraph(GraphicalDynamo.Graphs.BaseGraph,System.Boolean)">
+            <summary>
+            Computes the Visibility Graph from a base graph using Lee's algorithm.
+            </summary>
+            <param name="baseGraph">Base graph</param>
+            <param name="reduced">Reduced graph returns edges where its vertices belong to different 
+            polygons and at least one is not convex/concave to its polygon.</param>
+            <returns name="visGraph">Visibility graph</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.VisibilityGraph.ConnectGraphs(System.Collections.Generic.List{GraphicalDynamo.Graphs.VisibilityGraph},System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Line})">
+            <summary>
+            Merges a set of Visibility Graphs by connecting them through intersecting lines.
+            In order to work better, lines end points should intersect VG polygon's edges.
+            </summary>
+            <param name="visibilityGraphs"></param>
+            <param name="lines">Connecting lines</param>
+            <returns name="visGraph">Connected VisibilityGraph</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.VisibilityGraph.ShortestPath(GraphicalDynamo.Graphs.VisibilityGraph,Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point)">
+            <summary>
+            Returns a graph representing the shortest path 
+            between two points on a given Visibility Graph.
+            </summary>
+            <param name="visGraph">Visibility Graph</param>
+            <param name="origin">Origin point</param>
+            <param name="destination">Destination point</param>
+            <returns name="graph">Graph representing the shortest path</returns>
+            <returns name="length">Length of path</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.VisibilityGraph.Connectivity(GraphicalDynamo.Graphs.VisibilityGraph,System.Collections.Generic.List{DSCore.Color},System.Collections.Generic.List{System.Double})">
+            <summary>
+            Connectivity factors represent the number of connections an edge has 
+            on a range from 0 to 1.
+            </summary>
+            <param name="visGraph">Visibility Graph</param>
+            <param name="colours">List of colours to include on the displayed range</param>
+            <param name="indices">List of values between 0.0 and 1.0 to define the limits of colours</param>
+            <returns name="visGraph">Visibility Graph</returns>
+            <returns name="factors">Connectivity factors by edge on graph</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.VisibilityGraph.TessellateVisibilityGraph(Autodesk.DesignScript.Interfaces.IRenderPackage,Autodesk.DesignScript.Interfaces.TessellationParameters)">
+            <summary>
+            Customizing the render of Graph
+            </summary>
+            <param name="package"></param>
+            <param name="parameters"></param>
+        </member>
+        <member name="T:GraphicalDynamo.Graphs.BaseGraph">
+            <summary>
+            Representation of a Graph.
+            </summary>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.IsVisibilityGraph(GraphicalDynamo.Graphs.BaseGraph)">
+            <summary>
+            Checks if the input is a Visibility or Base graph.
+            </summary>
+            <param name="graph">Graph</param>
+            <returns></returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.Lines">
+            <summary>
+            Returns the input graph as a list of lines
+            </summary>
+            <returns name="lines">List of lines representing the graph.</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.ByPolygons(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Polygon})">
+            <summary>
+            Creates a graph by a set of closed polygons
+            </summary>
+            <param name="polygons">Polygons</param>
+            <returns name="baseGraph">Base graph</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.ByBoundaryAndInternalPolygons(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Polygon},System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Polygon})">
+            <summary>
+            Creates a Graph by a set of boundary and internal polygons.
+            </summary>
+            <param name="boundaries">Boundary polygons</param>
+            <param name="internals">Internal polygons</param>
+            <returns name="baseGraph">Base graph</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.ByLines(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Line})">
+            <summary>
+            Creates a new Graph by a set of lines.
+            </summary>
+            <param name="lines">Lines</param>
+            <returns name="baseGraph">Base Graph</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.IsovistFromPoint(GraphicalDynamo.Graphs.BaseGraph,Autodesk.DesignScript.Geometry.Point)">
+            <summary>
+            Returns a surface representing the Isovist area visible from 
+            the given point.
+            </summary>
+            <param name="baseGraph">Base Graph</param>
+            <param name="point">Origin point</param>
+            <returns name="isovist">Surface representing the isovist area</returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.ToString">
+            <summary>
+            Override of ToString Method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GraphicalDynamo.Graphs.BaseGraph.Tessellate(Autodesk.DesignScript.Interfaces.IRenderPackage,Autodesk.DesignScript.Interfaces.TessellationParameters)">
+            <summary>
+            Customizing the render of Graph
+            </summary>
+            <param name="package"></param>
+            <param name="parameters"></param>
+        </member>
+    </members>
+</doc>

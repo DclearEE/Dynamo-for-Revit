@@ -1,0 +1,183 @@
+<Workspace Version="1.3.2.2480" X="57.6125" Y="623.805" zoom="0.8425" ScaleFactor="1" Name="RIE.ExportCurvesToAutoCAD" Description="Forked from LinkDWG package" ID="dfa7b56f-53b6-4295-9999-bc799cedc9bb" Category="RIE.CAD">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Line" resolvedName="Autodesk.DesignScript.Geometry.Line" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Arc" resolvedName="Autodesk.DesignScript.Geometry.Arc" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Autodesk.Geometry.Curve" resolvedName="Autodesk.DesignScript.Geometry.Curve" assemblyName="ProtoGeometry.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="ca9e163c-4e02-43a0-8412-aa3fe4b4a308" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="poly=RemoveIfNot(CRX, &quot;PolyCurve&quot;);&#xA;cir=RemoveIfNot(CRX, &quot;Circle&quot;);&#xA;nur=RemoveIfNot(CRX, &quot;NurbsCurve&quot;);&#xA;mix=Flatten({cir, nur});&#xA;&#xA;CRV=Flatten({SetDifference(CRX, mix), poly.Curves()});&#xA;spt=CRV.StartPoint;&#xA;ept=CRV.EndPoint;&#xA;mid=CRV.PointAtParameter(0.5);&#xA;&#xA;lin=Line.ByStartPointEndPoint(spt, ept);&#xA;arc=Arc.ByThreePoints(spt, mid, ept);&#xA;crv=(lin.Length==CRV.Length)?lin:arc;&#xA;&#xA;Flatten({crv, mix});" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="8fba5f38-7701-4041-992c-87c933f1afe6" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Object.Type" x="847.805753825462" y="305.441848814447" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.Object.Type@var">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="bc315668-ded5-4e76-abed-b06ab859c337" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="705.915634891052" y="394.1189095792" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="&quot;Autodesk.DesignScript.Geometry.&quot;;&#xA;&quot;&quot;;" ShouldFocus="false" />
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="866567e3-79ab-4488-aec6-ec3afca38f0e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="String.Replace" x="1062.61148240629" y="361.179756746299" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.String.Replace@string,string,string">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="744dba15-a444-47a8-aaec-7a77de0d8ee1" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="965.906040211142" y="531.113550941551" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="{Col.Red,Col.Green,Col.Blue};" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <PythonNodeModels.PythonNode guid="7813eda2-598c-464e-9ba0-a9dd369bef0d" type="PythonNodeModels.PythonNode" nickname="Curves to AutoCAD" x="1430.620819939" y="218.541511567476" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="5">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+      <Script>#LinkDWG Core DYF by Koz Jono YEOH
+#kozmosovia@hotmail.com
+#Copyright(C) 1994-2017 KozMos Inc.
+#Copyright(C) 2011-2017 Neila Heaven Networks
+
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+from math import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+import System
+from System import Array
+
+import math
+
+def _List(xobj):
+	if hasattr(xobj,"__iter__"):
+		return xobj
+	else: 
+		return [xobj]
+
+def _VLOPoint(pt):
+	return Array[float]([pt.X, pt.Y, pt.Z])
+
+def _MapLayer(lname, lrgb):
+	rtn=None
+	CAD.Layers.Add(lname)
+	for abc in CAD.Layers:
+		if rtn == None and abc.Name == lname:
+			rtn = abc
+			tcc = rtn.TrueColor
+			tcc.SetRGB(lrgb[0], lrgb[1], lrgb[2])
+			rtn.TrueColor = tcc
+	return rtn
+
+angles=[]
+rtn=[]
+
+pi = math.pi
+
+if IN[0] == True:
+	CAD=System.Runtime.InteropServices.Marshal.GetActiveObject("Autocad.Application").ActiveDocument
+	_MapLayer(IN[3], IN[4])
+	if CAD.ActiveSpace == 1:
+		SPACE = CAD.ModelSpace
+	else:
+		SPACE = CAD.PaperSpace
+	
+	for abc, typ in zip(IN[1], IN[2]):
+		vlo=None
+		if typ == "Point":
+			vlo=SPACE.AddPoint(_VLOPoint(abc))
+				
+		if typ == "Line":
+			vlo=SPACE.AddLine(_VLOPoint(abc.StartPoint), _VLOPoint(abc.EndPoint))
+				
+		if typ == "Circle":
+			vlo=SPACE.AddCircle(_VLOPoint(abc.CenterPoint), abc.Radius)
+			
+		if typ == "Arc":
+			p0=abc.CenterPoint
+			p1=abc.StartPoint
+			v1=Vector.ByTwoPoints(p0, p1)
+			a1=Vector.AngleAboutAxis(v1, Vector.XAxis(), Vector.ZAxis())
+			a1=a1*-0.017453293
+			
+			p2=abc.EndPoint
+			v2=Vector.ByTwoPoints(p0, p2)
+			a2=Vector.AngleAboutAxis(v2, Vector.XAxis(), Vector.ZAxis())
+			a2=a2*-0.017453293
+			
+			
+			zvec = Vector.ZAxis()
+			plane = Plane.CreateByNormalAndOrigin(zvec.ToXyz(),p0.ToXyz())			
+			
+			if a1 &lt; a2:
+				vlo=SPACE.AddArc(_VLOPoint(p0), abc.Radius, a1, a2)
+			else:
+				vlo=SPACE.AddArc(_VLOPoint(p0), abc.Radius, a2, a1)	
+
+				
+				
+		if typ == "NurbsCurve":
+			px=[]
+			for p0 in abc.ControlPoints():
+				px.append(p0.X)
+				px.append(p0.Y)
+				px.append(p0.Z)
+			px=Array[float](px)
+			
+			t0=abc.TangentAtParameter(0)
+			t0=Array[float]([t0.X, t0.Y, t0.Z])
+			
+			t1=abc.TangentAtParameter(1)
+			t1=Array[float]([t1.X, t1.Y, t1.Z])
+			
+			vlo=SPACE.AddSpline(px, t0, t1)
+					
+		if vlo != None:
+			vlo.Layer=IN[3]
+			
+		rtn.append(vlo)
+OUT = rtn</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="d74731d4-7316-41c0-bde2-5b881201624c" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1782.620819939" y="224" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="OUT" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c4fc644e-ee0b-46be-a507-f0b8d337c1ed" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="1041" y="35" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Run:bool=false;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c13193e3-8892-4c9f-a154-dbfbb21b8a47" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-180" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="curves:Autodesk.Geometry.Curve[];" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="ff02bda1-d366-4dee-9639-c29d1377f3ae" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="786" y="140" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="LayerName:string=&quot;DynamoLinkDWG&quot;;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="234d71ea-9147-4251-b5ce-bd0d1f6efd3c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="570" y="519" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="LayerColor:Color=Color.ByARGB(255,255,0,0)" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="a7dc7f5b-a7b3-4da2-b1c0-63f0393faa3d" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Flatten" x="1583" y="218" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="BuiltIn" function="Flatten@var[]..[]">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="ca9e163c-4e02-43a0-8412-aa3fe4b4a308" start_index="11" end="7813eda2-598c-464e-9ba0-a9dd369bef0d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ca9e163c-4e02-43a0-8412-aa3fe4b4a308" start_index="11" end="8fba5f38-7701-4041-992c-87c933f1afe6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8fba5f38-7701-4041-992c-87c933f1afe6" start_index="0" end="866567e3-79ab-4488-aec6-ec3afca38f0e" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="bc315668-ded5-4e76-abed-b06ab859c337" start_index="0" end="866567e3-79ab-4488-aec6-ec3afca38f0e" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="bc315668-ded5-4e76-abed-b06ab859c337" start_index="1" end="866567e3-79ab-4488-aec6-ec3afca38f0e" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="866567e3-79ab-4488-aec6-ec3afca38f0e" start_index="0" end="7813eda2-598c-464e-9ba0-a9dd369bef0d" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="744dba15-a444-47a8-aaec-7a77de0d8ee1" start_index="0" end="7813eda2-598c-464e-9ba0-a9dd369bef0d" end_index="4" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7813eda2-598c-464e-9ba0-a9dd369bef0d" start_index="0" end="a7dc7f5b-a7b3-4da2-b1c0-63f0393faa3d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c4fc644e-ee0b-46be-a507-f0b8d337c1ed" start_index="0" end="7813eda2-598c-464e-9ba0-a9dd369bef0d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c13193e3-8892-4c9f-a154-dbfbb21b8a47" start_index="0" end="ca9e163c-4e02-43a0-8412-aa3fe4b4a308" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ff02bda1-d366-4dee-9639-c29d1377f3ae" start_index="0" end="7813eda2-598c-464e-9ba0-a9dd369bef0d" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="234d71ea-9147-4251-b5ce-bd0d1f6efd3c" start_index="0" end="744dba15-a444-47a8-aaec-7a77de0d8ee1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a7dc7f5b-a7b3-4da2-b1c0-63f0393faa3d" start_index="0" end="d74731d4-7316-41c0-bde2-5b881201624c" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

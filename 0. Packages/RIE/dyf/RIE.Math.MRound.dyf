@@ -1,0 +1,52 @@
+<Workspace Version="1.3.2.2480" X="29.5127814077415" Y="201.52899300522" zoom="1.44258909293314" ScaleFactor="1" Name="RIE.Math.MRound" Description="Rounds given numbers to nearest input multiple" ID="73913b36-5c5e-4178-8b78-06c5d5aabe02" Category="RIE.List">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="c9fa3a02-0a09-4fc5-841c-7984f6c43b25" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="250" y="4.21333333333303" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="Number;" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="0814d810-46c9-4fc3-a542-f50ef7ff2ca8" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Math.Round" x="499.999999999999" y="0" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.Math.Round@double">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="1944c606-b85a-4b29-91d4-375da0c6c8c5" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="251.90296719673" y="109.519107190194" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="Multiple;" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="49b63936-fe11-4f92-9fbf-1afbcbaeadb8" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="/" x="833.097675915404" y="-28.6102388446814" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="Operators" function="/@var[]..[],var[]..[]">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="f412336b-03c7-4611-af14-8a2fefbc21ac" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Math.Round" x="1086" y="39" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.Math.Round@double">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="ec2898fd-29ed-426e-a67f-e58a5069c82e" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="*" x="1403" y="39" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="Operators" function="*@var[]..[],var[]..[]">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="a6f0ac47-e73f-489d-b0d9-adf0ae373ddc" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1647" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Rounded" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c4101e2b-c78c-448a-98c8-562426a2d4fd" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="104" y="136" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Number" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="fc6d1679-4b9e-4501-adcc-69f70ff778d6" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="122.5344326644" y="-12.1808552995859" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Multiple" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="c9fa3a02-0a09-4fc5-841c-7984f6c43b25" start_index="0" end="0814d810-46c9-4fc3-a542-f50ef7ff2ca8" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0814d810-46c9-4fc3-a542-f50ef7ff2ca8" start_index="0" end="49b63936-fe11-4f92-9fbf-1afbcbaeadb8" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1944c606-b85a-4b29-91d4-375da0c6c8c5" start_index="0" end="49b63936-fe11-4f92-9fbf-1afbcbaeadb8" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1944c606-b85a-4b29-91d4-375da0c6c8c5" start_index="0" end="ec2898fd-29ed-426e-a67f-e58a5069c82e" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="49b63936-fe11-4f92-9fbf-1afbcbaeadb8" start_index="0" end="f412336b-03c7-4611-af14-8a2fefbc21ac" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f412336b-03c7-4611-af14-8a2fefbc21ac" start_index="0" end="ec2898fd-29ed-426e-a67f-e58a5069c82e" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ec2898fd-29ed-426e-a67f-e58a5069c82e" start_index="0" end="a6f0ac47-e73f-489d-b0d9-adf0ae373ddc" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c4101e2b-c78c-448a-98c8-562426a2d4fd" start_index="0" end="c9fa3a02-0a09-4fc5-841c-7984f6c43b25" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="fc6d1679-4b9e-4501-adcc-69f70ff778d6" start_index="0" end="1944c606-b85a-4b29-91d4-375da0c6c8c5" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

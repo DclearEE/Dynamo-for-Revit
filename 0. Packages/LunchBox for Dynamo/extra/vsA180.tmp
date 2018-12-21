@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LunchBoxML</name>
+    </assembly>
+    <members>
+        <member name="T:ProvingGround.MachineLearning.Classes.clsML">
+            <summary>
+            Machine Learning Functions
+            </summary>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.LinearRegression(System.Double,System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.Int32)">
+            <summary>
+            Linear Regression
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.SequentialMinimalOptimizationRegressionModel(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Double},System.Double,System.Double,System.Int32)">
+            <summary>
+            Non Linear Regression
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="inputList">Learing inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <param name="degree">Degree</param>
+            <param name="complex">Complexity</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.LogisticRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Boolean},System.Double,System.Int32,System.Double,System.Int32)">
+            <summary>
+            Logistic Regression
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learnout outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.MultivariateLinearRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32)">
+            <summary>
+            Multivariate Linear Regression
+            </summary>
+            <param name="testList">List to test</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.NaiveBayesClassifier(System.Collections.Generic.List{System.String},System.Data.DataTable,System.Collections.Generic.List{System.String},System.String,System.Int32)">
+            <summary>
+            Naive Bayes Classifier
+            </summary>
+            <param name="test">Data to test</param>
+            <param name="data">All data</param>
+            <param name="inputColumns">Input columns for data</param>
+            <param name="outputColumn">Ouput column</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.GaussianMixture(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32,System.Int32)">
+            <summary>
+            Gaussian Mixture Classifier
+            </summary>
+            <param name="inputList">Learning samples</param>
+            <param name="components">Components</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.NeuralNetwork(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Int32},System.Int32,System.Double,System.Int32,System.Int32)">
+            <summary>
+            Neural Network
+            </summary>
+            <param name="test">Test</param>
+            <param name="inputList">Input list</param>
+            <param name="labelList">Label list</param>
+            <param name="hiddenNeurons">Hidden neurons</param>
+            <param name="teach">teach</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.RestrictedBoltzmann(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Double,System.Double,System.Double,System.Double,System.Int32,System.Int32)">
+            <summary>
+            Restricted Boltzmann Soliver
+            </summary>
+            <param name="testList">Test list</param>
+            <param name="inputList">Learning inputs</param>
+            <param name="outputList">Learning outputs</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:ProvingGround.MachineLearning.Classes.clsML.HiddenMarkovModel(System.Collections.Generic.List{System.Collections.Generic.List{System.String}},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Hidden Markov Model
+            </summary>
+            <param name="inputList">Input list</param>
+            <param name="num">Number</param>
+            <returns>Result</returns>
+        </member>
+        <member name="T:MachineLearning.Regression">
+            <summary>
+            Regression Solvers
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Regression.LinearRegression(System.Double,System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Regression.NonLinearRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Double},System.Double,System.Double,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Regression.LogisticRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Boolean},System.Double,System.Int32,System.Double,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Regression.MultivariateLinearRegression(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32)" -->
+        <member name="T:MachineLearning.Classification">
+            <summary>
+            Classification Solvers
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Classification.NaiveBayesClassifier(System.Collections.Generic.List{System.String},System.Data.DataTable,System.Collections.Generic.List{System.String},System.String,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Classification.GaussianMixture(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Int32,System.Int32)" -->
+        <member name="T:MachineLearning.Networks">
+            <summary>
+            Network Solvers
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Networks.NeuralNetwork(System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Int32},System.Int32,System.Double,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Networks.RestrictedBoltzmann(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Collections.Generic.List{System.Collections.Generic.List{System.Double}},System.Double,System.Double,System.Double,System.Double,System.Int32,System.Int32)" -->
+        <member name="T:MachineLearning.Models">
+            <summary>
+            Model solvers
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MachineLearning.Models.HiddenMarkovModel(System.Collections.Generic.List{System.Collections.Generic.List{System.String}},System.Int32,System.Int32,System.Int32)" -->
+    </members>
+</doc>

@@ -1,0 +1,146 @@
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitAPIUI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitAPIFoundation.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\UtilityAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\APIDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\GraphicsAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\ElementGroupDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\EssentialsDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\GeomUtilAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\FamilyDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\DetailDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\CurtainGridFamilyDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\ArrayElemsDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\EnergyAnalysisDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\BuildingSystemsDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\HostObjDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RoomAreaPlanDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\SiteDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\SculptingDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\StructuralDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\InterfaceAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\InterfaceUtilAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RebarDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\StructuralAnalysisDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\MassingDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\AssemblyDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\DPartDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\NumberingDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\PointCloudAccessAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\StairRampDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\AnalysisAppsDBAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\DBManagedServices.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\AdWindows.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitAddInUtility.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\APIInterop.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\UIFramework.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\AddInManager.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitUIAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\BuildingSystemsUIAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\DesktopMFCAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\APIUIAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitMFCAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\EssentialsUIAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\EnergyAnalysisUtilitiesAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\DetailUIAPI.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\UIFrameworkServices.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\ManagedMC3.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitAPI.xml
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\RevitAPIUI.xml
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\cs-CZ\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\de-DE\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\en-US\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\es-ES\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\fr-FR\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\it-IT\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\ja-JP\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\ko-KR\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\pl-PL\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\pt-BR\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\ru-RU\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\zh-CN\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\zh-TW\AdWindows.resources.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\obj\Debug\Setup Util 2017.vbproj.GenerateResource.Cache
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\obj\Debug\Setup Util 2017.vbproj.CoreCompileInputs.cache
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\Setup2017.dll.config
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\Setup2017.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\Setup2017.pdb
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\bin\Debug\Setup2017.xml
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\obj\Debug\Setup.VB.NET.InfoForm.resources
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\obj\Debug\Setup2017.dll
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\obj\Debug\Setup2017.xml
+C:\Users\dcleary\Documents\FTA Add-ins\FTA Setup Utility\FTA Setup Program Files\obj\Debug\Setup2017.pdb
+R:\Revit Addins\Setup Program Files\bin\Debug\Setup2017.dll.config
+R:\Revit Addins\Setup Program Files\bin\Debug\Setup2017.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\Setup2017.pdb
+R:\Revit Addins\Setup Program Files\bin\Debug\Setup2017.xml
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitAPIUI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitAPIFoundation.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\UtilityAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\APIDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\GraphicsAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\ElementGroupDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\EssentialsDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\GeomUtilAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\FamilyDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\DetailDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\CurtainGridFamilyDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\ArrayElemsDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\EnergyAnalysisDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\BuildingSystemsDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\HostObjDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RoomAreaPlanDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\SiteDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\SculptingDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\StructuralDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\InterfaceAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\InterfaceUtilAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RebarDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\StructuralAnalysisDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\MassingDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\AssemblyDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\DPartDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\NumberingDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\PointCloudAccessAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\StairRampDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\AnalysisAppsDBAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\DBManagedServices.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\AdWindows.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitAddInUtility.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\APIInterop.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\UIFramework.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\AddInManager.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitUIAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\BuildingSystemsUIAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\DesktopMFCAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\APIUIAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitMFCAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\EssentialsUIAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\EnergyAnalysisUtilitiesAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\DetailUIAPI.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\UIFrameworkServices.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\ManagedMC3.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitAPI.xml
+R:\Revit Addins\Setup Program Files\bin\Debug\RevitAPIUI.xml
+R:\Revit Addins\Setup Program Files\bin\Debug\cs-CZ\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\de-DE\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\en-US\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\es-ES\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\fr-FR\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\it-IT\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\ja-JP\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\ko-KR\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\pl-PL\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\pt-BR\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\ru-RU\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\zh-CN\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\bin\Debug\zh-TW\AdWindows.resources.dll
+R:\Revit Addins\Setup Program Files\obj\Debug\Setup.VB.NET.InfoForm.resources
+R:\Revit Addins\Setup Program Files\obj\Debug\Setup Util 2017.vbproj.GenerateResource.Cache
+R:\Revit Addins\Setup Program Files\obj\Debug\Setup Util 2017.vbproj.CoreCompileInputs.cache
+R:\Revit Addins\Setup Program Files\obj\Debug\Setup2017.dll
+R:\Revit Addins\Setup Program Files\obj\Debug\Setup2017.xml
+R:\Revit Addins\Setup Program Files\obj\Debug\Setup2017.pdb

@@ -1,0 +1,33 @@
+<Workspace Version="1.3.1.1736" X="0" Y="0" zoom="1" ScaleFactor="1" Name="ToDouble" Description="This node converts strings to doubles. When strings look like this: &quot;0&quot;, &quot;1&quot; etc. and don't have decimal places the ToNumber node fails on occasion. This addresses that issue." ID="b9c5c81e-4945-4ae3-818e-44c70c4a7a1b" Category="archilab.Core.Strings">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="03e5c406-6909-48ce-903a-440db255133f" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>def ToInteger(i):
+	try:
+		return float(i)
+	except:
+		try:
+			return float(i + ".0")
+		except:
+			return None
+
+#Assign your output to the OUT variable.
+OUT = map(ToInteger, IN[0])</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="9e6b8396-8349-484e-bd33-31fb99f60fc7" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e367f4a9-4a98-4bd8-994b-e960fb3051eb" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="447" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="double" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="03e5c406-6909-48ce-903a-440db255133f" start_index="0" end="e367f4a9-4a98-4bd8-994b-e960fb3051eb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9e6b8396-8349-484e-bd33-31fb99f60fc7" start_index="0" end="03e5c406-6909-48ce-903a-440db255133f" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+</Workspace>

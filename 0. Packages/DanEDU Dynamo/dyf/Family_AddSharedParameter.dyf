@@ -1,0 +1,78 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Family.AddSharedParameter|DanEDU" Description="Add shared parameter by name in a family document. Please note that a default shared parameter file must be set in Revit" ID="ad7d8df4-37c3-4a7d-ae5e-96fbcb44febb" Category="DanEDU.Elements.Family.Create">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Application.Document.Current" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Application.Document" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Revit.Application.Document.Current" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Documents" resolvedName="DocumentTools.Documents" assemblyName="DynaTools.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="637d4c70-d675-444e-ba29-a669f1a56f5b" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="617.706222418733" y="267.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="document" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="e1719897-aaaa-4e68-80f8-487d2d666f0a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-245.293777581267" y="208.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Revit.Application.Document&#xD;&#xA;document : var[]..[] = &quot;Current.Document&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="55536fcd-244e-479d-abb2-443d67de36da" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-245.293777581267" y="300.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Parameter name in the shared parameter file&#xD;&#xA;SP_parameterName : string[]..[]" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="28e54402-b68d-4297-b043-25bfe3444af6" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-245.293777581267" y="392.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Group of the parameter in the shared parameter file&#xD;&#xA;SP_parameterGroup : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="b10bde7b-f0d4-4202-ad47-4a45215b03db" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-245.293777581267" y="484.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Group of the parameter in the family document&#xD;&#xA;parameterGroup : var" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="5a31e7ef-a803-4aab-8135-df17785b2664" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-245.293777581267" y="576.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Is instance parameter, otherwise its a type parameter&#xD;&#xA;instance : bool = false" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="6e310f45-1f8f-4c19-9164-a255179ce950" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="388.706222418733" y="267.960467872495" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="6">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+      <PortInfo index="5" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="792c4266-8e5a-48dc-9dc8-57a8cf009511" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="-235.293777581267" y="58.9604678724949" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Family_AddSharedParameter</System.String>
+      <System.String value="Family_AddSharedParameter" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="60d510d3-f6bb-4bbb-b3bb-b43aea9c22bc" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="77.706222418733" y="32.9604678724949" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="e1719897-aaaa-4e68-80f8-487d2d666f0a" start_index="0" end="6e310f45-1f8f-4c19-9164-a255179ce950" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="55536fcd-244e-479d-abb2-443d67de36da" start_index="0" end="6e310f45-1f8f-4c19-9164-a255179ce950" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="28e54402-b68d-4297-b043-25bfe3444af6" start_index="0" end="6e310f45-1f8f-4c19-9164-a255179ce950" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b10bde7b-f0d4-4202-ad47-4a45215b03db" start_index="0" end="6e310f45-1f8f-4c19-9164-a255179ce950" end_index="4" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5a31e7ef-a803-4aab-8135-df17785b2664" start_index="0" end="6e310f45-1f8f-4c19-9164-a255179ce950" end_index="5" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="6e310f45-1f8f-4c19-9164-a255179ce950" start_index="0" end="637d4c70-d675-444e-ba29-a669f1a56f5b" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="792c4266-8e5a-48dc-9dc8-57a8cf009511" start_index="0" end="60d510d3-f6bb-4bbb-b3bb-b43aea9c22bc" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="60d510d3-f6bb-4bbb-b3bb-b43aea9c22bc" start_index="0" end="6e310f45-1f8f-4c19-9164-a255179ce950" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="19945751-7dbd-473b-8a67-58b899a23e0f" annotationText="read source code from the package" left="-245.293777581267" top="-6.03953212750508" width="534" height="184" fontSize="24" InitialTop="32.9604678724949" InitialHeight="221" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="792c4266-8e5a-48dc-9dc8-57a8cf009511" />
+      <Models ModelGuid="60d510d3-f6bb-4bbb-b3bb-b43aea9c22bc" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

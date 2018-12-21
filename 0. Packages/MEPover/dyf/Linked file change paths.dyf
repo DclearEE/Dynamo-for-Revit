@@ -1,0 +1,99 @@
+<Workspace Version="1.3.2.2480" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Linked file change paths" Description="This node will allow you to change the path of a linked file without opening the file. All you need is a file path of the host model and the linked file" ID="2cb2c9dc-8130-4284-8e67-7d00ffae3188" Category="MEPover.Revit.Links">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="cdad94ca-29b0-4ae5-9e79-d5f17c717aa3" type="PythonNodeModels.PythonNode" nickname="Python: change link path" x="618" y="248" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+from System.IO import FileInfo
+
+# Import Element wrapper extension methods
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+# Import geometry conversion extension methods
+clr.ImportExtensions(Revit.GeometryConversion)
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+filein = FileInfo(IN[0])
+
+oldLinkPath = IN[1]
+newLinkPath = FilePath(IN[2])
+load = IN[3]
+
+
+try:
+	filepath = filein.FullName
+	
+	modelpath = FilePath(filepath)
+	path = ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath)
+	transData = TransmissionData.ReadTransmissionData(modelpath)
+	extRef = transData.GetAllExternalFileReferenceIds()
+	
+	for ref in extRef:
+		ext = transData.GetLastSavedReferenceData(ref)
+		currentlinkpath = ModelPathUtils.ConvertModelPathToUserVisiblePath(ext.GetAbsolutePath())
+		
+		if currentlinkpath == oldLinkPath:
+			
+			transData.SetDesiredReferenceData(ref,newLinkPath, PathType.Absolute,load)
+		
+			transData.IsTransmitted = True
+			TransmissionData.WriteTransmissionData(modelpath,transData)
+	result = "Succes"
+except:
+	result = "Failed"
+	
+OUT = result</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="fd03c341-ef09-449f-9211-decc4d836bc0" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="295" y="213" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Host file path" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4b91352e-0870-4968-a0c3-6c24e41d31fe" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="292" y="305" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Old linked file path" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="13bebf9b-6e15-4fc6-bf63-e982ae760eff" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="295" y="381" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="New linked file path" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="0e146aa9-39a2-47ba-a66e-4aff69eb6786" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="293" y="474" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="LoadLink: bool = true" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="322bde98-7113-4378-826b-2f35608df066" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="865" y="238" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="cdad94ca-29b0-4ae5-9e79-d5f17c717aa3" start_index="0" end="322bde98-7113-4378-826b-2f35608df066" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="fd03c341-ef09-449f-9211-decc4d836bc0" start_index="0" end="cdad94ca-29b0-4ae5-9e79-d5f17c717aa3" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4b91352e-0870-4968-a0c3-6c24e41d31fe" start_index="0" end="cdad94ca-29b0-4ae5-9e79-d5f17c717aa3" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="13bebf9b-6e15-4fc6-bf63-e982ae760eff" start_index="0" end="cdad94ca-29b0-4ae5-9e79-d5f17c717aa3" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0e146aa9-39a2-47ba-a66e-4aff69eb6786" start_index="0" end="cdad94ca-29b0-4ae5-9e79-d5f17c717aa3" end_index="3" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

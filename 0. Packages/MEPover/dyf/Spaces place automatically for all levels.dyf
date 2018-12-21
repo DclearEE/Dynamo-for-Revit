@@ -1,0 +1,75 @@
+<Workspace Version="1.2.1.3083" X="0" Y="0" zoom="1" Name="Spaces place automatically for all levels" Description="This node will attempt to create spaces automatically for every level" ID="289d3ae4-7d47-40ab-aea2-1286787bd41a" Category="MEPover.Revit.RoomsAndSpaces">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="85a0c672-5b9c-4b32-bb1d-7132925aa4cf" type="PythonNodeModels.PythonNode" nickname="Python Script" x="386" y="310" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+collector = FilteredElementCollector(doc)
+levels = collector.OfClass(Level).ToElements()
+
+phase = UnwrapElement(IN[0])
+limitoffset = 8
+listout = []
+
+for j,level in enumerate(levels):
+	try:
+		planTopology = doc.get_PlanTopology(level)
+		rooms = []
+		
+		for i,plancircuit in enumerate(planTopology.Circuits):
+			uv = plancircuit.GetPointInside()
+			point = XYZ(uv.U,uv.V,level.Elevation)
+			if doc.GetSpaceAtPoint(point,phase) != None:
+				continue
+			TransactionManager.Instance.EnsureInTransaction(doc)
+			try:
+				room = doc.Create.NewSpace(level,phase,uv)
+				room.Name = "Name" + str(i)
+				room.Number = str(j) + "." + str(i)
+				room.LimitOffset = limitoffset
+				rooms.append(room)
+			except:
+				continue
+			TransactionManager.Instance.TransactionTaskDone()
+		listout.append(rooms)
+	except:
+		continue
+
+
+OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="055eb3ed-59b4-4c91-b373-f450dc61491a" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="198" y="305" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Phase" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="fac28276-96ce-47f1-956e-2095ef12b1f2" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="618" y="311" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Spaces" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="85a0c672-5b9c-4b32-bb1d-7132925aa4cf" start_index="0" end="fac28276-96ce-47f1-956e-2095ef12b1f2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="055eb3ed-59b4-4c91-b373-f450dc61491a" start_index="0" end="85a0c672-5b9c-4b32-bb1d-7132925aa4cf" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

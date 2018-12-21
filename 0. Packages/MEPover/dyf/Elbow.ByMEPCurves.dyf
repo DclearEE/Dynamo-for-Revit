@@ -1,0 +1,92 @@
+<Workspace Version="1.2.0.2831" X="28.6525" Y="-4.09" zoom="0.8425" Name="Elbow.ByMEPCurves" Description="Takes in a list of MEPCurves (pipe, duct, cable tray, conduit)  and will attempt to create elbows where possible. A margin can be entered for max distance between connectors" ID="32e981ca-79e5-48f1-a9e2-ca299d7ec881" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="685b341e-2b85-4647-a1e9-067a7929f8db" type="PythonNodeModels.PythonNode" nickname="Python Script" x="302" y="279" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+
+pipes = UnwrapElement(IN[0])
+margin = IN[1]
+
+fittings = []
+connectors = {}
+connlist = []
+
+for pipe in pipes:
+	conns = pipe.ConnectorManager.Connectors
+	for conn in conns:
+		if conn.IsConnected:
+			continue
+		connectors[conn] = None
+		connlist.append(conn)
+
+for k in connectors.keys():
+	mindist = 1000000
+	closest = None
+	for conn in connlist:
+		if conn.Owner.Id.Equals(k.Owner.Id):
+			continue
+		dist = k.Origin.DistanceTo(conn.Origin)
+		if dist &lt; mindist:
+			mindist = dist
+			closest = conn
+	if mindist &gt; margin:
+		continue
+	connectors[k] = closest
+	connlist.remove(closest)
+	try:
+		del connectors[closest]
+	except:
+		pass
+
+
+for k,v in connectors.items():
+	TransactionManager.Instance.EnsureInTransaction(doc)		
+	try:
+		fitting = doc.Create.NewElbowFitting(k,v)
+		fittings.append(fitting.ToDSType(False))
+	except:
+		pass
+	TransactionManager.Instance.TransactionTaskDone()
+
+OUT = fittings</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4a5e3772-ec2e-44a2-bdcc-1beba7176fa9" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="44" y="273" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="MEPCurves" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="2bb2066d-0feb-4ceb-af28-9b6579984b41" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="536" y="291" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Elbows" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="78138340-8181-4267-ba03-3166e50d64b6" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-60" y="365" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Margin: int = 1" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="685b341e-2b85-4647-a1e9-067a7929f8db" start_index="0" end="2bb2066d-0feb-4ceb-af28-9b6579984b41" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4a5e3772-ec2e-44a2-bdcc-1beba7176fa9" start_index="0" end="685b341e-2b85-4647-a1e9-067a7929f8db" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="78138340-8181-4267-ba03-3166e50d64b6" start_index="0" end="685b341e-2b85-4647-a1e9-067a7929f8db" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

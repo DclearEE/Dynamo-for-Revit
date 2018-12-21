@@ -1,0 +1,253 @@
+<Workspace Version="1.2.1.3083" X="-242" Y="-346" zoom="1" Name="Space number to duct network" Description="This node will attempt to write the space number to connected duct objects in the network. Input AirTerminals need to be placed in spaces. ParameterName is the parameter to write the space number to. Numbering stops when it encounters an element from another space. Multiple Categories supported" ID="85407d7e-67cf-45a2-a170-119c71639f92" Category="MEPover.Revit.RoomsAndSpaces">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="2d40ad70-7cd6-4547-90d6-00ac1799e4f1" type="PythonNodeModels.PythonNode" nickname="Python Script" x="607" y="492" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <Script>
+import clr
+import math
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0], list):
+	elements = UnwrapElement(IN[0])
+else:
+	elements = [UnwrapElement(IN[0])]
+	
+def getSize(x):
+	try:
+		conns = x.ConnectorManager.Connectors
+	except:
+		conns = x.MEPModel.ConnectorManager.Connectors
+	maxsize = 0
+	for c in conns:
+		if c.Shape == ConnectorProfileType.Round:
+			startsize = c.Radius * 2
+		elif c.Shape == ConnectorProfileType.Invalid:
+			continue
+		else:
+			area = c.Width * c.Height
+			startsize = (math.sqrt(area/math.pi) * 2)
+		if startsize &gt; maxsize:
+			maxsize = startsize
+	return maxsize
+	
+phaseId = elements[0].CreatedPhaseId
+phase = doc.GetElement(phaseId)
+name = IN[1]
+if isinstance(IN[2], list):
+	category = UnwrapElement(IN[2])
+else:
+	category = [UnwrapElement(IN[2])]
+	
+factor = IN[3]
+
+catIds = []
+for c in category:
+	catIds.append(c.Id)
+
+def checkParameter(param):
+	for p in param:
+		internal = p.Definition
+		if internal.BuiltInParameter != BuiltInParameter.INVALID:
+			return p
+	return param[0]
+
+
+def nextElement(elem,sys):
+	sysname = next.get_Parameter(BuiltInParameter.RBS_SYSTEM_CLASSIFICATION_PARAM).AsString()
+	for s in sysname.split(","):
+		if s in sys.split(","):
+			break
+	else:
+		return 4
+	if "Return Air" in sysname:
+		direction = FlowDirectionType.In
+	else:
+		direction = FlowDirectionType.Out
+	try:
+		connectors = elem.ConnectorManager.Connectors
+		for conn in connectors:
+			if conn.Domain != Domain.DomainHvac:
+				continue
+			elif conn.Direction == direction:
+				continue
+			else:
+				endconn = conn
+		for c in endconn.AllRefs:
+			if c.Owner.Id.Equals(elem.Id):
+				continue
+			elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+				return 0
+			else:
+				newelem = c.Owner
+		return newelem
+	except AttributeError:
+		connectors = elem.MEPModel.ConnectorManager.Connectors
+		if connectors.Size == 1:
+			for conn in connectors:
+				if conn.Domain != Domain.DomainHvac:
+					continue
+				endconn = conn
+			if endconn.AllRefs.Size == 1:
+				for c in endconn.AllRefs:
+					if c.Owner.GetType() == Mechanical.MechanicalSystem:
+						return 1
+			for c in endconn.AllRefs:
+				if c.Owner.Id.Equals(elem.Id):
+					continue
+				elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+					continue
+				else:
+					newelem = c.Owner
+			return newelem
+		elif connectors.Size == 2:
+			for conn in connectors:
+				if conn.Domain != Domain.DomainHvac:
+					continue
+				if conn.Direction == direction:
+					continue
+				else:
+					endconn = conn
+			if endconn.AllRefs.Size == 1:
+				for c in endconn.AllRefs:
+					if c.Owner.GetType() == Mechanical.MechanicalSystem:
+						return 2
+			for c in endconn.AllRefs:
+				if c.Owner.Id.Equals(elem.Id):
+					continue
+				elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+					continue
+				else:
+					newelem = c.Owner
+			return newelem
+		else:
+			for conn in connectors:
+				if conn.Domain != Domain.DomainHvac:
+					continue
+				if conn.Direction != direction:
+					endconn = conn
+			if endconn.AllRefs.Size == 1:
+				for c in endconn.AllRefs:
+					if c.Owner.GetType() == Mechanical.MechanicalSystem:
+						return 3
+			for c in endconn.AllRefs:
+				if c.Owner.Id.Equals(elem.Id):
+					continue
+				elif c.Owner.GetType() == Mechanical.MechanicalSystem:
+					continue
+				else:
+					newelem = c.Owner
+			return newelem
+
+
+
+listout = []
+result = []
+ids = []
+for j,x in enumerate(elements):
+	space = x.Space[phase]
+	if space == None:
+		listout.append("ElementId "+str(x.Id)+" is not in a space")
+		continue
+	spacenumber = space.Number
+	sysclass = x.get_Parameter(BuiltInParameter.RBS_SYSTEM_CLASSIFICATION_PARAM).AsString()
+	startsize = getSize(x)
+	next = x
+	i = 0
+	while True:
+		if i &gt; 1000:
+			break
+		try:
+			next = nextElement(next,sysclass)
+		except:
+			result.append("error")
+			break
+		if isinstance(next, int):
+			result.append("can't get next element")
+			i += 1
+			break
+		i += 1
+		nextsize = getSize(next)
+		if nextsize &gt; startsize * factor:
+			result.append("size end")
+			break
+		if next.Category.Id not in catIds:
+			i += 1
+			continue
+		p = next.GetParameters(name)
+		if len(p) == 0:
+			result.append("no param")
+			break
+		else:
+			param = checkParameter(p)
+		elem_num = param.AsString()
+		if elem_num == None or elem_num == "" and next.Id not in ids:
+			TransactionManager.Instance.EnsureInTransaction(doc)
+			param.Set(spacenumber)
+			TransactionManager.Instance.TransactionTaskDone()
+		elif elem_num == spacenumber:
+			continue
+		elif elem_num != None or elem_num != "" and elem_num != spacenumber:
+			TransactionManager.Instance.EnsureInTransaction(doc)
+			param.Set("")
+			TransactionManager.Instance.TransactionTaskDone()
+			ids.append(next.Id)
+		else:
+			break
+	listout.append(x)
+
+#Assign your output to the OUT variable.
+OUT = listout, result</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="031eafa2-f36b-4db2-b331-8964d3e91e33" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="892" y="481" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="593fd4b2-e1fc-4876-89e2-f677b9e2c615" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="316" y="448" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Air Terminals" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="93ad0466-27fa-4ce7-b7c7-082be23180b2" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="322" y="537" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="ParameterName: string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3752b43d-407d-42fe-8732-46c97b9eeafa" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="323" y="625" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Category" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="307d995a-49cf-4ba4-8ea4-c5441defa2fe" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="317" y="737" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="SizeLimitFactor: int = 20" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="524293e2-e972-4cf8-93b3-dcd100bbebdb" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="771" y="481" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="x[0];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="2d40ad70-7cd6-4547-90d6-00ac1799e4f1" start_index="0" end="524293e2-e972-4cf8-93b3-dcd100bbebdb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="593fd4b2-e1fc-4876-89e2-f677b9e2c615" start_index="0" end="2d40ad70-7cd6-4547-90d6-00ac1799e4f1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="93ad0466-27fa-4ce7-b7c7-082be23180b2" start_index="0" end="2d40ad70-7cd6-4547-90d6-00ac1799e4f1" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3752b43d-407d-42fe-8732-46c97b9eeafa" start_index="0" end="2d40ad70-7cd6-4547-90d6-00ac1799e4f1" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="307d995a-49cf-4ba4-8ea4-c5441defa2fe" start_index="0" end="2d40ad70-7cd6-4547-90d6-00ac1799e4f1" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="524293e2-e972-4cf8-93b3-dcd100bbebdb" start_index="0" end="031eafa2-f36b-4db2-b331-8964d3e91e33" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

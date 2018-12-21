@@ -1,0 +1,70 @@
+<Workspace Version="1.3.1.1567" X="616.376542573793" Y="472.016562156436" zoom="0.738947470664791" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="False">
+  <NamespaceResolutionMap />
+  <Elements>
+    <DSRevitNodesUI.ElementsInView guid="cc0a8060-0cfc-4d9e-8b17-b55529885de4" type="DSRevitNodesUI.ElementsInView" nickname="All Elements In Active View" x="54.2616843459085" y="-214.691139432268" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" />
+    <DSRevitNodesUI.ElementsOfType guid="23bc909e-5015-4f54-a3f2-4bcce579c226" type="DSRevitNodesUI.ElementsOfType" nickname="All Elements of Type" x="225.877730431408" y="-51.9827415368634" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </DSRevitNodesUI.ElementsOfType>
+    <DSRevitNodesUI.ElementTypes guid="9eaeb6eb-aa96-47de-9eea-117c819f6a70" type="DSRevitNodesUI.ElementTypes" nickname="Element Types" x="48.8031399047106" y="-56.1470150660841" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" index="161:IndependentTag" />
+    <CoreNodeModels.HigherOrder.Filter guid="2e81e0cd-29a9-4a66-beba-d2feab97be96" type="CoreNodeModels.HigherOrder.Filter" nickname="List.Filter" x="863.817204825077" y="-263.292737647134" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </CoreNodeModels.HigherOrder.Filter>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="58d89b1d-ef9a-4a54-879f-183e68d89325" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Tag.TaggedElement" x="441.063022801224" y="-55.6171153688566" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="RevitNodes.dll" function="Revit.Elements.Tag.TaggedElement">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="333f3cf3-4261-43df-9697-1a6b7a518feb" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="List.ContainsItem" x="663.519723445774" y="-73.5145592665435" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.List.ContainsItem@var[]..[],var">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <PythonNodeModels.PythonNode guid="982b3e50-fea7-4195-96da-856d633821f7" type="PythonNodeModels.PythonNode" nickname="Select Elements" x="1044.54775098973" y="-58.0572990698078" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference("RevitAPI")
+clr.AddReference("RevitAPIUI")
+import Autodesk
+from Autodesk.Revit.UI import *
+from Autodesk.Revit.DB import *
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+clr.AddReference("RevitNodes")
+import Revit
+# clr.ImportExtensions(Revit.Elements)
+from System.Collections.Generic import *
+
+elems = UnwrapElement(IN[0])
+
+elemIds = []
+for elem in elems:
+	elemIds.append(elem.Id)
+	
+uidoc = DocumentManager.Instance.CurrentUIDocument
+uidoc.Selection.SetElementIds(List[ElementId](elemIds))
+
+# Just for fun - give it to the output!
+OUT = elemIds
+</Script>
+    </PythonNodeModels.PythonNode>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="cc0a8060-0cfc-4d9e-8b17-b55529885de4" start_index="0" end="2e81e0cd-29a9-4a66-beba-d2feab97be96" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="23bc909e-5015-4f54-a3f2-4bcce579c226" start_index="0" end="58d89b1d-ef9a-4a54-879f-183e68d89325" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9eaeb6eb-aa96-47de-9eea-117c819f6a70" start_index="0" end="23bc909e-5015-4f54-a3f2-4bcce579c226" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2e81e0cd-29a9-4a66-beba-d2feab97be96" start_index="1" end="982b3e50-fea7-4195-96da-856d633821f7" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="58d89b1d-ef9a-4a54-879f-183e68d89325" start_index="0" end="333f3cf3-4261-43df-9697-1a6b7a518feb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="333f3cf3-4261-43df-9697-1a6b7a518feb" start_index="0" end="2e81e0cd-29a9-4a66-beba-d2feab97be96" end_index="1" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="8295ffc5-56f2-4ce7-808f-63aa3677316a" text="CATEGORY:&#xD;&#xA;Documentation&#xD;&#xA;&#xD;&#xA;DESCRIPTION:&#xD;&#xA;This workflow select all the elements in the active Revit view that could be tagged, but aren't. It can help ensure that a view is correctly documented.&#xD;&#xA;&#xD;&#xA;MODEL PREPARATION:&#xD;&#xA;- None&#xD;&#xA;&#xD;&#xA;NOTE:&#xD;&#xA; - None&#xD;&#xA;&#xD;&#xA;AUTHORS:&#xD;&#xA;- Autodesk&#xD;&#xA;&#xD;&#xA;Copyright(c) 2017, Autodesk&#xD;&#xA;&#xD;&#xA;REQUIRED PACKAGES:&#xD;&#xA;- None" x="67.9434781155164" y="-656.163887441966" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="26093753-83f2-46ef-adee-30e7a5f3fe40" annotationText="Select All Taggable Elements Not Tagged in the Active View" left="57.9434781155164" top="-954.163887441966" width="300" height="630" fontSize="48" InitialTop="-656.163887441966" InitialHeight="140" TextblockHeight="288" backgrouund="#FF848484">
+      <Models ModelGuid="8295ffc5-56f2-4ce7-808f-63aa3677316a" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

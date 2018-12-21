@@ -1,0 +1,126 @@
+<Workspace Version="1.3.2.2480" X="142.239093650837" Y="418.300909412141" zoom="1.87774416077545" ScaleFactor="1" Name="RIE.BboxFromBboxString" Description="Can convert BoundingBox list element that has been converted to string back to a BoundingBox" ID="1222fbee-27d3-4916-9349-2a2b086c2a2d" Category="RIE.Geometry">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Revit" resolvedName="Revit.BoundingBox" assemblyName="BimorphNodes.dll" />
+    <ClassMap partialName="Revit.BoundingBox" resolvedName="Revit.BoundingBox" assemblyName="BimorphNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <PythonNodeModels.PythonNode guid="1af79f9e-099d-46a4-a31e-6c48e916a3c1" type="PythonNodeModels.PythonNode" nickname="Python Script" x="191.540353035385" y="-7.69820181049042" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+clr.AddReference('DSCoreNodes') 
+import DSCore
+from DSCore import *
+from Autodesk.DesignScript.Geometry import *
+
+clr.AddReference('RevitAPIUI')
+from  Autodesk.Revit.UI import UIView
+
+clr.AddReference("RevitNodes")
+import Revit
+# Import ToProtoType, ToRevitType geometry conversion extension methods
+clr.ImportExtensions(Revit.GeometryConversion)
+clr.ImportExtensions(Revit.Elements)
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc=DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
+OUT = []
+String = []
+NonString = []
+
+for strng in range(0,len(IN[0])):
+	if isinstance(IN[0][strng], basestring):
+		if IN[0][strng].find("BoundingBox") &lt;&gt; -1:
+			String.append(IN[0][strng])
+		else:
+			NonString.append(strng)
+	else:
+		NonString.append(strng)
+	strng += 1
+	
+MinPoint = []
+MaxPoint = []
+
+for strng in range(0,len(String)):
+	if isinstance(String[strng], basestring):
+		MinPoint.append(String[strng].find("MinPoint = "))
+		MaxPoint.append(String[strng].find("MaxPoint = "))
+
+
+MinPoint2 = []
+MaxPoint2 = []
+NotPoint = []
+
+for strng in range(0,len(MinPoint)):
+	min = MinPoint[strng]
+	max = MaxPoint[strng]
+	MinPoint2.append(String[strng][min:max])
+	MaxPoint2.append(String[strng][max:])
+
+		
+for _ in range(0,len(MinPoint2)):
+	MinPoint2[_] = MinPoint2[_].split()
+for _ in range(0,len(MaxPoint2)):
+	MaxPoint2[_] = MaxPoint2[_].split()
+
+MinPointList = []
+MaxPointList = []
+Bbox = []
+
+for _ in range(0,len(String)):
+	MinPointList.append(Point.ByCoordinates(float(MinPoint2[_][4][:-2].strip()),float(MinPoint2[_][7][:-2].strip()),float(MinPoint2[_][10][:-2].strip())))
+	MaxPointList.append(Point.ByCoordinates(float(MaxPoint2[_][4][:-2].strip()),float(MaxPoint2[_][7][:-2].strip()),float(MaxPoint2[_][10][:-2].strip())))
+	
+BoundingB = []
+
+for _ in range(0, len(MinPointList)):
+	ptMin = MinPointList[_].ToXyz()
+	ptMax = MaxPointList[_].ToXyz()
+	Bbox = BoundingBoxXYZ()
+	Bbox.Min = ptMin
+	Bbox.Max = ptMax
+	BoundingB.append(Bbox.ToProtoType())
+
+OUT = BoundingB, NonString</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="27ed9b97-534c-45a6-833d-1747dcbf6132" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="98.3901769051195" y="-7.69820181049042" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="BboxStr" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="ec6cf10f-ac9d-44ef-b169-e0a5156bf09e" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="428.835967442563" y="-28.2737594548621" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="BoundingBox" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="4c33d5d8-0cf9-4483-913c-8e2f9fc98d98" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="429.368521355332" y="37.3738900332108" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="NotBboxIndex" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="4e0194eb-f7a2-4502-9771-7f59c8d5258a" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="319.742030926953" y="-3.48486847715709" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="a[0];&#xA;a[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="1af79f9e-099d-46a4-a31e-6c48e916a3c1" start_index="0" end="4e0194eb-f7a2-4502-9771-7f59c8d5258a" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="27ed9b97-534c-45a6-833d-1747dcbf6132" start_index="0" end="1af79f9e-099d-46a4-a31e-6c48e916a3c1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4e0194eb-f7a2-4502-9771-7f59c8d5258a" start_index="0" end="ec6cf10f-ac9d-44ef-b169-e0a5156bf09e" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4e0194eb-f7a2-4502-9771-7f59c8d5258a" start_index="1" end="4c33d5d8-0cf9-4483-913c-8e2f9fc98d98" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

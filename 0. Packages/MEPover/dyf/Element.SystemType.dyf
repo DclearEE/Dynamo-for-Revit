@@ -1,0 +1,94 @@
+<Workspace Version="1.3.2.2480" X="-149" Y="-44" zoom="1" ScaleFactor="1" Name="Element.SystemType" Description="Returns the mechanical or plumbing System Type" ID="9bd99db2-c152-4a73-a004-146d2ce6d7d7" Category="MEPover.Revit.Systems">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="678fa93c-c4b7-4ae8-81fa-952e524a02b4" type="PythonNodeModels.PythonNode" nickname="Python Script" x="410.458661341867" y="355.082677316266" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0],list):
+	toggle = 0
+	element = UnwrapElement(IN[0])
+else:
+	toggle = 1
+	element = [UnwrapElement(IN[0])]
+
+def getSystem(elem):
+	try:
+		system = elem.MEPSystem.GetTypeId()
+		return doc.GetElement(system)
+	except:		
+		try:
+			connectors = elem.ConnectorManager.Connectors
+		except:
+			connectors = elem.MEPModel.ConnectorManager.Connectors
+		
+		if connectors.Size &lt; 2:	
+			for conn in connectors:
+				connector = conn
+				break
+			systypeId = connector.MEPSystem.GetTypeId()
+			return doc.GetElement(systypeId)
+		else:
+			systems = []
+			ids = set()
+			for conn in connectors:
+				try:
+					if conn.MEPSystem.Id not in ids:
+						ids.add(conn.MEPSystem.Id)
+						systypeId = conn.MEPSystem.GetTypeId()
+						systems.append(doc.GetElement(systypeId))
+				except:
+					pass
+			return systems
+
+listout = []	
+for x in element:
+	try:
+		system = getSystem(x)
+		if isinstance(system, list) and len(system) == 1:
+			listout.append(system[0])
+		else:
+			listout.append(system)
+	except:
+		listout.append(None)
+#Assign your output to the OUT variable.
+if toggle:
+	OUT = system
+else:
+	OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c0ca6b58-6603-4f09-af45-d506199a4a81" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="256" y="361" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="9b6a91ce-9198-4017-afd8-73c69dad1c59" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="600" y="352" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="SystemType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="678fa93c-c4b7-4ae8-81fa-952e524a02b4" start_index="0" end="9b6a91ce-9198-4017-afd8-73c69dad1c59" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c0ca6b58-6603-4f09-af45-d506199a4a81" start_index="0" end="678fa93c-c4b7-4ae8-81fa-952e524a02b4" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

@@ -1,0 +1,91 @@
+<Workspace Version="1.3.2.2480" X="-8.10975146031512" Y="140.377324691085" zoom="1.07925372895183" ScaleFactor="1" Name="RIE.IndexDuplicateStrings" Description="Indexes input list of strings with a running index for each set of duplicates" ID="6d33a640-fc2c-435a-9faa-683d17664cb7" Category="RIE.List">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="40a7d1b3-2f23-4859-8cbd-35c4e552934c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="153.464510393484" y="-45.0734925631211" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Strings" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c055235a-6e57-41f9-884f-a91e6947ed12" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="37.561243802601" y="8.34045194447663" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="zFillAmount : int = 2" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="1e9817b1-417a-4df8-8464-4ac4648e8026" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="12.8781407323204" y="61.7543964520743" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Separator : string = &quot;.&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4fd0111c-5edb-4c69-9aea-60e9b645ec06" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="38.634422196961" y="113.021984170952" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="IndexUnique:bool=true" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="99d3928c-eef7-436e-a616-7b3ab9e2b178" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="519.536549589987" y="-13.8047069077935" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="IndexedStrings" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <PythonNodeModels.PythonNode guid="0c12ef3d-a365-466a-88ef-b50c4f8595bf" type="PythonNodeModels.PythonNode" nickname="Python Script" x="259.433991936838" y="4.51767889219408" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="5">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+      <Script>OUT = []
+initstrings = []
+indices = []
+count = 0
+outputstring = IN[0]
+indexlist = []
+for i in range(0, len(IN[0])):
+	indexlist.append(None)
+separator = IN[2]
+
+if IN[3] == True:
+	indexcheck = 0
+else:
+	indexcheck = 1
+
+
+for string in IN[0]:
+	initstrings.append(len(string))
+	
+for i in range(0, len(IN[0])):
+	currentstring = IN[0][i]
+	if not len(outputstring[i]) &gt; initstrings[i]:
+		for string in range(0, len(IN[0])):
+			if currentstring == IN[0][string]:
+				count += 1
+				indices.append(string)
+	if count &gt; indexcheck:
+		x = IN[4]
+		for i in indices:
+			outputstring[i] = IN[0][i]+separator+str(x).zfill(IN[1])
+			indexlist[i] = str(x).zfill(IN[1])
+			x += 1
+		x = IN[4]
+	count = 0
+	indices = []
+
+OUT = outputstring, indexlist</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c7f4d892-e30a-417c-87b6-43f0635d8b7f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="53.437813691116" y="164.144157607393" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="StartIndex: int = 1" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="4fb163bb-5090-4888-bd90-0cb06bc26bfa" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="386.85364321128" y="8.51224876052021" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="seq[0];&#xA;seq[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="06e93dba-825a-480a-95eb-539209e41adc" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="518.756595633401" y="41.853957380041" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Indices" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="40a7d1b3-2f23-4859-8cbd-35c4e552934c" start_index="0" end="0c12ef3d-a365-466a-88ef-b50c4f8595bf" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c055235a-6e57-41f9-884f-a91e6947ed12" start_index="0" end="0c12ef3d-a365-466a-88ef-b50c4f8595bf" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1e9817b1-417a-4df8-8464-4ac4648e8026" start_index="0" end="0c12ef3d-a365-466a-88ef-b50c4f8595bf" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4fd0111c-5edb-4c69-9aea-60e9b645ec06" start_index="0" end="0c12ef3d-a365-466a-88ef-b50c4f8595bf" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0c12ef3d-a365-466a-88ef-b50c4f8595bf" start_index="0" end="4fb163bb-5090-4888-bd90-0cb06bc26bfa" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c7f4d892-e30a-417c-87b6-43f0635d8b7f" start_index="0" end="0c12ef3d-a365-466a-88ef-b50c4f8595bf" end_index="4" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4fb163bb-5090-4888-bd90-0cb06bc26bfa" start_index="0" end="99d3928c-eef7-436e-a616-7b3ab9e2b178" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4fb163bb-5090-4888-bd90-0cb06bc26bfa" start_index="1" end="06e93dba-825a-480a-95eb-539209e41adc" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+
+  <AddIn Type="Command">
+    <Assembly>Setup2017.dll</Assembly>
+    <ClientId>8e151ed7-dab0-4036-bf0f-9e81c7affad4</ClientId>
+    <FullClassName>Setup.VB.NET.SheetSetup</FullClassName>
+    <Text>SheetSetup</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+
+</RevitAddIns>

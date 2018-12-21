@@ -1,0 +1,61 @@
+<Workspace Version="1.3.2.2480" X="-336.011678095796" Y="-199.944094359747" zoom="1.49364430808002" ScaleFactor="1" Name="Connector.ConnectorType" Description="Returns the ConnectorType of a connector" ID="ca2b4657-e697-4510-aeab-9449a47d73fe" Category="MEPover.Revit.Connectors">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="59c6b997-4047-4122-a84e-b5ef054b3d3a" type="PythonNodeModels.PythonNode" nickname="Python Script" x="389" y="241" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+#Many thanks to Konrad K Sobon for his awesome ProcessList function!
+def Unwrap(item):
+	return UnwrapElement(item)
+
+def ProcessList(_func, _list):
+    return map( lambda x: ProcessList(_func, x) if type(x)==list else _func(x), _list )
+
+if isinstance(IN[0], list):
+	connectors = ProcessList(Unwrap, IN[0])
+else:
+	connectors = [Unwrap(IN[0])]
+	
+	
+def getConnType(connector):
+	return connector.ConnectorType.ToString()
+
+
+
+OUT = ProcessList(getConnType, connectors)</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="dcdafbf9-c5ad-41a7-b3a5-5f383365c68f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="233.808740136213" y="239.349135695107" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Connector" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="edc633ac-7c0b-4f29-81d0-ab4e00849a07" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="596.535382136013" y="242.992319119327" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="ConnectorType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="59c6b997-4047-4122-a84e-b5ef054b3d3a" start_index="0" end="edc633ac-7c0b-4f29-81d0-ab4e00849a07" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="dcdafbf9-c5ad-41a7-b3a5-5f383365c68f" start_index="0" end="59c6b997-4047-4122-a84e-b5ef054b3d3a" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-44.9353485107422" eyeY="22.7341156005859" eyeZ="22.8483905792236" lookX="7.90092277526855" lookY="-8.55933284759521" lookZ="-38.1877937316895" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

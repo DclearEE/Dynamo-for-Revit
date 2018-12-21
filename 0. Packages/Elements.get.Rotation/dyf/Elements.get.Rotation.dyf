@@ -1,0 +1,60 @@
+<Workspace Version="0.8.2.1601" X="-397" Y="-24" zoom="1" Name="Elements.get.Rotation" ID="dc38d138-8930-4029-8dac-cecf989e4c20" Description="This node give the rotation in radians and degrees of elements that are placed in a project/family. &#xD;&#xA;The rotation is counterclockwise and based on the original orientation.&#xD;&#xA;&#xD;&#xA;Input is an elements or list of elements&#xD;&#xA;output is a list in radian and degrees" Category="ABT">
+  <NamespaceResolutionMap />
+  <Elements>
+    <DSIronPythonNode.PythonNode guid="2792e28a-737a-43f0-80aa-c4e16c831631" type="DSIronPythonNode.PythonNode" nickname="get rotation" x="502" y="232" isVisible="true" isUpstreamVisible="true" lacing="Disabled" inputcount="1">
+      <Script>import clr
+import math
+
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# Import RevitAPI
+clr.AddReference('RevitAPI')
+import Autodesk
+#The inputs to this node will be stored as a list in the IN variable.
+dataEnteringNode = IN
+resultsRadian = []
+resultsDegree = []
+input = []
+
+#verify that IN[0] is a list, if not make a list out of it
+try:
+	for items in IN[0]:
+		input.append(items)
+except:
+	input.append(IN[0])
+
+#make unwrapped list of elements
+elements = []
+for i in input:
+	elements.append(UnwrapElement(i))
+
+#get rotation parameter
+for item in elements:
+	resultsRadian.append(item.Location.Rotation)
+	resultsDegree.append(math.degrees(item.Location.Rotation))
+	
+OUT = resultsRadian, resultsDegree</Script>
+    </DSIronPythonNode.PythonNode>
+    <Dynamo.Nodes.DSFunction guid="19bca78c-86d8-419b-9792-4d5c02b0cd01" type="Dynamo.Nodes.DSFunction" nickname="List.FirstItem" x="695.5" y="133.5" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="DSCoreNodes.dll" function="DSCore.List.FirstItem@var[]..[]" />
+    <Dynamo.Nodes.DSFunction guid="bc093253-13c7-42e4-82c4-2bc6060af94d" type="Dynamo.Nodes.DSFunction" nickname="List.LastItem" x="682.5" y="277.5" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="DSCoreNodes.dll" function="DSCore.List.LastItem@var[]..[]" />
+    <Dynamo.Nodes.Symbol guid="d00a48d9-a17a-4bf1-99d9-c884ecc16321" type="Dynamo.Nodes.Symbol" nickname="Input" x="359.5" y="221.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <Symbol value="Elements" />
+    </Dynamo.Nodes.Symbol>
+    <Dynamo.Nodes.Output guid="6d7009f7-ba5f-402d-b274-fde5ccabe12e" type="Dynamo.Nodes.Output" nickname="Output" x="909.5" y="151.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <Symbol value="Radian" />
+    </Dynamo.Nodes.Output>
+    <Dynamo.Nodes.Output guid="a3967e8d-303d-48dc-99e4-2afdb7438ff0" type="Dynamo.Nodes.Output" nickname="Output" x="928" y="298" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <Symbol value="Degrees" />
+    </Dynamo.Nodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="2792e28a-737a-43f0-80aa-c4e16c831631" start_index="0" end="19bca78c-86d8-419b-9792-4d5c02b0cd01" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="2792e28a-737a-43f0-80aa-c4e16c831631" start_index="0" end="bc093253-13c7-42e4-82c4-2bc6060af94d" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="19bca78c-86d8-419b-9792-4d5c02b0cd01" start_index="0" end="6d7009f7-ba5f-402d-b274-fde5ccabe12e" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="bc093253-13c7-42e4-82c4-2bc6060af94d" start_index="0" end="a3967e8d-303d-48dc-99e4-2afdb7438ff0" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d00a48d9-a17a-4bf1-99d9-c884ecc16321" start_index="0" end="2792e28a-737a-43f0-80aa-c4e16c831631" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+</Workspace>

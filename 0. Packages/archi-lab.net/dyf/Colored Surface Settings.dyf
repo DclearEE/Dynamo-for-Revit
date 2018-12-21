@@ -1,0 +1,91 @@
+<Workspace Version="1.3.1.1736" X="245" Y="69" zoom="1" ScaleFactor="1" Name="Colored Surface Settings" Description="This node creates settings for the colored surface display style of the Analysis Visualization Framework." ID="64817a92-027a-4f4f-9098-9e838fd4c681" Category="archilab.Revit.Analysis">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="4ed59cfa-427a-40e9-a9d2-8777634840b3" type="PythonNodeModels.PythonNode" nickname="Python Script" x="250" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <Script>#Copyright(c) 2015, Konrad K Sobon
+# @arch_laboratory, http://archi-lab.net
+
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+from System.Collections.Generic import *
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB.Analysis import *
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+# Import ToDSType(bool) extension method
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+#The inputs to this node will be stored as a list in the IN variable.
+dataEnteringNode = IN
+
+showGridlines = IN[0]
+showContour = IN[1]
+lineWeight = IN[2]
+gridColor = IN[3]
+
+#design script color to RVT color function
+def dsColorToRvtColor(dsColor):
+	R = dsColor.Red
+	G = dsColor.Green
+	B = dsColor.Blue
+	return Autodesk.Revit.DB.Color(R,G,B)
+
+#define colored surface settings
+coloredSurfaceSettings = AnalysisDisplayColoredSurfaceSettings()
+coloredSurfaceSettings.ShowGridLines = showGridlines
+coloredSurfaceSettings.ShowContourLines = showContour
+coloredSurfaceSettings.GridLineWeight = lineWeight
+coloredSurfaceSettings.GridColor = dsColorToRvtColor(gridColor)
+
+#Assign your output to the OUT variable
+OUT = coloredSurfaceSettings</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="c24c612f-6757-4fa6-a2ed-dc9b376165ad" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Show Gridline" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="f7e2d35c-e6f9-4549-aaeb-a98c81cf709f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="150" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Show Contour" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="df88fe2c-5d48-4c70-8eb9-bc2123ab6586" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="300" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Line Weight" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="89c71189-dce4-49d9-9617-89ecbace59e0" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="0" y="450" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Line Color" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="3e8804f7-41cc-449c-83bc-21abaf283177" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="449" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Colored Surface Settings" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="4ed59cfa-427a-40e9-a9d2-8777634840b3" start_index="0" end="3e8804f7-41cc-449c-83bc-21abaf283177" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c24c612f-6757-4fa6-a2ed-dc9b376165ad" start_index="0" end="4ed59cfa-427a-40e9-a9d2-8777634840b3" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f7e2d35c-e6f9-4549-aaeb-a98c81cf709f" start_index="0" end="4ed59cfa-427a-40e9-a9d2-8777634840b3" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="df88fe2c-5d48-4c70-8eb9-bc2123ab6586" start_index="0" end="4ed59cfa-427a-40e9-a9d2-8777634840b3" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="89c71189-dce4-49d9-9617-89ecbace59e0" start_index="0" end="4ed59cfa-427a-40e9-a9d2-8777634840b3" end_index="3" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+</Workspace>

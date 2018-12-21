@@ -1,0 +1,55 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="FamilyInstance.ByFamilyName|DanEDU" Description="Obtain a collection of FamilyInstances loaded into the Revit Document and use them in the Dynamo graph" ID="dd06c3c9-f0bf-4342-ba69-33b432836a1c" Category="DanEDU.Elements.FamilyInstance.Query">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="DSCore.List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="bb78a355-4e0d-4b86-ad14-b98018e72466" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="56.0812794499329" y="471.678550886542" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//The name of the family type&#xD;&#xA;FamilyName" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="367497c6-3ff7-416b-93ec-1d1fdaeea37f" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="904.081279449933" y="370.678550886542" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="FamilyInstance" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <PythonNodeModels.PythonStringNode guid="fdf164b8-1df2-4c16-943b-642cd0cb92ef" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="675.081279449933" y="370.678550886542" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="c12f912d-4df4-4495-ba63-d0f5e6d9ea17" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="66.0812794499329" y="321.678550886542" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>FamilyInstance_ByFamilyName</System.String>
+      <System.String value="FamilyInstance_ByFamilyName" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="35b2b3e9-c3d9-4542-a187-56305bd9c6b7" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="364.081279449933" y="295.678550886542" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="bb78a355-4e0d-4b86-ad14-b98018e72466" start_index="0" end="fdf164b8-1df2-4c16-943b-642cd0cb92ef" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="fdf164b8-1df2-4c16-943b-642cd0cb92ef" start_index="0" end="367497c6-3ff7-416b-93ec-1d1fdaeea37f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c12f912d-4df4-4495-ba63-d0f5e6d9ea17" start_index="0" end="35b2b3e9-c3d9-4542-a187-56305bd9c6b7" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="35b2b3e9-c3d9-4542-a187-56305bd9c6b7" start_index="0" end="fdf164b8-1df2-4c16-943b-642cd0cb92ef" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="4ed37092-cb5c-4b47-a84b-14f6a70c3cfc" annotationText="read source code from the package" left="56.0812794499329" top="256.678550886542" width="519" height="184" fontSize="24" InitialTop="295.678550886542" InitialHeight="206" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="c12f912d-4df4-4495-ba63-d0f5e6d9ea17" />
+      <Models ModelGuid="35b2b3e9-c3d9-4542-a187-56305bd9c6b7" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

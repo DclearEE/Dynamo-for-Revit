@@ -1,0 +1,62 @@
+<Workspace Version="1.3.2.2480" X="-438.225781629179" Y="-70.4276369582993" zoom="1.35159443990188" ScaleFactor="1" Name="Boolean.Flipped|DanEDU" Description="Determines if element is flipped. Input takes familyinstance, output return boolean (flipped or not)" ID="35473035-3ecc-4aa3-9a5d-3959ae7e0790" Category="DanEDU.Elements.Boolean.Query">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="a43ed5a9-812d-486e-84fc-7a903308c032" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="346.42476160465" y="486.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="element" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="6644dd80-9ddf-4b93-b7ce-761ea5e02633" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1481.42476160465" y="385.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="boolean" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="4bbd0c17-41b6-4b1c-bd0d-7295beae40d5" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Csharp Script Reader|DanEDU" x="580.42476160465" y="310.5" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="True" />
+      <ID value="b90f9d09-3431-44cc-9ee7-fe7ba75837af" />
+      <Name value="Csharp Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'CsharpScript.FromString' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="606d789d-9ba0-4093-a83f-2865c4bffa2d" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="CSharpScript.FromString" x="1110.42476160465" y="385.5" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="..\..\Dynamic CSharp Interpreter\bin\Core.dll" function="Scripting.CSharpScript.FromString@string,var[]..[],string[]">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="e19b9054-588b-4c9a-adff-84fb02841fa3" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="IN (input)" x="900.42476160465" y="415.713333333333" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="{in0};" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <CoreNodeModels.Input.StringInput guid="b5709049-1982-4d85-8d58-ee9b320bf304" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="356.42476160465" y="336.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Boolean_Flipped</System.String>
+      <System.String value="Boolean_Flipped" />
+    </CoreNodeModels.Input.StringInput>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="a43ed5a9-812d-486e-84fc-7a903308c032" start_index="0" end="e19b9054-588b-4c9a-adff-84fb02841fa3" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4bbd0c17-41b6-4b1c-bd0d-7295beae40d5" start_index="0" end="606d789d-9ba0-4093-a83f-2865c4bffa2d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="606d789d-9ba0-4093-a83f-2865c4bffa2d" start_index="0" end="6644dd80-9ddf-4b93-b7ce-761ea5e02633" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e19b9054-588b-4c9a-adff-84fb02841fa3" start_index="0" end="606d789d-9ba0-4093-a83f-2865c4bffa2d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b5709049-1982-4d85-8d58-ee9b320bf304" start_index="0" end="4bbd0c17-41b6-4b1c-bd0d-7295beae40d5" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e74d87ba-0c92-41e2-b31a-eb53baafcdfc" annotationText="script input" left="890.42476160465" top="339.5" width="491" height="191" fontSize="30" InitialTop="385.5" InitialHeight="172.21333333333" TextblockHeight="36" backgrouund="#FFB5B5B5">
+      <Models ModelGuid="606d789d-9ba0-4093-a83f-2865c4bffa2d" />
+      <Models ModelGuid="e19b9054-588b-4c9a-adff-84fb02841fa3" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="ead35c65-91b0-47e4-96ce-9bec12a8acf7" annotationText="read source code from the package" left="346.42476160465" top="271.5" width="444" height="184" fontSize="24" InitialTop="310.5" InitialHeight="212" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="b5709049-1982-4d85-8d58-ee9b320bf304" />
+      <Models ModelGuid="4bbd0c17-41b6-4b1c-bd0d-7295beae40d5" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="14.049280166626" eyeY="19.049280166626" eyeZ="14.049280166626" lookX="-14.049280166626" lookY="-14.049280166626" lookZ="-14.049280166626" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

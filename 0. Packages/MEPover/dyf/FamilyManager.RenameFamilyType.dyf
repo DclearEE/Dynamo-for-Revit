@@ -1,0 +1,70 @@
+<Workspace Version="1.3.1.1736" X="-144" Y="-27" zoom="1" ScaleFactor="1" Name="FamilyManager.RenameFamilyType" Description="Searches every family type for the given (sub)string and replace that the (sub)string with the replace string (only works in Family Editor)" ID="e82b3228-c4ef-4109-97bd-e5af012b733e" Category="MEPover.Revit.Family">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="0b94833b-9fa6-4549-adfb-95eca12a8631" type="PythonNodeModels.PythonNode" nickname="Rename family type" x="396" y="253" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+search = IN[0]
+replace = IN[1]
+
+FamilyMan = doc.FamilyManager
+types = FamilyMan.Types
+typenames = []
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+for type in types:
+	FamilyMan.CurrentType = type
+	typename = FamilyMan.CurrentType.Name
+	if search in typename:
+		newname = typename.replace(search, replace)
+		typenames.append(newname)
+		FamilyMan.RenameCurrentType(newname)
+	else:
+		typenames.append(typename)
+	
+	
+TransactionManager.Instance.TransactionTaskDone()
+	
+	
+OUT = typenames</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="38f9460e-7248-4bd3-91a4-143ee448cfbe" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="164" y="260" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Search : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="d21f96cc-96ff-4ce8-8954-518c8456d6d5" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="179" y="433" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Replace : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="a4dfe94c-735e-4cde-8cc8-8e58b2d160aa" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="688" y="279" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="TypeName : string" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="0b94833b-9fa6-4549-adfb-95eca12a8631" start_index="0" end="a4dfe94c-735e-4cde-8cc8-8e58b2d160aa" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="38f9460e-7248-4bd3-91a4-143ee448cfbe" start_index="0" end="0b94833b-9fa6-4549-adfb-95eca12a8631" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d21f96cc-96ff-4ce8-8954-518c8456d6d5" start_index="0" end="0b94833b-9fa6-4549-adfb-95eca12a8631" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

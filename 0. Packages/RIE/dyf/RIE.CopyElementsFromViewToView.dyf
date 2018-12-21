@@ -1,0 +1,78 @@
+<Workspace Version="1.3.2.2480" X="106" Y="317" zoom="1" ScaleFactor="1" Name="RIE.CopyElementsFromViewToView" Description="Copies elements from view to view." ID="5d2510f1-7a10-4079-b620-5b0ed11c7415" Category="RIE.Elements">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="List" resolvedName="DSCore.List" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <PythonNodeModels.PythonNode guid="c3c081a3-5bd2-4a55-bf5a-53fe971bdc85" type="PythonNodeModels.PythonNode" nickname="Python Script" x="173.5" y="60.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <Script>import clr
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+clr.AddReference("System")
+from System.Collections.Generic import List
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# ----- // #
+
+
+doc = DocumentManager.Instance.CurrentDBDocument
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return UnwrapElement(obj)
+	else:
+		return [UnwrapElement(obj)]
+		
+view1 = UnwrapElement(IN[0])
+elementslist = tolist(IN[1])
+view2 = UnwrapElement(IN[2])
+
+# Start Transaction
+TransactionManager.Instance.EnsureInTransaction(doc)
+
+elementsId = List[ElementId]([el.Id for el in elementslist])
+
+c = ElementTransformUtils.CopyElements(view1, elementsId, view2, None, None)
+
+# End Transaction
+TransactionManager.Instance.TransactionTaskDone()
+
+OUT = c</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="053f2078-7fd7-4cb3-a0a1-44c934185c0f" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="418.5" y="56.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="OUT" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="b76ab7b2-a8b0-445a-b440-fb16e9e3e15d" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-9.5" y="82.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="a63e1f98-6bb3-4fe9-81a8-74b168fd328f" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-9.5" y="-0.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="FromViews" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="dba8e9cb-7701-42e6-a4f7-bbfbf9291227" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="-9.5" y="165.5" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="ToViews" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="c3c081a3-5bd2-4a55-bf5a-53fe971bdc85" start_index="0" end="053f2078-7fd7-4cb3-a0a1-44c934185c0f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b76ab7b2-a8b0-445a-b440-fb16e9e3e15d" start_index="0" end="c3c081a3-5bd2-4a55-bf5a-53fe971bdc85" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a63e1f98-6bb3-4fe9-81a8-74b168fd328f" start_index="0" end="c3c081a3-5bd2-4a55-bf5a-53fe971bdc85" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="dba8e9cb-7701-42e6-a4f7-bbfbf9291227" start_index="0" end="c3c081a3-5bd2-4a55-bf5a-53fe971bdc85" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

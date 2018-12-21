@@ -1,0 +1,67 @@
+<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Family.GetParameterByName|DanEDU" Description="Get parameter value by name in a family document" ID="7f015b9a-e21e-4035-8ef9-a98b10bbeb70" Category="DanEDU.Elements.Family.Query">
+  <NamespaceResolutionMap />
+  <Elements>
+    <CoreNodeModels.Input.StringInput guid="95478530-a63c-4316-bdbe-11bd9719fb5d" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="524" y="327" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Family_GetParameterByName</System.String>
+      <System.String value="Family_GetParameterByName" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="9b8ca984-9cc7-42b4-aba7-a8b3885f199f" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="837" y="301" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3e7caddd-1b5b-485f-88a1-075cf05a3486" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="514" y="477" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Revit.Application.Document&#xD;&#xA;document : var[]..[] = &quot;Current.Document&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="3f9430e4-c878-42a1-81e5-54aaa52d3316" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="1148" y="423" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="3">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="637ec844-ed96-426c-bc95-d7d3e80c3fe1" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="514" y="569" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//The name of the parameter to set formula&#xD;&#xA;parameterName : string[]..[]" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="2ddb0531-ef80-4469-b5ce-3b3c96a96a5b" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1377" y="427.213333333333" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="Out[0];&#xA;Out[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="b723e8a9-2da6-444e-8516-b211471b7495" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1600" y="389.786666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="value" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="f68b2495-1525-4836-afb0-8a4e6c6fa1d4" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="1600" y="473.786666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="type" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="95478530-a63c-4316-bdbe-11bd9719fb5d" start_index="0" end="9b8ca984-9cc7-42b4-aba7-a8b3885f199f" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9b8ca984-9cc7-42b4-aba7-a8b3885f199f" start_index="0" end="3f9430e4-c878-42a1-81e5-54aaa52d3316" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3e7caddd-1b5b-485f-88a1-075cf05a3486" start_index="0" end="3f9430e4-c878-42a1-81e5-54aaa52d3316" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3f9430e4-c878-42a1-81e5-54aaa52d3316" start_index="0" end="2ddb0531-ef80-4469-b5ce-3b3c96a96a5b" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="637ec844-ed96-426c-bc95-d7d3e80c3fe1" start_index="0" end="3f9430e4-c878-42a1-81e5-54aaa52d3316" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2ddb0531-ef80-4469-b5ce-3b3c96a96a5b" start_index="0" end="b723e8a9-2da6-444e-8516-b211471b7495" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2ddb0531-ef80-4469-b5ce-3b3c96a96a5b" start_index="1" end="f68b2495-1525-4836-afb0-8a4e6c6fa1d4" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="08fcaa33-0d57-4676-9242-0846a41aa9e8" annotationText="read source code from the package" left="514" top="262" width="534" height="184" fontSize="24" InitialTop="301" InitialHeight="175" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="95478530-a63c-4316-bdbe-11bd9719fb5d" />
+      <Models ModelGuid="9b8ca984-9cc7-42b4-aba7-a8b3885f199f" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

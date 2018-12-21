@@ -1,0 +1,98 @@
+<Workspace Version="1.3.2.2480" X="0" Y="0" zoom="1" ScaleFactor="1" Name="RIE.ClosestPointByTwoListsOfPoints" Description="Finds each &quot;points1&quot; closest &quot;points2&quot;" ID="b43a31d3-07de-4bc9-8add-b26b2d053a88" Category="RIE.Geometry">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="9fabcf13-369a-414b-a892-10bd49cc8a34" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="250" y="4.2133333333334" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="points1" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="f1708d66-578e-4574-96af-5fd94adc2384" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="250" y="88.2133333333337" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="points2" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonNode guid="b87a2d23-f74c-4c51-9394-aa7ff48dd0f0" type="PythonNodeModels.PythonNode" nickname="Python Script" x="440" y="33.2133333333334" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+import math
+from operator import itemgetter
+
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+#Points inputs
+def tolist(input):
+	if isinstance(input, list):
+		return input
+	else:
+		return [input]
+From = tolist(IN[0])
+To = tolist(IN[1])
+
+#Define OUT as an array
+OUT = []
+
+#Define lists for each output
+Result = []
+MinDist = []
+Indexes = []
+
+#Define function to deconstruct points into X Y and Z values.
+def pt_deconstr(pt):
+	return [pt.X,pt.Y,pt.Z]
+	
+#Define function to mathematically calculate vector distance in 3D space between two points.	
+def dist_constr(ptFrom, ptTo):
+	return math.sqrt(math.pow(ptFrom[0]-ptTo[0],2)+math.pow(ptFrom[1]-ptTo[1],2)+math.pow(ptFrom[2]-ptTo[2],2))
+
+#Loop through points. For each point in input 1, check distance to all points in input 2, and append information about the nearest point to the outputs (Point, Distance and index in input 2 list).
+if type(From) == list and type(To) == list:
+	for i in From:
+		Dist = []
+		ptFrom = pt_deconstr(i)
+		for n in To:
+			ptTo = pt_deconstr(n)
+			Dist.append(dist_constr(ptFrom, ptTo))
+		
+		#Find index of nearest point in input 2 list.		
+		closest = min(enumerate(Dist), key=itemgetter(1))[0]
+		
+		#Append values to output lists.
+		Result.append(To[closest])
+		MinDist.append(min(Dist))
+		Indexes.append(closest)
+		
+	#Outputs
+	OUT = [Result, MinDist, Indexes]
+else:
+	#Outputs if any empty list on input
+	OUT = ["Insufficient","inputs","detected"]</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="57d9f4db-fa34-44db-be48-c386e7972c04" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="662" y="37.4266666666667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="a[0];&#xA;a[1];&#xA;a[2];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="131ab0ba-8763-4c58-9026-3b5d538769ab" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="855" y="74.9999999999997" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Dist" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="8fc1de09-aa4d-4326-8248-d74411808551" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="856" y="139" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Indexes" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="52b530c0-40da-4e5b-8d0f-72e82aed9ec0" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="852" y="0" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="points2refs" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="9fabcf13-369a-414b-a892-10bd49cc8a34" start_index="0" end="b87a2d23-f74c-4c51-9394-aa7ff48dd0f0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f1708d66-578e-4574-96af-5fd94adc2384" start_index="0" end="b87a2d23-f74c-4c51-9394-aa7ff48dd0f0" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b87a2d23-f74c-4c51-9394-aa7ff48dd0f0" start_index="0" end="57d9f4db-fa34-44db-be48-c386e7972c04" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="57d9f4db-fa34-44db-be48-c386e7972c04" start_index="0" end="52b530c0-40da-4e5b-8d0f-72e82aed9ec0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="57d9f4db-fa34-44db-be48-c386e7972c04" start_index="1" end="131ab0ba-8763-4c58-9026-3b5d538769ab" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="57d9f4db-fa34-44db-be48-c386e7972c04" start_index="2" end="8fc1de09-aa4d-4326-8248-d74411808551" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

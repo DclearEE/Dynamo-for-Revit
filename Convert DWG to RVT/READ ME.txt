@@ -1,0 +1,13 @@
+DWG to RVT Lines - v1.1
+
+Open Revit detail you wish to convert
+
+Open Revit file in folder according to year of revit ie.(DWG to RVT Lines_v1.1_2015)
+
+Click Manage > Macro Manager to edit or run the macro. 
+
+Run the "ConvertDWGtoRVT" macro to specify a Revit line style for each DWG layer.
+
+Run "QuickConvertDWGtoRVT" to convert all the DWG lines to a single RVT line style. 
+
+Email me at michael@archsmarter.com if you have any problems with the macro.

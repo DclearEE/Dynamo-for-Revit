@@ -1,0 +1,54 @@
+<Workspace Version="1.2.1.3083" X="0" Y="0" zoom="1" Name="Nearest value from list of values" Description="Finds the nearest values from a given list of values" ID="649935f1-54ec-49fd-b522-c8b47000e0af" Category="MEPover.Math">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="72207d75-f798-4075-92f1-e334e7aa931d" type="PythonNodeModels.PythonNode" nickname="Python Script" x="481" y="338" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+if isinstance(IN[0], list):
+	keys = IN[0]
+	toggle = 0
+else:
+	keys = [IN[0]]
+	toggle = 1
+search = IN[1]
+
+def nearest(key, lov):
+	return min(lov, key = lambda x:abs(x-key))
+	
+listout = []
+for k in keys:
+	listout.append(nearest(k,search))
+
+#Assign your output to the OUT variable.
+if toggle:
+	OUT = listout[0]
+else:
+	OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="f0990fea-164b-4935-987a-7dd24555edae" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="267" y="312" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Value" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="1c32aadb-9821-428c-b70d-51dd8bbeb0b8" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="235" y="452" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="ListOfValues" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="cd828b1c-091c-448c-8a00-9b58ba396608" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="756" y="336" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Nearest" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="72207d75-f798-4075-92f1-e334e7aa931d" start_index="0" end="cd828b1c-091c-448c-8a00-9b58ba396608" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f0990fea-164b-4935-987a-7dd24555edae" start_index="0" end="72207d75-f798-4075-92f1-e334e7aa931d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1c32aadb-9821-428c-b70d-51dd8bbeb0b8" start_index="0" end="72207d75-f798-4075-92f1-e334e7aa931d" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

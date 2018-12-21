@@ -1,0 +1,16 @@
+Thanks for downloading Power-Pack for Revit. 
+
+Installation instructions:
+1. Double-click the "Power-Pack for Revit Installer.msi" file and follow the prompts. 
+
+Email support@archsmarter.com with any questions or problems.
+
+v1.4
+Release date 6/15/17
+
+Release notes:
+1.4 - Added Revit 2018 version
+1.3 - Added Revit 2017 version
+1.2 - Fixed issue with Windows 10
+1.1 - Fixed interface issues
+1.0 - Initial release

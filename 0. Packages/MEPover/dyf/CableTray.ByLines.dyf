@@ -1,0 +1,154 @@
+<Workspace Version="1.2.0.2831" X="15.775" Y="-34.5675" zoom="0.8425" Name="CableTray.ByLines" Description="Creates CableTray by Lines, CableTrayType, Level, Width and Height" ID="0874742c-86bb-44ad-bf35-96ca29454223" Category="MEPover.Revit.Elements">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Elements.UnknownElement" resolvedName="Revit.Elements" assemblyName="LunchBox.dll" />
+    <ClassMap partialName="Element" resolvedName="Revit.Elements.Element" assemblyName="RevitNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <PythonNodeModels.PythonNode guid="553a79db-2fab-4e43-b8df-b3408f1b27bb" type="PythonNodeModels.PythonNode" nickname="Python Script" x="327" y="225" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="5">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+toggle = ""
+
+if isinstance(IN[0], list):
+	lines = IN[0]
+else:
+	lines = [IN[0]]
+FirstPoint = [x.StartPoint for x in lines]
+SecondPoint = [x.EndPoint for x in lines]
+cabletraytype = UnwrapElement(IN[1])
+if isinstance(IN[2], list):
+	level = UnwrapElement(IN[2])
+	toggle += "0"
+else:
+	level = [UnwrapElement(IN[2])]
+if isinstance(IN[3], list):
+	width = IN[3]
+	toggle += "1"
+else:
+	width = [IN[3]]
+if isinstance(IN[4], list):
+	height = IN[4]
+	toggle += "1"
+else:
+	height = [IN[4]]
+
+elements = []
+
+if toggle == "":
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	for i,x in enumerate(FirstPoint):
+		tray = Autodesk.Revit.DB.Electrical.CableTray.Create(doc,cabletraytype.Id,FirstPoint[i].ToXyz(),SecondPoint[i].ToXyz(),level[0].Id)
+		
+		param = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_WIDTH_PARAM)
+		param.SetValueString(width[0].ToString())
+		
+		param2 = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_HEIGHT_PARAM)
+		param2.SetValueString(height[0].ToString())
+
+		elements.append(tray.ToDSType(False))
+
+	TransactionManager.Instance.TransactionTaskDone()
+	
+elif toggle == "0":
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	for i,x in enumerate(FirstPoint):
+		tray = Autodesk.Revit.DB.Electrical.CableTray.Create(doc,cabletraytype.Id,FirstPoint[i].ToXyz(),SecondPoint[i].ToXyz(),level[i].Id)
+		
+		param = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_WIDTH_PARAM)
+		param.SetValueString(width[0].ToString())
+		
+		param2 = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_HEIGHT_PARAM)
+		param2.SetValueString(height[0].ToString())
+
+		elements.append(tray.ToDSType(False))
+
+	TransactionManager.Instance.TransactionTaskDone()
+	
+elif toggle == "11":
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	for i,x in enumerate(FirstPoint):
+		tray = Autodesk.Revit.DB.Electrical.CableTray.Create(doc,cabletraytype.Id,FirstPoint[i].ToXyz(),SecondPoint[i].ToXyz(),level[0].Id)
+		
+		param = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_WIDTH_PARAM)
+		param.SetValueString(width[i].ToString())
+		
+		param2 = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_HEIGHT_PARAM)
+		param2.SetValueString(height[i].ToString())
+
+		elements.append(tray.ToDSType(False))
+
+	TransactionManager.Instance.TransactionTaskDone()
+	
+elif toggle == "011":
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	for i,x in enumerate(FirstPoint):
+		tray = Autodesk.Revit.DB.Electrical.CableTray.Create(doc,cabletraytype.Id,FirstPoint[i].ToXyz(),SecondPoint[i].ToXyz(),level[i].Id)
+		
+		param = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_WIDTH_PARAM)
+		param.SetValueString(width[i].ToString())
+		
+		param2 = tray.get_Parameter(BuiltInParameter.RBS_CABLETRAY_HEIGHT_PARAM)
+		param2.SetValueString(height[i].ToString())
+
+		elements.append(tray.ToDSType(False))
+
+	TransactionManager.Instance.TransactionTaskDone()
+
+
+OUT = elements</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="34fff23d-0d40-44f0-b9ed-b1b9779aa4c0" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="100" y="203" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Lines" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="a707cff4-4e7e-4f12-bcc3-c3fe09129c6c" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="35.5311572700297" y="264.062314540059" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="CableTrayType" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="0926d3d4-6f9f-4667-86c1-e843859d7e94" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="102" y="330" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Level" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="3e90122f-6e0f-4ec3-8204-e2bcdea239ed" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="91.5519287833829" y="398.376854599406" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Width" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="41a000d6-cb16-417b-95ee-520a2372dbb7" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="98" y="461" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Height" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="e5a9e542-be13-466a-8a60-5204bbc6d316" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="547" y="224" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="Cable Trays" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="553a79db-2fab-4e43-b8df-b3408f1b27bb" start_index="0" end="e5a9e542-be13-466a-8a60-5204bbc6d316" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="34fff23d-0d40-44f0-b9ed-b1b9779aa4c0" start_index="0" end="553a79db-2fab-4e43-b8df-b3408f1b27bb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a707cff4-4e7e-4f12-bcc3-c3fe09129c6c" start_index="0" end="553a79db-2fab-4e43-b8df-b3408f1b27bb" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0926d3d4-6f9f-4667-86c1-e843859d7e94" start_index="0" end="553a79db-2fab-4e43-b8df-b3408f1b27bb" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3e90122f-6e0f-4ec3-8204-e2bcdea239ed" start_index="0" end="553a79db-2fab-4e43-b8df-b3408f1b27bb" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="41a000d6-cb16-417b-95ee-520a2372dbb7" start_index="0" end="553a79db-2fab-4e43-b8df-b3408f1b27bb" end_index="4" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

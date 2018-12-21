@@ -1,0 +1,75 @@
+<Workspace Version="1.3.2.2480" X="124" Y="247" zoom="1" ScaleFactor="1" Name="RIE.WorksharingInfo" Description="Gets Worksharing Info Tooltip from Elements ." ID="0f9c4469-59a5-4768-8983-1df6cfb49312" Category="RIE.Elements">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Revit" resolvedName="Revit.BoundingBox" assemblyName="BimorphNodes.dll" />
+    <ClassMap partialName="Revit.BoundingBox" resolvedName="Revit.BoundingBox" assemblyName="BimorphNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <PythonNodeModels.PythonNode guid="508df154-fa0a-4ee0-85e9-f0da3bc15c74" type="PythonNodeModels.PythonNode" nickname="Python Script" x="238.5" y="-3.78666666666666" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script># Copyright(c) 2017, Dimitar Venkov
+# @5devene, dimitar.ven@gmail.com
+# www.badmonkeys.net
+
+import clr
+import System
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference('System')
+from System.Collections.Generic import List
+
+clr.AddReference("RevitAPI")
+from Autodesk.Revit.DB import *
+
+
+def tolist(obj1):
+	if hasattr(obj1,"__iter__"): return obj1
+	else: return [obj1]
+
+elemelons = UnwrapElement(tolist(IN[0]))
+creator = []
+lastchangedby = []
+OUT = []
+
+for _ in elemelons:
+	creator.append(WorksharingUtils.GetWorksharingTooltipInfo(doc, _.Id).Creator)
+	lastchangedby.append(WorksharingUtils.GetWorksharingTooltipInfo(doc, _.Id).LastChangedBy)
+
+OUT = creator, lastchangedby</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="8418d0dd-9e90-4be0-a81c-fb49fe5a9fe0" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="462.5" y="0.426666666666669" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="a[0];&#xA;a[1];" ShouldFocus="false">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.CodeBlockNodeModel>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="74e7c1bf-94ff-457c-b2b3-065076702082" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="67.5" y="-3.78666666666666" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="Elements" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="31f06cf3-ac6f-41ac-b8fa-9315a12b863d" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="652.5" y="-37" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="CreatedBy" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="35c96de8-1e7c-4907-b51f-ff8fd106278d" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="652.5" y="47" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="ModifiedBy" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="508df154-fa0a-4ee0-85e9-f0da3bc15c74" start_index="0" end="8418d0dd-9e90-4be0-a81c-fb49fe5a9fe0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8418d0dd-9e90-4be0-a81c-fb49fe5a9fe0" start_index="0" end="31f06cf3-ac6f-41ac-b8fa-9315a12b863d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8418d0dd-9e90-4be0-a81c-fb49fe5a9fe0" start_index="1" end="35c96de8-1e7c-4907-b51f-ff8fd106278d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="74e7c1bf-94ff-457c-b2b3-065076702082" start_index="0" end="508df154-fa0a-4ee0-85e9-f0da3bc15c74" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

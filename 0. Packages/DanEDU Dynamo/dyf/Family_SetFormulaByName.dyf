@@ -1,0 +1,65 @@
+<Workspace Version="1.3.2.2480" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Family.SetFormulaByName|DanEDU" Description="Set formula value by name in a family document.&#xD;&#xA;&#xD;&#xA;It is mandatory that 'value' input is string(s)&#xD;&#xA;The accepted inputs are as following using 'Code Block'&#xD;&#xA;string --&gt;  &quot;\&quot;string\&quot;&quot;&#xD;&#xA;number --&gt;  &quot;1&quot;&#xD;&#xA;formula --&gt;  &quot;formula&quot;" ID="98f2e92a-e1ca-4e16-8289-6d72573ccb81" Category="DanEDU.Elements.Family.Actions">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Application.Document.Current" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Application.Document" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Revit.Application.Document.Current" resolvedName="Revit.Application.Document" assemblyName="RevitNodes.dll" />
+    <ClassMap partialName="Documents" resolvedName="DocumentTools.Documents" assemblyName="DynaTools.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="da88f90e-1497-485b-b948-b12e86923c93" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="927.19594628467" y="287.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <Symbol value="document" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="4c14386b-cb12-47c8-bb81-45a1889a54dd" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="64.19594628467" y="301.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//Revit.Application.Document&#xD;&#xA;document : var[]..[] = &quot;Current.Document&quot;" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="5d32c771-72c7-40e8-b56a-3e1659116fff" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="64.19594628467" y="393.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//The name of the parameter to set formula&#xD;&#xA;parameterName : string[]..[]" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="0447d786-4792-4c0f-bd5b-c82370a22046" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="64.19594628467" y="485.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="//It is mandatory that 'value' input is string(s)&#xD;&#xA;//The accepted inputs are as following using 'Code Block'&#xD;&#xA;//string --&gt;  &quot;\&quot;string\&quot;&quot;&#xD;&#xA;//number --&gt;  &quot;1&quot;&#xD;&#xA;//formula --&gt;  &quot;formula&quot;&#xD;&#xA;&#xD;&#xA;value : string[]..[]" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <PythonNodeModels.PythonStringNode guid="ea1b6912-773a-4372-a454-d54efd23c75a" type="PythonNodeModels.PythonStringNode" nickname="Python Source" x="698.19594628467" y="287.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="4">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+    </PythonNodeModels.PythonStringNode>
+    <CoreNodeModels.Input.StringInput guid="217774c3-e9ee-4632-893b-05880f0694b2" type="CoreNodeModels.Input.StringInput" nickname="Filename" x="74.19594628467" y="151.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Family_SetFormulaByName</System.String>
+      <System.String value="Family_SetFormulaByName" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="5d5d5618-6b2d-40b9-86bc-a651de969c86" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Python Script Reader|DanEDU" x="387.19594628467" y="125.261410781418" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <ID value="da7e0192-3411-4c55-8ab1-22b56660e897" />
+      <Name value="Python Script Reader|DanEDU" />
+      <Description value="This node acts as the 'script' input to a 'Python Script From String' node.&#xD;&#xA;NOTE:&#xD;&#xA;The Input file must be without file extension!" />
+      <Inputs>
+        <Input value="path" />
+        <Input value="file" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="script" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="4c14386b-cb12-47c8-bb81-45a1889a54dd" start_index="0" end="ea1b6912-773a-4372-a454-d54efd23c75a" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5d32c771-72c7-40e8-b56a-3e1659116fff" start_index="0" end="ea1b6912-773a-4372-a454-d54efd23c75a" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0447d786-4792-4c0f-bd5b-c82370a22046" start_index="0" end="ea1b6912-773a-4372-a454-d54efd23c75a" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ea1b6912-773a-4372-a454-d54efd23c75a" start_index="0" end="da88f90e-1497-485b-b948-b12e86923c93" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="217774c3-e9ee-4632-893b-05880f0694b2" start_index="0" end="5d5d5618-6b2d-40b9-86bc-a651de969c86" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5d5d5618-6b2d-40b9-86bc-a651de969c86" start_index="0" end="ea1b6912-773a-4372-a454-d54efd23c75a" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="4fc51b6b-1dd8-4da5-9da4-6dbcec63a184" annotationText="read source code from the package" left="64.19594628467" top="86.261410781418" width="534" height="184" fontSize="24" InitialTop="125.261410781418" InitialHeight="221" TextblockHeight="29" backgrouund="#FFBB87C6">
+      <Models ModelGuid="217774c3-e9ee-4632-893b-05880f0694b2" />
+      <Models ModelGuid="5d5d5618-6b2d-40b9-86bc-a651de969c86" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+</Workspace>
