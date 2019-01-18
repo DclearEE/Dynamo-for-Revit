@@ -1,0 +1,44 @@
+<Workspace Version="1.1.0.2065" X="-858.901588897837" Y="-540.30627145678" zoom="2.05668026833428" Name="Tag Get View" Description="Return the view on which the tag is placed" ID="78c78864-f194-4f76-8e98-7cbe8ffe5d03" Category="MEPover.Revit.Tags">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="8ea93d03-8c84-4824-9a4e-c5d321c080f4" type="PythonNodeModels.PythonNode" nickname="Python Script" x="707" y="411" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+doc =  DocumentManager.Instance.CurrentDBDocument
+
+if isinstance(IN[0], list):
+	tags = UnwrapElement(IN[0])
+else:
+	tags = [UnwrapElement(IN[0])]
+
+listout = []
+
+for x in tags:
+	Id = x.OwnerViewId
+	view = doc.GetElement(Id)
+	listout.append(view)
+
+
+OUT = listout</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CustomNodes.Symbol guid="9e90ec47-99cb-4f99-aecc-f38d202f4a14" type="Dynamo.Graph.Nodes.CustomNodes.Symbol" nickname="Input" x="546.950153710039" y="410.518972956643" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <Symbol value="tags" />
+    </Dynamo.Graph.Nodes.CustomNodes.Symbol>
+    <Dynamo.Graph.Nodes.CustomNodes.Output guid="849055f8-aace-47f7-ae9f-38693a5655c0" type="Dynamo.Graph.Nodes.CustomNodes.Output" nickname="Output" x="899.459977994581" y="411.97763429851" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <Symbol value="views" />
+    </Dynamo.Graph.Nodes.CustomNodes.Output>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="8ea93d03-8c84-4824-9a4e-c5d321c080f4" start_index="0" end="849055f8-aace-47f7-ae9f-38693a5655c0" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9e90ec47-99cb-4f99-aecc-f38d202f4a14" start_index="0" end="8ea93d03-8c84-4824-9a4e-c5d321c080f4" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="51777.48828125" eyeY="272628.84375" eyeZ="-1200.07434082031" lookX="-16414.826171875" lookY="-269087.21875" lookZ="-34709.1640625" upX="-0.400451332330704" upY="0.350207388401031" upZ="-0.846754729747772" />
+  </Cameras>
+</Workspace>
