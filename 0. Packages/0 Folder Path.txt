@@ -1,4 +1,0 @@
-C:\Users\*dcleary*\AppData\Roaming\Dynamo\Dynamo Revit\1.3\packages
-
-
-*dcleary* = remove the stars and put your user name
