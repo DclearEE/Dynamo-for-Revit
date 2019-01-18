@@ -23,7 +23,7 @@ All files in this Git are written for Dynamo version 1.3.2 unless otherwise note
 
 	Dynamo 2.0 supports Revit 2017, 2018 & 2019
 
-# Install Packeges 
+# Install Packages 
 
 Packeges are required for most of the programs written in this Git 
 
@@ -32,7 +32,7 @@ Packeges are required for most of the programs written in this Git
 2. Open Windows Explorer and go to C:\Users\ **dcleary**\AppData\Roaming\Dynamo\Dynamo Revit\1.3\packages  
 	replace **dcleary** with your user name. Usually its your first inital and last name
 	
-3. Paste the copied packeges into this folder
+3. Paste the copied packages into this folder
 
 
 
