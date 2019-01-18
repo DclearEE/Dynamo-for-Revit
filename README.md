@@ -17,7 +17,7 @@ All files in this Git are written for Dynamo version 1.3.2 unless otherwise note
 
 	Dynamo 1.3.3 supports Revit 2017, 2018 & 2019
 
-	Dynamo 2.0 is a whole new 'Major Release' - it is not backward-compatible with previous versions (dyn and dyf files are saved in 	 a new format)
+	Dynamo 2.0 is a whole new 'Major Release' - it is not backward-compatible with previous versions (dyn and dyf files are saved as a new file type unreadable to anything lower than 2.0)
 		*Dynamo 2.0 is capable of reading dynamo 1.0 - 1.3 files but if you save them they will only be available for 2.0*
 		*DO NOT SAVE A 1.3 FILE AT A 2.0 FILE WITHOUT CREATING A BACK UP. YOU WILL NOT BE ABLE TO RUN IT IN 1.3.2 AGAIN*
 
