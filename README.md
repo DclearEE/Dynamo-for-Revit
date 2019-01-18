@@ -30,7 +30,7 @@ Packeges are required for most of the programs written in this Git
 1. Copy everything in in the [0. Packages](https://github.com/DclearEE/Electrical/tree/master/0.%20Packages) folder and paste it to the folder path above 
 
 2. Open Windows Explorer and go to C:\Users\ **dcleary**\AppData\Roaming\Dynamo\Dynamo Revit\1.3\packages  
-	replace **dcleary** user name. Usually its your first inital and last name
+	replace **dcleary** with your user name. Usually its your first inital and last name
 	
 3. Paste the copied packeges into this folder
 
