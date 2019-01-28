@@ -3,12 +3,13 @@
 Programs and scripts that help automate tasks in Revit.
 Mainly electrical scripts with standard project setup, maintance and general Revit tasks sprinkled in.
 
-All Dynamo files, some containg custom Python scripts.
+All files are Dynamo file (.dyn), with some custom Python scripts inside.
 
 
 # Overview of Dynamo and Revit versions and Compatability
 
 All files in this Git are written for Dynamo version 1.3.2 unless otherwise noted.
+Version 1.3.2 can be found here: http://dynamobuilds.com/
 
  Summary of Dynamo Versions:
  
@@ -25,7 +26,7 @@ All files in this Git are written for Dynamo version 1.3.2 unless otherwise note
 
 # Install Packages 
 
-Packeges are required for most of the programs written in this Git 
+Packages are required for most of the programs written in this Git 
 
 1. Copy everything in in the [0. Packages](https://github.com/DclearEE/Electrical/tree/master/0.%20Packages) folder and paste it to the folder path above 
 
@@ -37,5 +38,4 @@ Packeges are required for most of the programs written in this Git
 
 
 
-I ask and answer questions too 
-https://forum.dynamobim.com/u/dancleary
+
