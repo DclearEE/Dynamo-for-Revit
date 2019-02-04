@@ -14,7 +14,7 @@ Version 1.3.2 can be found here: http://dynamobuilds.com/
  Summary of Dynamo Versions:
  
 	Dynamo 1.3.2 supports Revit 2016, 2017 & 2018 (but not 2019)
-		*This is the version you most likely wan to download to use my scripts
+		*This is the version you most likely want to download to use my scripts
 
 	Dynamo 1.3.3 supports Revit 2017, 2018 & 2019
 
