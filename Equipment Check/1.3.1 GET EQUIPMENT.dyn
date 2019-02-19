@@ -1,0 +1,70 @@
+<Workspace Version="1.3.2.2480" X="75.468058461568" Y="250.7853847401" zoom="0.0535798851009544" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="False">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Category" resolvedName="Revit.Elements.Category" assemblyName="RevitNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="0999c3a6-997b-479f-b1b0-dcec5309e709" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Get Documents" x="-138.596436304354" y="1623.09975009836" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <ID value="8e388824-b977-427f-81ec-e9669ae4012f" />
+      <Name value="Get Documents" />
+      <Description value="Queries all linked Revit files and retrieves their Name, LinkInstance and Document properties." />
+      <Inputs />
+      <Outputs>
+        <Output value="Link Instance" />
+        <Output value="Link Doc" />
+        <Output value="Link Name" />
+        <Output value="Link Path" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="fed51b8b-715f-438a-9edd-cd8d7f350a01" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Element.GetParameterValueByName" x="829.403563695646" y="1923.98159263092" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="RevitNodes.dll" function="Revit.Elements.Element.GetParameterValueByName@string">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <DSRevitNodesUI.Categories guid="734020e5-7c91-4366-8d8c-bb78a9d59178" type="DSRevitNodesUI.Categories" nickname="Categories" x="-148.596436304354" y="1825.09975009836" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="294:MechanicalEquipment" />
+    <CoreNodeModels.Input.StringInput guid="d5aff356-ab27-4e57-89c9-5c06e1740e91" type="CoreNodeModels.Input.StringInput" nickname="String" x="543.403563695646" y="1949.98159263092" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>Number</System.String>
+      <System.String value="Number" />
+    </CoreNodeModels.Input.StringInput>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="de29cd28-d7aa-4af9-9dbf-b893863df3a7" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="Springs.Collector.LinkedInstanceElements" x="170.403563695646" y="1711.09975009836" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="True" />
+      <ID value="f9c65be3-fdc3-4f02-bbec-effc6056df12" />
+      <Name value="Springs.Collector.LinkedInstanceElements" />
+      <Description value="Extract elements by category from the selected linked instances. The transform CS can be used to get the exact location of the elements in the host file. If an error occurs or the linked document is unloaded, an error will be returned in the elements output and the appropriate transform will be a null. You can use those nulls to filter out the errors." />
+      <Inputs>
+        <Input value="linkInstance" />
+        <Input value="category" />
+        <Input value="refresh" />
+      </Inputs>
+      <Outputs>
+        <Output value="elements" />
+        <Output value="transform" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="5153b354-c5f7-4609-8436-046d59892958" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="List.Flatten" x="543.403563695646" y="1778.09975009836" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.List.Flatten@var[]..[],int">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Input.DoubleInput guid="321577aa-4c62-480c-b7b9-1746ad004db4" type="CoreNodeModels.Input.DoubleInput" nickname="Number" x="170.403563695646" y="1871.09975009836" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Double value="1" />
+    </CoreNodeModels.Input.DoubleInput>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="0999c3a6-997b-479f-b1b0-dcec5309e709" start_index="0" end="de29cd28-d7aa-4af9-9dbf-b893863df3a7" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="734020e5-7c91-4366-8d8c-bb78a9d59178" start_index="0" end="de29cd28-d7aa-4af9-9dbf-b893863df3a7" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d5aff356-ab27-4e57-89c9-5c06e1740e91" start_index="0" end="fed51b8b-715f-438a-9edd-cd8d7f350a01" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="de29cd28-d7aa-4af9-9dbf-b893863df3a7" start_index="0" end="5153b354-c5f7-4609-8436-046d59892958" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5153b354-c5f7-4609-8436-046d59892958" start_index="0" end="fed51b8b-715f-438a-9edd-cd8d7f350a01" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="321577aa-4c62-480c-b7b9-1746ad004db4" start_index="0" end="5153b354-c5f7-4609-8436-046d59892958" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="1a1fa920-f39b-402c-b202-da5f4fbab343" annotationText="Get Links" left="-148.596436304354" top="1577.09975009836" width="151" height="217" fontSize="30" InitialTop="1623.09975009836" InitialHeight="201" TextblockHeight="36" backgrouund="#FFC1D676">
+      <Models ModelGuid="0999c3a6-997b-479f-b1b0-dcec5309e709" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
