@@ -32,7 +32,7 @@ Packages are required for most of the programs written in this Git
 
 2. **For Dynamo 1.3.2** Open Windows Explorer and go to C:\Users\dcleary\AppData\Roaming\Dynamo\Dynamo Revit\1.3\packages 
 
-   **For Dynamo 1.3.2** Open Windows Explorer and go to C:\Users\dcleary\AppData\Roaming\Dynamo\Dynamo Revit\2.0\packages 
+   **For Dynamo 2.0** Open Windows Explorer and go to C:\Users\dcleary\AppData\Roaming\Dynamo\Dynamo Revit\2.0\packages 
    
 	-Replace **dcleary** with your user name. Usually its your first inital and last name
 	
