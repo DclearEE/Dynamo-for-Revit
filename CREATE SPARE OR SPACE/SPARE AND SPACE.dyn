@@ -1,4 +1,4 @@
-<Workspace Version="1.3.2.2480" X="-2474.72478282632" Y="-319.864846545945" zoom="0.354851003266363" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="False">
+<Workspace Version="1.3.2.2480" X="-646.428681200447" Y="29.0187571010678" zoom="0.13004098933188" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap />
   <Elements>
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="df70d1d3-8324-430c-85dd-ab16c268ebc6" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="List.GroupByKey" x="2840.38346517099" y="1246.96656865218" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.List.GroupByKey@var[]..[],var[]..[]">
@@ -19,30 +19,7 @@
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.CodeBlockNodeModel>
-    <Dynamo.Graph.Nodes.CustomNodes.Function guid="9e3ab3a9-5543-49af-8ff4-419aeb698473" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="RIE.GetPanelScheduleViews" x="1937.99716465316" y="1233.71544445738" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="True" IsFrozen="false" isPinned="false">
-      <ID value="5d3bcbff-3266-465a-9fb3-786eb8598082" />
-      <Name value="RIE.GetPanelScheduleViews" />
-      <Description value="Gets Panel Schedules Views" />
-      <Inputs />
-      <Outputs>
-        <Output value="Panel Schedules" />
-      </Outputs>
-    </Dynamo.Graph.Nodes.CustomNodes.Function>
-    <Dynamo.Graph.Nodes.CustomNodes.Function guid="cc934042-3c09-4237-aef5-eb0a42ab4d1f" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="RIE.GetPanelFromPanelScheduleView" x="2104.15537263129" y="1343.64052587116" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
-      <PortInfo index="0" default="False" />
-      <ID value="c1a86ce7-93e8-4af1-bfc7-9db6d9dff570" />
-      <Name value="RIE.GetPanelFromPanelScheduleView" />
-      <Description value="Gets The panel corresponding to the input PanelScheduleView" />
-      <Inputs>
-        <Input value="PanelScheduleView" />
-      </Inputs>
-      <Outputs>
-        <Output value="Panel" />
-      </Outputs>
-    </Dynamo.Graph.Nodes.CustomNodes.Function>
-    <Dynamo.Nodes.DSModelElementSelection guid="67a67884-587c-41b4-8319-d7aaf9c8f996" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="3212.16725272719" y="1772.17493380925" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="true">
-      <instance id="9890ec06-6344-495e-a906-73481c835fbf-0032cd6b" />
-    </Dynamo.Nodes.DSModelElementSelection>
+    <Dynamo.Nodes.DSModelElementSelection guid="67a67884-587c-41b4-8319-d7aaf9c8f996" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="3212.16725272719" y="1772.17493380925" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="true" />
     <PythonNodeModels.PythonNode guid="edec681f-29ed-43ca-8f0a-7268ce2ff43d" type="PythonNodeModels.PythonNode" nickname="Python Script" x="8255.51501820236" y="1625.47670094265" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="4">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
@@ -317,9 +294,7 @@ OUT = PanelSched
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="f4e8c707-b462-4822-a97d-9facc142b90a" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Element.Id" x="3496.71968997775" y="1946.7425847327" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="RevitNodes.dll" function="Revit.Elements.Element.Id">
       <PortInfo index="0" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
-    <Dynamo.Nodes.DSModelElementSelection guid="afc9f3ab-85b7-45d1-8cea-c0a8712b0121" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="3188.87738974934" y="2121.9228255767" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="true">
-      <instance id="27a1648c-854d-40f0-b6b8-7fdb256c0b3b-003790f3" />
-    </Dynamo.Nodes.DSModelElementSelection>
+    <Dynamo.Nodes.DSModelElementSelection guid="afc9f3ab-85b7-45d1-8cea-c0a8712b0121" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="3188.87738974934" y="2121.9228255767" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="true" />
     <PythonNodeModels.PythonNode guid="ef3934f1-2714-4390-bdfe-488f6f9094ee" type="PythonNodeModels.PythonNode" nickname="Python Script" x="7931.94922269869" y="3110.96815021554" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="3">
       <PortInfo index="0" default="False" />
       <PortInfo index="1" default="False" />
@@ -478,6 +453,94 @@ OUT = SpareName</Script>
       <PortInfo index="1" default="False" />
     </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
     <DSRevitNodesUI.Categories guid="b256ad81-3ec4-4e5c-894d-fe8b59bb918b" type="DSRevitNodesUI.Categories" nickname="Categories" x="6506.84719473151" y="1012.20596495323" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="182:ElectricalCircuit" />
+    <PythonNodeModels.PythonNode guid="40449ffa-ab74-432a-8a3c-ddc56ba84687" type="PythonNodeModels.PythonNode" nickname="Python Script" x="2302.29941133227" y="1460.06999139347" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Import ToDSType(bool) extension method
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+#The inputs to this node will be stored as a list in the IN variables.
+
+OUT = []
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return UnwrapElement(obj)
+	else:
+		return UnwrapElement([obj])
+
+panels = tolist(IN[0])
+
+for panel in panels:
+	OUT.append(doc.GetElement(panel.GetPanel()).ToDSType(True))</Script>
+    </PythonNodeModels.PythonNode>
+    <PythonNodeModels.PythonNode guid="77a2dde7-2e5e-4060-ac4f-2cb84841863b" type="PythonNodeModels.PythonNode" nickname="Python Script" x="2131.93092461613" y="1239.91839939042" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" inputcount="0">
+      <Script>#Copyright(c) 2015, Konrad Sobon
+# @arch_laboratory, http://archi-lab.net
+
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uiapp = DocumentManager.Instance.CurrentUIApplication
+app = uiapp.Application
+
+from System.Collections.Generic import *
+
+# Import ToDSType(bool) extension method
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+#The inputs to this node will be stored as a list in the IN variable.
+dataEnteringNode = IN
+
+#collect all views in the model
+collector = FilteredElementCollector(doc)
+views = collector.OfClass(View).ToElements()
+
+#sort views into separate lists based on view type
+areaPlans, ceilingPlans, columnSchedules = [], [], []
+costReport, details, draftingViews = [], [], []
+drawingSheets, elevations, engineetingPlans = [], [], []
+floorPlans, internal, legends, loadReports = [], [], [], []
+panelSchedules, pressureLossReports, renderings = [], [], []
+reports, schedules, sections, threeD = [], [], [], []
+undefined, walkthrough = [], []
+for i in views:
+	if not i.IsTemplate:
+		if i.ViewType == ViewType.PanelSchedule:
+			panelSchedules.append(i.ToDSType(True))
+		else:
+			continue
+
+#Assign your output to the OUT variable
+OUT = panelSchedules</Script>
+    </PythonNodeModels.PythonNode>
   </Elements>
   <Connectors>
     <Dynamo.Graph.Connectors.ConnectorModel start="df70d1d3-8324-430c-85dd-ab16c268ebc6" start_index="0" end="7ddf82f8-2ebe-43c5-bfad-6ebac4b7f445" end_index="0" portType="0" />
@@ -491,9 +554,6 @@ OUT = SpareName</Script>
     <Dynamo.Graph.Connectors.ConnectorModel start="65ae1c2a-06e0-443b-89b4-6b30710981c6" start_index="0" end="6f3f179c-51fa-4d77-8ab8-836638150564" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="65ae1c2a-06e0-443b-89b4-6b30710981c6" start_index="0" end="15cb44b4-253f-4e59-a69a-fd838fc9596c" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="65ae1c2a-06e0-443b-89b4-6b30710981c6" start_index="0" end="8fd52864-83dd-4ccf-9c49-55cea45874da" end_index="0" portType="0" />
-    <Dynamo.Graph.Connectors.ConnectorModel start="9e3ab3a9-5543-49af-8ff4-419aeb698473" start_index="0" end="df70d1d3-8324-430c-85dd-ab16c268ebc6" end_index="0" portType="0" />
-    <Dynamo.Graph.Connectors.ConnectorModel start="9e3ab3a9-5543-49af-8ff4-419aeb698473" start_index="0" end="cc934042-3c09-4237-aef5-eb0a42ab4d1f" end_index="0" portType="0" />
-    <Dynamo.Graph.Connectors.ConnectorModel start="cc934042-3c09-4237-aef5-eb0a42ab4d1f" start_index="0" end="d5a01054-dc84-451e-90a3-2e321b242128" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="67a67884-587c-41b4-8319-d7aaf9c8f996" start_index="0" end="10e697e3-62be-409f-9438-afbe8d7a04f1" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="67a67884-587c-41b4-8319-d7aaf9c8f996" start_index="0" end="1b13ce8e-dfea-47a9-a52e-62bfa6a2b5f5" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="edec681f-29ed-43ca-8f0a-7268ce2ff43d" start_index="0" end="1391bbb5-60f2-409f-944c-ec3eec63a172" end_index="0" portType="0" />
@@ -554,22 +614,23 @@ OUT = SpareName</Script>
     <Dynamo.Graph.Connectors.ConnectorModel start="5c24437a-8a2d-40a1-b60e-e83f1428c057" start_index="0" end="9801a905-7e7e-404b-adbb-523f620c21ef" end_index="0" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="9801a905-7e7e-404b-adbb-523f620c21ef" start_index="0" end="fd733859-92b8-472a-8c94-9f0e5310ccd6" end_index="3" portType="0" />
     <Dynamo.Graph.Connectors.ConnectorModel start="41e7f786-c070-4136-8eb6-f8f4e42ae3fe" start_index="0" end="9801a905-7e7e-404b-adbb-523f620c21ef" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="40449ffa-ab74-432a-8a3c-ddc56ba84687" start_index="0" end="d5a01054-dc84-451e-90a3-2e321b242128" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="77a2dde7-2e5e-4060-ac4f-2cb84841863b" start_index="0" end="40449ffa-ab74-432a-8a3c-ddc56ba84687" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="77a2dde7-2e5e-4060-ac4f-2cb84841863b" start_index="0" end="df70d1d3-8324-430c-85dd-ab16c268ebc6" end_index="0" portType="0" />
   </Connectors>
   <Notes />
   <Annotations>
     <Dynamo.Graph.Annotations.AnnotationModel guid="ef8636d4-361a-4eb5-b558-ab10ea1654c3" annotationText="Get SPARE LOAD (VA)" left="8245.51501820236" top="1543.47670094265" width="144" height="253" fontSize="30" InitialTop="1625.47670094265" InitialHeight="201" TextblockHeight="72" backgrouund="#FFC1D676">
       <Models ModelGuid="edec681f-29ed-43ca-8f0a-7268ce2ff43d" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="4375999b-89d3-47c9-a116-2dcbf9d51337" annotationText="Get Panel Schedule View for Panel" left="1927.99716465316" top="1187.71544445738" width="2237.71362485771" height="405.08929735826" fontSize="30" InitialTop="1233.71544445738" InitialHeight="456.901831722825" TextblockHeight="36" backgrouund="#FFC1D676">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="4375999b-89d3-47c9-a116-2dcbf9d51337" annotationText="Get Panel Schedule View for Panel" left="2587.05464407359" top="1200.96656865218" width="1578.65614543728" height="391.83817316346" fontSize="30" InitialTop="1246.96656865218" InitialHeight="456.901831722825" TextblockHeight="36" backgrouund="#FFC1D676">
       <Models ModelGuid="df70d1d3-8324-430c-85dd-ab16c268ebc6" />
       <Models ModelGuid="d5a01054-dc84-451e-90a3-2e321b242128" />
       <Models ModelGuid="7ddf82f8-2ebe-43c5-bfad-6ebac4b7f445" />
       <Models ModelGuid="10e697e3-62be-409f-9438-afbe8d7a04f1" />
       <Models ModelGuid="65ae1c2a-06e0-443b-89b4-6b30710981c6" />
-      <Models ModelGuid="9e3ab3a9-5543-49af-8ff4-419aeb698473" />
-      <Models ModelGuid="cc934042-3c09-4237-aef5-eb0a42ab4d1f" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="bed5bbcf-abfa-4fbe-94cf-cf7b56ebbc27" annotationText="Origin Panel" left="3202.16725272719" top="1726.17493380925" width="195" height="165" fontSize="30" InitialTop="1772.17493380925" InitialHeight="149" TextblockHeight="36" backgrouund="#FFFF7BAC">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="bed5bbcf-abfa-4fbe-94cf-cf7b56ebbc27" annotationText="Origin Panel" left="3202.16725272719" top="1726.17493380925" width="189" height="165" fontSize="30" InitialTop="1772.17493380925" InitialHeight="149" TextblockHeight="36" backgrouund="#FFFF7BAC">
       <Models ModelGuid="67a67884-587c-41b4-8319-d7aaf9c8f996" />
     </Dynamo.Graph.Annotations.AnnotationModel>
     <Dynamo.Graph.Annotations.AnnotationModel guid="4a6f6378-167e-4f30-9611-e6ccd1f23224" annotationText="Get all cells in Panel" left="4778.28349846664" top="2780.30515965228" width="2063.24109585612" height="681.95983960047" fontSize="30" InitialTop="2826.30515965228" InitialHeight="665.959839600467" TextblockHeight="36" backgrouund="#FFC1D676">
@@ -604,7 +665,7 @@ OUT = SpareName</Script>
     <Dynamo.Graph.Annotations.AnnotationModel guid="d4eef7e8-64ae-4358-92be-bd5fab9d827d" annotationText="Get Spare Name" left="8311.06836776777" top="2072.25825773849" width="144" height="253" fontSize="30" InitialTop="2154.25825773849" InitialHeight="227" TextblockHeight="72" backgrouund="#FFC1D676">
       <Models ModelGuid="fd733859-92b8-472a-8c94-9f0e5310ccd6" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="16c6c2bd-c404-4744-9705-bedd9aaef468" annotationText="Destination Panel" left="3178.87738974934" top="2039.9228255767" width="195" height="201" fontSize="30" InitialTop="2121.9228255767" InitialHeight="149" TextblockHeight="72" backgrouund="#FFFF7BAC">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="16c6c2bd-c404-4744-9705-bedd9aaef468" annotationText="Destination Panel" left="3178.87738974934" top="2039.9228255767" width="189" height="201" fontSize="30" InitialTop="2121.9228255767" InitialHeight="149" TextblockHeight="72" backgrouund="#FFFF7BAC">
       <Models ModelGuid="afc9f3ab-85b7-45d1-8cea-c0a8712b0121" />
     </Dynamo.Graph.Annotations.AnnotationModel>
   </Annotations>

@@ -1,0 +1,53 @@
+<Workspace Version="1.3.2.2480" X="135.660932949427" Y="3.56356013962005" zoom="1.10476425630303" ScaleFactor="1" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="3da6bc8e-c241-4e12-a731-96cf405d5a96" type="PythonNodeModels.PythonNode" nickname="Python Script" x="260.764095413751" y="265.23244526417" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import Line, XYZ
+from Autodesk.Revit.DB import SetComparisonResult, IntersectionResultArray
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+if isinstance(IN[0], list):
+    lines = UnwrapElement(IN[0])
+else:
+    lines = [UnwrapElement(IN[0])]
+
+def get_intersection(line1, line2):
+	results = clr.Reference[IntersectionResultArray]()		
+    # See ironpython.net/documentation/dotnet for clr.Reference
+
+	result = line1.Intersect(line2, results)
+    # http://www.revitapidocs.com/2018/51961478-fb36-e00b-2d1b-7db27b0a09e6.htm
+	
+	if result != SetComparisonResult.Overlap:
+		print('No Intesection')
+	
+	intersection = results.Item[0]
+	return intersection.XYZPoint
+
+
+point = get_intersection(lines[0], lines[1])
+OUT = point</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Nodes.DSModelElementsSelection guid="82c2a1b6-4b6f-4791-94fc-6316cad46d10" type="Dynamo.Nodes.DSModelElementsSelection" nickname="Select Model Elements" x="-365.823936390833" y="261.355586540413" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <instance id="1b92c396-ce1f-43bc-bfa5-6a7603146515-005db059" />
+      <instance id="1b92c396-ce1f-43bc-bfa5-6a7603146515-005db084" />
+    </Dynamo.Nodes.DSModelElementsSelection>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="14a96e40-df23-4cd1-8007-d105614009ca" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="DetailCurve.Curve" x="-82.5" y="262.5" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="RevitNodes.dll" function="Revit.Elements.DetailCurve.Curve">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="82c2a1b6-4b6f-4791-94fc-6316cad46d10" start_index="0" end="14a96e40-df23-4cd1-8007-d105614009ca" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="14a96e40-df23-4cd1-8007-d105614009ca" start_index="0" end="3da6bc8e-c241-4e12-a731-96cf405d5a96" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
