@@ -28,7 +28,7 @@ Version 1.3.2 can be found here: http://dynamobuilds.com/
 
 Packages are required for most of the programs written in this Git 
 
-Clone everything in the [Dynamo-Revit-Packages](https://github.com/DclearEE/Dynamo-Revit-Packages) folder and save it on your local drive in C:\Users\dcleary\AppData\Roaming\Dynamo\Dynamo Revit\
+Clone everything in the [Dynamo-Revit-Packages](https://github.com/DclearEE/Dynamo-Revit-Packages) repository and save it on your local drive in C:\Users\dcleary\AppData\Roaming\Dynamo\Dynamo Revit\
 
    -Replace **dcleary** with your user name. Usually its your first inital and last name
 
