@@ -1,4 +1,4 @@
-<Workspace Version="1.3.2.2480" X="58.7680511326271" Y="-44.4618787507997" zoom="0.269662723963683" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.2.2480" X="740.811497282936" Y="-683.732651589201" zoom="0.504576607203821" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="False">
   <NamespaceResolutionMap>
     <ClassMap partialName="Category" resolvedName="Revit.Elements.Category" assemblyName="RevitNodes.dll" />
   </NamespaceResolutionMap>
@@ -93,6 +93,6 @@
   <Annotations />
   <Presets />
   <Cameras>
-    <Camera Name="Background Preview" eyeX="-3.58084688602863" eyeY="171.123136514528" eyeZ="141.377564079437" lookX="42.0179151668248" lookY="-160.456712063731" lookZ="-194.515277804516" upX="0.0942117412912933" upY="0.894934361602058" upZ="-0.43613832235524" />
+    <Camera Name="Background Preview" eyeX="-3.58084678649902" eyeY="171.123138427734" eyeZ="141.377563476563" lookX="42.0179138183594" lookY="-160.45671081543" lookZ="-194.515274047852" upX="0.0942117422819138" upY="0.894934356212616" upZ="-0.436138331890106" />
   </Cameras>
 </Workspace>
