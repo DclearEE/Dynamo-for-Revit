@@ -1,13 +1,13 @@
 # Dynamo for Revit
 
 Programs and scripts that help automate tasks in Revit.
-Mainly electrical scripts with standard project setup, maintance and general Revit tasks sprinkled in.
+Mainly electrical scripts with standard project setup, maintenance and general Revit tasks sprinkled in.
 Download and open in Dynamo
 
 All files are Dynamo file (.dyn), with some custom Python scripts inside.
 
 
-# Overview of Dynamo and Revit versions and Compatability
+# Overview of Dynamo and Revit versions and Compatibility
 
 All files in this Git are written for Dynamo version 1.3.2 unless otherwise noted.
 Version 1.3.2 can be found here: http://dynamobuilds.com/
