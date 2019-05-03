@@ -23,7 +23,7 @@ Version 1.3.2 can be found here: http://dynamobuilds.com/
 		*Dynamo 2.0 is capable of reading dynamo 1.0 - 1.3 files but if you save them they will only be available for 2.0*
 		*DO NOT SAVE A 1.3 FILE AT A 2.0 FILE WITHOUT CREATING A BACK UP. YOU WILL NOT BE ABLE TO RUN IT IN 1.3.2 AGAIN*
 
-	Dynamo 2.0 supports Revit 2017, 2018 & 2019
+	Dynamo 2.0 supports Revit 2017, 2018, 2019 & 2020
 
 # Install Packages 
 
