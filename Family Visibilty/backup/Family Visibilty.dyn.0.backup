@@ -1,0 +1,99 @@
+<Workspace Version="1.3.2.2480" X="-300.528875930544" Y="11.0245941971346" zoom="0.608772931697613" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <Dynamo.Nodes.DSModelElementSelection guid="26c0819c-07c2-428a-8a35-6b1ba3927bc4" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="564.4" y="286.4" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" />
+    <PythonNodeModels.PythonNode guid="680de59d-3154-4c45-ad27-cf51e149a823" type="PythonNodeModels.PythonNode" nickname="Python Script" x="997.001877914835" y="294.265414723443" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import * 
+doc = DocumentManager.Instance.CurrentDBDocument
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return obj
+	else:
+		return [obj]
+
+
+elems = tolist(UnwrapElement(IN[0]))
+bools = tolist(IN[1])
+
+out = []
+
+for elem, b in zip(elems, bools):
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	try:
+		fev = FamilyElementVisibility(FamilyElementVisibilityType.Model)
+		fev.IsShownInFine = b
+		elem.SetVisibility(fev)
+	except:
+		fev = FamilyElementVisibility(FamilyElementVisibilityType.ViewSpecific)
+		fev.IsShownInFine = b
+		elem.SetVisibility(fev)
+	TransactionManager.Instance.TransactionTaskDone()
+	out.append(True)
+
+OUT = out</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.BoolSelector guid="7da13f15-afec-47bf-a8e1-c884c7f999a3" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="574.8" y="436.53894105319" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Boolean>False</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <PythonNodeModels.PythonNode guid="009f4958-708b-4724-a47c-2bc5e68eccd9" type="PythonNodeModels.PythonNode" nickname="Python Script" x="932.632217776531" y="628.835484059991" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import * 
+doc = DocumentManager.Instance.CurrentDBDocument
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return obj
+	else:
+		return [obj]
+
+
+elems = tolist(UnwrapElement(IN[0]))
+bools = tolist(IN[1])
+
+out = []
+
+for elem, b in zip(elems, bools):
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	try:
+		fev = FamilyElementVisibility(FamilyElementVisibilityType.Model)
+		fev.IsShownInFine = b
+		elem.SetVisibility(fev)
+	except:
+		fev = FamilyElementVisibility(FamilyElementVisibilityType.ViewSpecific)
+		fev.IsShownInFine = b
+		elem.SetVisibility(fev)
+	TransactionManager.Instance.TransactionTaskDone()
+	out.append(fev)
+
+OUT = out</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.BoolSelector guid="aa9e3374-a509-4480-a630-9ee04a6b9c7d" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="591.377543095925" y="585.704694787088" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Boolean>False</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="26c0819c-07c2-428a-8a35-6b1ba3927bc4" start_index="0" end="009f4958-708b-4724-a47c-2bc5e68eccd9" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="7da13f15-afec-47bf-a8e1-c884c7f999a3" start_index="0" end="680de59d-3154-4c45-ad27-cf51e149a823" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="aa9e3374-a509-4480-a630-9ee04a6b9c7d" start_index="0" end="009f4958-708b-4724-a47c-2bc5e68eccd9" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

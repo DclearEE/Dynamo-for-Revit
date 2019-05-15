@@ -2,7 +2,7 @@
   "Uuid": "3c9d0464-8643-5ffe-96e5-ab1769818209",
   "IsCustomNode": false,
   "Description": "",
-  "Name": "Find Untagged Elements",
+  "Name": "Find Untagged Elements in View",
   "ElementResolver": {
     "ResolutionMap": {
       "Lists": {
@@ -1177,6 +1177,37 @@
       ],
       "Replication": "Disabled",
       "Description": "All views available in the current document."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#Made by Marc Tavenier @marctavenier\nimport clr\nclr.AddReference('RevitAPI')\nfrom Autodesk.Revit.DB import *\n\nclr.AddReference('RevitServices')\nimport RevitServices\nfrom RevitServices.Persistence import DocumentManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\ndef tolist(obj):\n\tif isinstance(obj, list):\n\t\treturn UnwrapElement(obj)\n\telse:\n\t\treturn [UnwrapElement(obj)]\n\nviews = tolist(IN[0])\nelems = []\n\nfor view in views:\n\tfilter = FilteredElementCollector(doc, view.Id)\n\telems.append(filter.ToElements())\n\nif len(elems) == 1:\n\tOUT = elems[0]\nelse:\n\tOUT = elems",
+      "VariableInputPorts": true,
+      "Id": "680d8baa533d40318ac3e5ae95a56500",
+      "Inputs": [
+        {
+          "Id": "d1c88736ec3f4d8896e82280020231df",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b9de656dede841b188eee69a44462622",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
     }
   ],
   "Connectors": [
@@ -1369,6 +1400,11 @@
       "Start": "423dcec98270460c8bf6be19658f7a6b",
       "End": "34f7a346416d47508d74c05440f3c74b",
       "Id": "e4e361b8e66944b7a9c5bd5440804eff"
+    },
+    {
+      "Start": "007ca4bf9a1c41bab8d20f19564ee472",
+      "End": "d1c88736ec3f4d8896e82280020231df",
+      "Id": "a4e9b8eb262e41e9af6fcba7a265cd7c"
     }
   ],
   "Dependencies": [],
@@ -1744,6 +1780,16 @@
         "Excluded": false,
         "X": 5455.4919313918726,
         "Y": 2203.2459239021723
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Elements in views",
+        "Id": "680d8baa533d40318ac3e5ae95a56500",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 5650.3292925624764,
+        "Y": 2197.6833155220697
       }
     ],
     "Annotations": [
@@ -1846,8 +1892,8 @@
         "Background": "#FFC1D676"
       }
     ],
-    "X": -3031.4714141703143,
-    "Y": -1100.8967095238752,
-    "Zoom": 0.64071866022670121
+    "X": -1656.5061667508373,
+    "Y": -356.89837657121518,
+    "Zoom": 0.32800596917992919
   }
 }

@@ -1,0 +1,174 @@
+<Workspace Version="1.3.2.2480" X="-3817.24067693053" Y="-1597.80073177431" zoom="0.620897324984047" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <DSRevitNodesUI.ElementsOfCategory guid="2e2e9820-303c-4394-a2a1-6022e83c18f9" type="DSRevitNodesUI.ElementsOfCategory" nickname="All Elements of Category" x="6197.6490953084" y="2697.34711406252" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+    </DSRevitNodesUI.ElementsOfCategory>
+    <DSRevitNodesUI.Categories guid="3c8d4ba8-2678-40ca-b74a-538e9ff5e393" type="DSRevitNodesUI.Categories" nickname="Categories" x="5912.6490953084" y="2697.34711406252" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="182:ElectricalCircuit" />
+    <PythonNodeModels.PythonNode guid="05045f3d-db3a-4bbc-bf58-780065294dd2" type="PythonNodeModels.PythonNode" nickname="Python Script" x="6453.84216429947" y="2825.41052763184" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+systems = UnwrapElement(IN[0])
+panels = []
+elements = []
+
+for x in systems:
+	panels.append(x.BaseEquipment)
+	sublist = []
+	elementset = x.Elements
+	for x in elementset:
+		sublist.append(x)
+	elements.append(sublist)
+
+#Assign your output to the OUT variable.
+OUT = elements</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Nodes.DSModelElementSelection guid="a7ba1fbf-ab56-4f78-8007-b5eb2c4c7a9c" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="6458.64418759013" y="3253.23502135737" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="true">
+      <instance id="1aa7f888-7e76-4770-816d-fb5bd6e61acf-00276cab" />
+    </Dynamo.Nodes.DSModelElementSelection>
+    <Dynamo.Nodes.DSModelElementsSelection guid="1fc26626-f1ee-4d11-ae90-1629a1bfa59c" type="Dynamo.Nodes.DSModelElementsSelection" nickname="Select Model Elements" x="6756.04743048135" y="3713.46318688226" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <instance id="bff46ac8-70cb-47f4-967c-d54afcef75ac-0059165b" />
+      <instance id="bff46ac8-70cb-47f4-967c-d54afcef75ac-00591729" />
+    </Dynamo.Nodes.DSModelElementsSelection>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="e370ee8c-3cfd-4b81-a516-f18e4af0a996" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="List.ContainsItem" x="6760.22892743708" y="2992.22946551535" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.List.ContainsItem@var[]..[],var">
+      <PortInfo index="0" default="False" useLevels="True" level="2" shouldKeepListStructure="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="bcf2e4d5-f0bb-43fb-a1ea-4be76c41112d" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="List.FilterByBoolMask" x="7103.70478776266" y="2679.9847620396" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="DSCoreNodes.dll" function="DSCore.List.FilterByBoolMask@var[]..[],var[]..[]">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="d014ee53-e1f7-4f57-aee0-33beaf766367" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Flatten" x="7467.66912500091" y="2929.05773511815" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="BuiltIn" function="Flatten@var[]..[]">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="477dece8-0073-431c-9b50-87adb7175a57" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="ElectricalSystem.AddToCircuit" x="8162.40256703427" y="2871.83995486189" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <ID value="22412dd8-6ec2-4e5a-aa2e-62145f91bbac" />
+      <Name value="ElectricalSystem.AddToCircuit" />
+      <Description value="Adds elements to circuit if possible" />
+      <Inputs>
+        <Input value="Circuit" />
+        <Input value="Elements" />
+      </Inputs>
+      <Outputs>
+        <Output value="Success" />
+        <Output value="Failed" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+    <PythonNodeModels.PythonNode guid="d0813970-ae2e-49c4-a093-bb6b466a6552" type="PythonNodeModels.PythonNode" nickname="Python Script" x="8204.04737259647" y="3042.09870439811" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="true" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+
+succes = []
+failed = []
+
+def AddToCircuit(sys,elements):
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	if hasattr(elements, "__iter__"):
+		for element in elements:
+			elemset = ElementSet()
+			elemset.Insert(element)
+			try:
+				sys.AddToCircuit(elemset)
+				succes.append(element.ToDSType(True))
+			except:
+				failed.append(element.ToDSType(True))
+	else:
+		elemset = ElementSet()
+		elemset.Insert(elements)
+		try:
+			sys.AddToCircuit(elemset)
+			succes.append(elements.ToDSType(True))
+		except:
+			failed.append(elements.ToDSType(True))
+	TransactionManager.Instance.TransactionTaskDone()
+	
+
+if isinstance(IN[0], list):
+	for i,sys in enumerate(UnwrapElement(IN[0])):
+		AddToCircuit(sys,UnwrapElement(IN[1])[i])
+else:
+	AddToCircuit(UnwrapElement(IN[0]),UnwrapElement(IN[1]))
+
+OUT = succes, failed</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Nodes.DSModelElementSelection guid="71340831-5d66-4373-a3b7-1714df29508b" type="Dynamo.Nodes.DSModelElementSelection" nickname="Select Model Element" x="6764.74965009144" y="3413.41873144294" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="true">
+      <instance id="bff46ac8-70cb-47f4-967c-d54afcef75ac-00591660" />
+    </Dynamo.Nodes.DSModelElementSelection>
+    <CoreNodeModels.CreateList guid="d774be5d-c348-4293-ab0a-596ffdd02abe" type="CoreNodeModels.CreateList" nickname="List.Create" x="7032.46214209003" y="3144.58959541075" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+    </CoreNodeModels.CreateList>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="f437dab9-bf1f-433f-ae9a-362ae7dd787c" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="PanelScheduleView.NumberOfAssignedCircuits" x="7705.3429712459" y="3356.02050250403" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <ID value="4267cdc7-f586-493e-a592-c4442c6a886c" />
+      <Name value="PanelScheduleView.NumberOfAssignedCircuits" />
+      <Description value="This will return the number of assigned circuits on a panelschedule. Spares and spaces also count as an assigned circuit." />
+      <Inputs>
+        <Input value="PanelScheduleView" />
+      </Inputs>
+      <Outputs>
+        <Output value="Number" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="2e2e9820-303c-4394-a2a1-6022e83c18f9" start_index="0" end="05045f3d-db3a-4bbc-bf58-780065294dd2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2e2e9820-303c-4394-a2a1-6022e83c18f9" start_index="0" end="bcf2e4d5-f0bb-43fb-a1ea-4be76c41112d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3c8d4ba8-2678-40ca-b74a-538e9ff5e393" start_index="0" end="2e2e9820-303c-4394-a2a1-6022e83c18f9" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="05045f3d-db3a-4bbc-bf58-780065294dd2" start_index="0" end="e370ee8c-3cfd-4b81-a516-f18e4af0a996" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a7ba1fbf-ab56-4f78-8007-b5eb2c4c7a9c" start_index="0" end="e370ee8c-3cfd-4b81-a516-f18e4af0a996" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a7ba1fbf-ab56-4f78-8007-b5eb2c4c7a9c" start_index="0" end="d774be5d-c348-4293-ab0a-596ffdd02abe" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e370ee8c-3cfd-4b81-a516-f18e4af0a996" start_index="0" end="bcf2e4d5-f0bb-43fb-a1ea-4be76c41112d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="bcf2e4d5-f0bb-43fb-a1ea-4be76c41112d" start_index="0" end="d014ee53-e1f7-4f57-aee0-33beaf766367" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d014ee53-e1f7-4f57-aee0-33beaf766367" start_index="0" end="d0813970-ae2e-49c4-a093-bb6b466a6552" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="71340831-5d66-4373-a3b7-1714df29508b" start_index="0" end="d774be5d-c348-4293-ab0a-596ffdd02abe" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="d774be5d-c348-4293-ab0a-596ffdd02abe" start_index="0" end="d0813970-ae2e-49c4-a093-bb6b466a6552" end_index="1" portType="0" />
+  </Connectors>
+  <Notes>
+    <Dynamo.Graph.Notes.NoteModel guid="482c653a-4e76-4656-8a29-e2055effe88c" text="New Note" x="4748.92622670998" y="4744.10603965327" />
+  </Notes>
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="4c470de8-b530-4079-9029-eb0d4c694864" annotationText="GET ALL CIRCUITED ELEMENTS" left="5902.6490953084" top="2651.34711406252" width="685.19306899107" height="267.06341356932" fontSize="30" InitialTop="2697.34711406252" InitialHeight="398.541627049071" TextblockHeight="36" backgrouund="#FFC1D676">
+      <Models ModelGuid="2e2e9820-303c-4394-a2a1-6022e83c18f9" />
+      <Models ModelGuid="3c8d4ba8-2678-40ca-b74a-538e9ff5e393" />
+      <Models ModelGuid="05045f3d-db3a-4bbc-bf58-780065294dd2" />
+      <Models ModelGuid="2e2e9820-303c-4394-a2a1-6022e83c18f9" />
+      <Models ModelGuid="3c8d4ba8-2678-40ca-b74a-538e9ff5e393" />
+      <Models ModelGuid="05045f3d-db3a-4bbc-bf58-780065294dd2" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="7e3b74bf-d22f-43ca-820a-9e9b8dea25d8" annotationText="Element on Existing Circuit  " left="6448.64418759013" top="3171.23502135737" width="195" height="201" fontSize="30" InitialTop="3253.23502135737" InitialHeight="149" TextblockHeight="72" backgrouund="#FFFFAA45">
+      <Models ModelGuid="a7ba1fbf-ab56-4f78-8007-b5eb2c4c7a9c" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b8eec90b-28fa-4307-9be2-94e311829a70" annotationText="Elements to be circuited with existing" left="6746.04743048135" top="3595.46318688226" width="258" height="237" fontSize="30" InitialTop="3713.46318688226" InitialHeight="149" TextblockHeight="108" backgrouund="#FFC1D676">
+      <Models ModelGuid="1fc26626-f1ee-4d11-ae90-1629a1bfa59c" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="f29aee27-0473-4c04-b10c-521d9967520f" annotationText="Element on Existing Circuit  " left="6754.74965009144" top="3331.41873144294" width="195" height="201" fontSize="30" InitialTop="3413.41873144294" InitialHeight="149" TextblockHeight="72" backgrouund="#FFFF7BAC">
+      <Models ModelGuid="71340831-5d66-4373-a3b7-1714df29508b" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>

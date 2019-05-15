@@ -1,0 +1,172 @@
+{
+  "Uuid": "3c9d0464-8643-5ffe-96e5-ab1769818209",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Family Visibilty",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "7da13f15afec47bfa8e1c884c7f999a3",
+      "Name": "Boolean",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Selection between a true and false."
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [],
+      "Id": "26c0819c07c2428a8a356b1ba3927bc4",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2b28b0618c7e4a64a8c12d9204e995b5",
+          "Name": "Element",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\nclr.AddReference('RevitServices')\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\nclr.AddReference('RevitAPI')\nfrom Autodesk.Revit.DB import * \ndoc = DocumentManager.Instance.CurrentDBDocument\n\ndef tolist(obj):\n\tif isinstance(obj, list):\n\t\treturn obj\n\telse:\n\t\treturn [obj]\n\n\nelems = tolist(UnwrapElement(IN[0]))\nbools = tolist(IN[1])\n\nout = []\n\nfor elem, b in zip(elems, bools):\n\tTransactionManager.Instance.EnsureInTransaction(doc)\n\ttry:\n\t\tfev = FamilyElementVisibility(FamilyElementVisibilityType.Model)\n\t\tfev.IsShownInFine = b\n\t\telem.SetVisibility(fev)\n\texcept:\n\t\tfev = FamilyElementVisibility(FamilyElementVisibilityType.ViewSpecific)\n\t\tfev.IsShownInFine = b\n\t\telem.SetVisibility(fev)\n\tTransactionManager.Instance.TransactionTaskDone()\n\tout.append(True)\n\nOUT = out",
+      "VariableInputPorts": true,
+      "Id": "680de59d31544c45ad27cf51e149a823",
+      "Inputs": [
+        {
+          "Id": "bf44a2dea29c4b3fb815b0887c19e943",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "229724b51ae64006bcd46642d2cacb2f",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ab458c263bc5434da8fa821c9b9c7086",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "7da13f15afec47bfa8e1c884c7f999a3",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "47f35203dcec49b794e85bff35863670",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "2b28b0618c7e4a64a8c12d9204e995b5",
+      "End": "bf44a2dea29c4b3fb815b0887c19e943",
+      "Id": "16061317838e405e804ea5830273521c"
+    },
+    {
+      "Start": "47f35203dcec49b794e85bff35863670",
+      "End": "229724b51ae64006bcd46642d2cacb2f",
+      "Id": "60f31b1a7d8c4aac8d02a110f0f78ee6"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.2.6826",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Select Model Element",
+        "Id": "26c0819c07c2428a8a356b1ba3927bc4",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 564.4,
+        "Y": 286.4
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "680de59d31544c45ad27cf51e149a823",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 989.16613165110311,
+        "Y": 294.265414723443
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "7da13f15afec47bfa8e1c884c7f999a3",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 574.8,
+        "Y": 436.53894105319
+      }
+    ],
+    "Annotations": [],
+    "X": -238.51706319774041,
+    "Y": -79.635248579552524,
+    "Zoom": 0.61257726302562854
+  }
+}
