@@ -9,8 +9,8 @@ All files are Dynamo file (.dyn), with some custom Python scripts inside.
 
 # Overview of Dynamo and Revit versions and Compatibility
 
-All files in this Git are written for Dynamo version 1.3.2 unless otherwise noted.
-Version 1.3.2 can be found here: http://dynamobuilds.com/
+All files in this Git are written for Dynamo version 2.02 unless otherwise noted.
+Dynamo download versions can be found here: http://dynamobuilds.com/
 
  Summary of Dynamo Versions:
  
