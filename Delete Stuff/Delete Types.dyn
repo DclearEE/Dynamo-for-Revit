@@ -1,0 +1,248 @@
+{
+  "Uuid": "a8358647-a89d-46d9-b761-dce277211d16",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Delete Types",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
+      "SelectedIndex": -1,
+      "NodeType": "ExtensionNode",
+      "Id": "2ba4f47dba384617955f8912d8be4f1e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7648fdaefa284d6486a91b56051d4825",
+          "Name": "Family Type",
+          "Description": "The selected Family Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All family types available in the document."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication\r\napp = uiapp.Application\r\n\r\nfrom System.Collections.Generic import *\r\n\r\n#The inputs to this node will be stored as a list in the IN variable.\r\ndataEnteringNode = IN\r\n\r\n#unwrap all elements to use with API\r\nelements = []\r\n\r\ndef tolist(obj):\r\n\tif isinstance(obj, list):\r\n\t\treturn UnwrapElement(obj)\r\n\telse:\r\n\t\treturn [UnwrapElement(obj)]\r\nelements = tolist(IN[0])\r\n\r\n\r\nidsToDelete = List[Autodesk.Revit.DB.ElementId]()\r\nfor i in elements:\r\n\tidsToDelete.Add(i.Id)\r\n\r\n# \"Start\" the transaction\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\ndoc.Delete(idsToDelete)\r\n\r\n# \"End\" the transaction\r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\nmessage = \"You have successfully deleted n \" + str(idsToDelete.Count) + \" elements from Revit model.\"\r\n\r\nOUT = 'n'.join('{:^35}'.format(s) for s in message.split('n'))",
+      "VariableInputPorts": true,
+      "Id": "e2fa647e2f4e4fcdb4da50fcef4c3961",
+      "Inputs": [
+        {
+          "Id": "1c9f16ec66e143bab476134faddc4fac",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "101372e6dad446db84281da3adab2625",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
+      "SelectedIndex": 2,
+      "NodeType": "ExtensionNode",
+      "Id": "ec28624e501d4b30a3292fff9342857b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3c20c5e4169f4f509f6ce75058f285af",
+          "Name": "Family Type",
+          "Description": "The selected Family Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All family types available in the document."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
+      "VariableInputPorts": true,
+      "NodeType": "ExtensionNode",
+      "Id": "e40ed44e12ef452ab0e8d8786e22a2b9",
+      "Inputs": [
+        {
+          "Id": "96fb0675c05e4aa0b30ba8d9a0bf88ed",
+          "Name": "item0",
+          "Description": "Item Index #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "46fa2aa30e6145988680ac394f4b79d0",
+          "Name": "item1",
+          "Description": "Item Index #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3d87980efc5345d28ccf1edea42a3749",
+          "Name": "list",
+          "Description": "A list",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Makes a new list out of the given inputs"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "28ae3dff-a6aa-451a-808d-8c8d31d92ca6",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "074d093a23434d7095c6805951fe10fe",
+      "Inputs": [
+        {
+          "Id": "e543baab06164dd2b3a331f1c38400b0",
+          "Name": "Panel",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7213c8ebd7f54de798b8f502591f70e4",
+          "Name": "Circuits",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves all Circuits from input panel element"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "7648fdaefa284d6486a91b56051d4825",
+      "End": "1c9f16ec66e143bab476134faddc4fac",
+      "Id": "c68ce5bd0bbb409883c8dc6daaf56ad3"
+    },
+    {
+      "Start": "3c20c5e4169f4f509f6ce75058f285af",
+      "End": "46fa2aa30e6145988680ac394f4b79d0",
+      "Id": "377f2fd13b984120b7ff1d8853a30875"
+    }
+  ],
+  "Dependencies": [
+    "28ae3dff-a6aa-451a-808d-8c8d31d92ca6"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.2.6826",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Family Types",
+        "Id": "2ba4f47dba384617955f8912d8be4f1e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -151.60000000000002,
+        "Y": 187.20000000000002
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "e2fa647e2f4e4fcdb4da50fcef4c3961",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 613.92759742881913,
+        "Y": 218.83789847046847
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Family Types",
+        "Id": "ec28624e501d4b30a3292fff9342857b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -140.47456420937147,
+        "Y": 282.7196700889275
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List Create",
+        "Id": "e40ed44e12ef452ab0e8d8786e22a2b9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 272.51162244684127,
+        "Y": 283.15967895629007
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "RIE.CircuitsFromPanel",
+        "Id": "074d093a23434d7095c6805951fe10fe",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 487.14210891488563,
+        "Y": 333.80606805666321
+      }
+    ],
+    "Annotations": [],
+    "X": 355.67185935321447,
+    "Y": 128.07670142067153,
+    "Zoom": 0.66784587298782938
+  }
+}

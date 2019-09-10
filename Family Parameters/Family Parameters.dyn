@@ -1,0 +1,118 @@
+<Workspace Version="1.3.2.2480" X="-530.110331131441" Y="-436.111525432995" zoom="0.766550757951315" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="False">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="a15b7f49-d0c8-4a99-8511-71d07414b366" type="PythonNodeModels.PythonNode" nickname="Python Script" x="285.044619085488" y="195.102937557758" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <Script>import clr
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import * 
+doc = DocumentManager.Instance.CurrentDBDocument
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return obj
+	else:
+		return [obj]
+
+
+elems = tolist(UnwrapElement(IN[0]))
+bools = tolist(IN[1])
+
+out = []
+
+for elem, b in zip(elems, bools):
+	TransactionManager.Instance.EnsureInTransaction(doc)
+	try:
+		fev = FamilyElementVisibility(FamilyElementVisibilityType.Model)
+		fev.IsShownInFine = b
+		elem.SetVisibility(fev)
+	except:
+		fev = FamilyElementVisibility(FamilyElementVisibilityType.ViewSpecific)
+		fev.IsShownInFine = b
+		elem.SetVisibility(fev)
+	TransactionManager.Instance.TransactionTaskDone()
+	out.append(True)
+
+OUT = out</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Nodes.DSModelElementsSelection guid="769ace5d-b69f-499d-8724-e82819f374b0" type="Dynamo.Nodes.DSModelElementsSelection" nickname="Select Model Elements" x="-58.7667648854129" y="163.560951026348" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" />
+    <CoreNodeModels.Input.BoolSelector guid="d792a289-02d9-4f01-b6a4-10e7f8335884" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="469.755735653577" y="976.561029446845" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Boolean>True</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <PythonNodeModels.PythonNode guid="52485141-1acd-4c2d-b0ed-a5345debace8" type="PythonNodeModels.PythonNode" nickname="Python Script" x="1100.21609869081" y="937.251753157301" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="1">
+      <PortInfo index="0" default="False" />
+      <Script>import clr
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import * 
+doc = DocumentManager.Instance.CurrentDBDocument
+
+def tolist(obj):
+	if isinstance(obj, list):
+		return obj
+	else:
+		return [obj]
+
+
+famJam = UnwrapElement(IN[0])
+paramJam = []
+
+
+FamilyMan = doc.FamilyManager
+types = FamilyMan.Types
+typenames = []
+
+TransactionManager.Instance.EnsureInTransaction(doc)
+for param in FamilyMan.Parameters:
+	paramIsShared = param.IsShared
+	paramDef = param.Definition
+	if param is paramIsShared:
+
+		FamilyMan.ReplaceParameter(param, paramDef, BuiltInParameterGroup.PG_IFC, param.IsInstance)
+	else:
+		null
+	
+	
+TransactionManager.Instance.TransactionTaskDone()
+	
+	
+OUT = param
+
+</Script>
+    </PythonNodeModels.PythonNode>
+    <DSRevitNodesUI.FamilyTypes guid="e1fa39ed-b51d-44dc-816c-c0cfcf7c6ebf" type="DSRevitNodesUI.FamilyTypes" nickname="Family Types" x="321.599130178404" y="826.766381096142" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false" index="-1" />
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="ad4bfc8b-8336-4a02-813f-a0c0719014e6" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="FamilyType.Family" x="716.632803966249" y="817.079862805363" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="true" assembly="RevitNodes.dll" function="Revit.Elements.FamilyType.Family">
+      <PortInfo index="0" default="False" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CustomNodes.Function guid="156d1f7c-a314-4bcc-b897-42d92774e9ec" type="Dynamo.Graph.Nodes.CustomNodes.Function" nickname="FamilyManager.RenameParameter" x="1363.48819505717" y="1112.74807377468" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <ID value="a600753d-4c8d-4820-b324-6c01f6542aac" />
+      <Name value="FamilyManager.RenameParameter" />
+      <Description value="Searches every family parameter for the given (sub)string and replaces that the (sub)string with the replace string" />
+      <Inputs>
+        <Input value="Search" />
+        <Input value="Replace" />
+      </Inputs>
+      <Outputs>
+        <Output value="Parameter Names" />
+      </Outputs>
+    </Dynamo.Graph.Nodes.CustomNodes.Function>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="e1fa39ed-b51d-44dc-816c-c0cfcf7c6ebf" start_index="0" end="ad4bfc8b-8336-4a02-813f-a0c0719014e6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ad4bfc8b-8336-4a02-813f-a0c0719014e6" start_index="0" end="52485141-1acd-4c2d-b0ed-a5345debace8" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
